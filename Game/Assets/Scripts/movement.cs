@@ -26,7 +26,20 @@ public class movement : MonoBehaviour
 
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir * speed * Time.deltaTime);
+            controller.Move(moveDir.normalized * speed * Time.deltaTime);
+        }
+    }
+
+    void MovementToDest(Vector3 _dest)
+    {
+
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "House")
+        {
+            Vector3 destination = other.gameObject.GetComponent<Isles>().ShipCoords;
         }
     }
 }
