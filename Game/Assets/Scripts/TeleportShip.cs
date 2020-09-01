@@ -5,7 +5,8 @@ using UnityEngine;
 public class TeleportShip : MonoBehaviour
 {
     public GameObject ship;
-    
+    public Transform target;
+
     public float telSpeed = 2;
 
     void OnTriggerEnter(Collider other)
@@ -16,18 +17,19 @@ public class TeleportShip : MonoBehaviour
 
             Debug.Log("triggered house");
             ship.GetComponent<movement>().enabled = false;
-            
+
             StartCoroutine(MovementToDest(destination));
         }
     }
 
-    IEnumerator MovementToDest(Vector3 _dest)
+    IEnumerator MovementToDest(Vector3 _dest_mov)
     {
-        while (transform.position != _dest)
+        while (transform.position != _dest_mov)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _dest, Time.deltaTime * telSpeed);
-            if(transform.position == _dest)
-                yield break;
+            Vector3 direction = target.position - transform.position;
+            transform.position = Vector3.MoveTowards(transform.position, _dest_mov, Time.deltaTime * telSpeed);
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, telSpeed * Time.deltaTime);
             Debug.Log("moving");
             yield return null;
 
