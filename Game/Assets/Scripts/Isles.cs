@@ -5,4 +5,6 @@ using UnityEngine;
 public class Isles : MonoBehaviour
 {
     public Vector3 ShipCoords;
+    
+
 }

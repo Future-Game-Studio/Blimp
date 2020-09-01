@@ -30,18 +30,7 @@ public class movement : MonoBehaviour
         }
     }
 
-    void MovementToDest(Vector3 _dest)
-    {
-        transform.position = Vector3.MoveTowards(transform.position, _dest, 50);
-    }
+    
 
-    void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag == "House")
-        {
-            Vector3 destination = other.gameObject.GetComponent<Isles>().ShipCoords;
-            MovementToDest(destination);
-            Debug.Log("triggered house");
-        }
-    }
+    
 }
