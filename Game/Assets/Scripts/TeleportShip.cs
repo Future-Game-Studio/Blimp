@@ -6,6 +6,8 @@ public class TeleportShip : MonoBehaviour
 {
     public GameObject ship;
     public Transform target;
+    public Vector3 EnterCoords;
+    public GameObject Button;
 
     public float telSpeed = 2;
 
@@ -17,13 +19,21 @@ public class TeleportShip : MonoBehaviour
 
             Debug.Log("triggered house");
             ship.GetComponent<movement>().enabled = false;
-
+            Button.SetActive(true);
             StartCoroutine(MovementToDest(destination));
         }
     }
 
+    public void ExitHouse()
+    {
+        StartCoroutine(MovementToDest(EnterCoords));
+        ship.GetComponent<movement>().enabled = true;
+        Button.SetActive(false);
+    }
+
     IEnumerator MovementToDest(Vector3 _dest_mov)
     {
+        EnterCoords = transform.position;
         while (transform.position != _dest_mov)
         {
             Vector3 direction = target.position - transform.position;
