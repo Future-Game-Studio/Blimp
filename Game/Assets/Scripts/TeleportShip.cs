@@ -18,7 +18,7 @@ public class TeleportShip : MonoBehaviour
             Vector3 destination = other.gameObject.GetComponent<DefaultIsle>()._position;
 
             Debug.Log("triggered house");
-            ship.GetComponent<movement>().enabled = false;
+            ship.GetComponent<Movement>().enabled = false;
             Button.SetActive(true);
             StartCoroutine(MovementToDest(destination));
         }
@@ -27,7 +27,7 @@ public class TeleportShip : MonoBehaviour
     public void ExitHouse()
     {
         StartCoroutine(MovementToDest(EnterCoords));
-        ship.GetComponent<movement>().enabled = true;
+        ship.GetComponent<Movement>().enabled = true;
         Button.SetActive(false);
     }
 
