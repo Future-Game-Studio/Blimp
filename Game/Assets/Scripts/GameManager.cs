@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    movement _player;
+    Movement _player;
     CameraManager _camera;
     UIController _ui;
     //AudioConroller
@@ -25,11 +25,11 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private movement TryToFindPlayer()
+    private Movement TryToFindPlayer()
     {
         try
         {
-            return GameObject.FindObjectOfType<movement>();
+            return GameObject.FindObjectOfType<Movement>();
         }
         catch
         {
