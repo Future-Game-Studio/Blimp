@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    movement _player;//PlayerController
-    //CameraManager
-    //UIController
+    movement _player;
+    CameraManager _camera;
+    UIController _ui;
     //AudioConroller
-    //OwnedItems
+    OwnedItems ownedItems;
+    IslesManager _islesManager;
+    BlimpProperties _blimpProps;
 
     void Start()
     {
@@ -19,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
 
