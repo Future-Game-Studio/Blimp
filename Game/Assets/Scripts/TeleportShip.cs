@@ -15,7 +15,7 @@ public class TeleportShip : MonoBehaviour
     {
         if (other.gameObject.tag == "House")
         {
-            Vector3 destination = other.gameObject.GetComponent<Isles>().ShipCoords;
+            Vector3 destination = other.gameObject.GetComponent<DefaultIsle>()._position;
 
             Debug.Log("triggered house");
             ship.GetComponent<movement>().enabled = false;
