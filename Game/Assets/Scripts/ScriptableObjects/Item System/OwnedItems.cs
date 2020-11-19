@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu(fileName = "New Owned Items", menuName = "Inventory System/OwnedItem", order = 52)]
+[CreateAssetMenu(fileName = "New Owned Items", menuName = "Inventory System/Other/OwnedItem", order = 51)]
 public class OwnedItems : ScriptableObject
 {
     public List<ItemSlot> _container = new List<ItemSlot>();
