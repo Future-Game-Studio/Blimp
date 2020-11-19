@@ -9,7 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 805c7e3e0de44cf47895a5b27e89b46c, type: 3}
-  m_Name: PlayerInventory
+  m_Script: {fileID: 11500000, guid: be36b35beea6de949801f26036677c8f, type: 3}
+  m_Name: New Resource Item
   m_EditorClassIdentifier: 
-  _container: []
+  _icon: {fileID: 0}
+  _type: 0
+  _itemName: 
+  _description: 
+  _weight: 0
