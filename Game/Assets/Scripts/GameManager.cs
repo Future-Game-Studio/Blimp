@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    Movement _player;
+    public static GameManager _instance { private set; get; }
+
+    public Movement _player { private set; get; }
     CameraManager _camera;
     UIController _ui;
     //AudioConroller
@@ -12,11 +14,22 @@ public class GameManager : MonoBehaviour
     IslesManager _islesManager;
     BlimpProperties _blimpProps;
 
-    void Start()
+    void Awake()
     {
+        if(_instance != null)
+            Destroy(this.gameObject);
+
+        _instance = this;
+        DontDestroyOnLoad(this.gameObject);
+
         _player = TryToFindPlayer();
+
     }
 
+    private void Start()
+    {
+
+    }
 
 
     void Update()
