@@ -50335,7 +50335,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1066279034444125127}
-  - component: {fileID: 6509126060823780761}
   m_Layer: 0
   m_Name: test_isle
   m_TagString: Untagged
@@ -50343,22 +50342,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &6509126060823780761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6509126060823780760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f196be5b042b32f4e80169f067d9348f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _logic: {fileID: 0}
-  _items: {fileID: 0}
-  _itemType: {fileID: 11400000, guid: 2871a9ec97772a9499ad2b3717466fa8, type: 2}
-  _maxAmount: 25
 --- !u!1 &6509350344477597031
 GameObject:
   m_ObjectHideFlags: 0
@@ -58062,6 +58045,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7090832900913595320}
   - component: {fileID: 7578540406379108611}
+  - component: {fileID: 7578540406379108612}
   m_Layer: 0
   m_Name: Rocks Islands
   m_TagString: Untagged
@@ -58083,6 +58067,23 @@ CapsuleCollider:
   m_Height: 10.5
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7578540406379108612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7578540406379108610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f196be5b042b32f4e80169f067d9348f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _level: 1
+  _items: {fileID: 0}
+  _logic: {fileID: 11400000, guid: 2c2b9b211a5c983429d8d1c4b02aee5a, type: 2}
+  _refreshPerSecond: []
+  _refreshedAmount: []
 --- !u!23 &7583341258876416034
 MeshRenderer:
   m_ObjectHideFlags: 0

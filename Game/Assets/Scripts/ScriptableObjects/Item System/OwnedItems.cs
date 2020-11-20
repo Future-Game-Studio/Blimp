@@ -40,6 +40,15 @@ public class OwnedItems : ScriptableObject
         }
     }
 
+    public int GetItemAmount(Item item)
+    {
+        for(int i = 0; i < _container.Count; i++)
+        {
+            if (_container[i]._item == item)
+                return _container[i]._amount;
+        }
+        return 0;
+    }
 
 }
 

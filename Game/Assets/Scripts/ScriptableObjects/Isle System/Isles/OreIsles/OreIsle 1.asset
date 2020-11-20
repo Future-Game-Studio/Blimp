@@ -10,20 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1eac2806b834d404da969be4130926bf, type: 3}
-  m_Name: OreIsle
+  m_Name: OreIsle 1
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 0}
   _type: 0
   _isleName: 
   _description: 
   _info:
-  - _item: {fileID: 0}
-    _resourcesPerHour: 0
-  - _item: {fileID: 0}
-    _resourcesPerHour: 0
-  - _item: {fileID: 0}
-    _resourcesPerHour: 0
-  - _item: {fileID: 0}
-    _resourcesPerHour: 0
-  - _item: {fileID: 0}
-    _resourcesPerHour: 0
+  - _item: {fileID: 11400000, guid: 2871a9ec97772a9499ad2b3717466fa8, type: 2}
+    _resourcesPerHour: 300
+    _maxAmount: 50
+  - _item: {fileID: 11400000, guid: 76361532db3e0df49b3c771417b154df, type: 2}
+    _resourcesPerHour: 250
+    _maxAmount: 15

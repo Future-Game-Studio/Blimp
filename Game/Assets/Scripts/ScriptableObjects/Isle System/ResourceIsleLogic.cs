@@ -4,17 +4,23 @@ using UnityEngine;
 
 
 
-[CreateAssetMenu(fileName = "New Resource Isle", menuName = "Isle System/Isles/Resource", order = 52)]
-public class ResourceIsleLogic : Isle
+[CreateAssetMenu(fileName = "New Resource Isle", menuName = "Isle System/Isles/Resource", order = 52)] 
+class ResourceIsleLogic : Isle
 {
-    private int _level;
     [SerializeField] private LevelInfo[] _info;
 
+    public LevelInfo[] info { get { return _info; } }
+
     [System.Serializable]
-    class LevelInfo
+    public class LevelInfo
     {
-        public ResourceItem _item;
-        public int _resourcesPerHour;
+        [SerializeField] private ResourceItem _item;
+        [SerializeField] private int _resourcesPerHour;
+        [SerializeField] private int _maxAmount;
+
+        public Item item { get { return _item; } }
+        public int resourcesPerHour { get { return _resourcesPerHour; } }
+        public int maxAmount { get { return _maxAmount; } }
     }
     private void Awake()
     {

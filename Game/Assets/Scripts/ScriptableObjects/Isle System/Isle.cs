@@ -11,7 +11,6 @@ public enum IsleType
 
 public abstract class Isle : ScriptableObject
 {
-    public GameObject _prefab;
     public IsleType _type;
     public string _isleName;
     [TextArea(15, 20)]
