@@ -13,4 +13,3 @@ MonoBehaviour:
   m_Name: PlayerInventory
   m_EditorClassIdentifier: 
   _container: []
-  _summaryWeight: 0

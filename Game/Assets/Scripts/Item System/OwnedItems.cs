@@ -15,7 +15,7 @@ public class OwnedItems : ScriptableObject
 
         for(int i = 0; i < _container.Count; i++)
         {
-            if (_container[i]._item == item)
+            if (_container[i].item == item)
             {
                 _container[i].AddAmount(amount);
                 has = true;
@@ -35,7 +35,7 @@ public class OwnedItems : ScriptableObject
         _summaryAmount = 0;
         for (int i = 0; i < _container.Count; i++)
         {
-            _summaryAmount += _container[i]._amount;
+            _summaryAmount += _container[i].amount;
             _summaryWeight += _container[i]._summaryWeight;
         }
     }
@@ -44,8 +44,8 @@ public class OwnedItems : ScriptableObject
     {
         for(int i = 0; i < _container.Count; i++)
         {
-            if (_container[i]._item == item)
-                return _container[i]._amount;
+            if (_container[i].item == item)
+                return _container[i].amount;
         }
         return 0;
     }
@@ -55,9 +55,18 @@ public class OwnedItems : ScriptableObject
 [System.Serializable]
 public class ItemSlot
 {
-    public Item _item { private set; get; }
-    public int _amount { private set; get; }
+    [SerializeField] private Item _item;
+    public Item item { get { return _item; } }
+
+    [SerializeField] private int _amount;
+    public int amount { get { return _amount; } }
     public int _summaryWeight { private set; get; }
+
+    private void Awake()
+    {
+        if (_item != null)
+            _summaryWeight = _item._weight * amount;
+    }
 
     public ItemSlot(Item item, int amount)
     {

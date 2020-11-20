@@ -15,11 +15,7 @@ public class ResourcesIsle : MonoBehaviour
     public int level { get { return _level; } }
     [SerializeField] private OwnedItems _items;
     [SerializeField] ResourceIsleLogic _logic;
-    [SerializeField] private List<float> _refreshPerSecond;
-    [SerializeField] private List<float> _refreshedAmount;
-
-    //[SerializeField] private Item _itemType;
-    //[SerializeField] private int _maxAmount;
+    [SerializeField] private List<RefreshResource> _refreshItems;
 
     #region distance check
     private PlayerDistance _distanceMode = PlayerDistance.Near;
@@ -29,11 +25,29 @@ public class ResourcesIsle : MonoBehaviour
 
     #endregion
 
+    [System.Serializable]
+    class RefreshResource
+    {
+        public Item _item { private set; get; }
+        public float _perSecond { private set; get; }
+        public float _amount;
+        public int _maxAmount { private set; get; }
+
+        public RefreshResource(Item item, float refreshPerSecond, int maxAmount, float refreshedAmount)
+        {
+            _item = item;
+            _perSecond = refreshPerSecond;
+            _maxAmount = maxAmount;
+            _amount = refreshedAmount;
+        }
+    }
+
+
+
     private void Start()
     {
         _items = new OwnedItems();
-        _refreshPerSecond = new List<float>();
-        _refreshedAmount = new List<float>();
+        _refreshItems = new List<RefreshResource>();
         //load owned item info
         //load isle mode(inside, outside)
 
@@ -52,7 +66,7 @@ public class ResourcesIsle : MonoBehaviour
 
     private void IncreaseLevel()
     {
-        if(_level == _logic.info.Length)
+        if (_level == _logic.info.Length)
             Debug.LogError("Isle level the same as max!");
         else
         {
@@ -63,15 +77,12 @@ public class ResourcesIsle : MonoBehaviour
 
     private void UpdateRefreshInfo()
     {
-        _refreshPerSecond.Clear();
-        for (int i = 0; i < _level; i++)
+        if (_refreshItems.Count < _level)
         {
-            _refreshPerSecond.Add((float)_logic.info[i].resourcesPerHour / 3600);
-        }
-
-        while(_refreshedAmount.Count < _level)
-        {
-            _refreshedAmount.Add(0.0f);
+            for (int i = _refreshItems.Count; i < _level; i++)
+            {
+                _refreshItems.Add(new RefreshResource(_logic.info[i].item, (float)_logic.info[i].resourcesPerHour / 3600, _logic.info[i].maxAmount, 0));
+            }
         }
     }
 
@@ -82,24 +93,24 @@ public class ResourcesIsle : MonoBehaviour
         {
             yield return new WaitForSeconds(1.0f * _distanceMultyplier);
 
-            for(int i = 0; i < _level; i++)
+            for (int i = 0; i < _level; i++)
             {
-                _refreshedAmount[i] += _refreshPerSecond[i] * _distanceMultyplier;
+                _refreshItems[i]._amount += _refreshItems[i]._perSecond * _distanceMultyplier;
 
-                Item currentItem = _logic.info[i].item;
+                Item currentItem = _refreshItems[i]._item;
                 int currentAmount = _items.GetItemAmount(currentItem);
                 int maxRefreshedAmount = _logic.info[i].maxAmount - currentAmount;
-                if (_refreshedAmount[i] > maxRefreshedAmount)
-                    _refreshedAmount[i] = Mathf.Min(_refreshedAmount[i], maxRefreshedAmount);
+                if (_refreshItems[i]._amount > maxRefreshedAmount)
+                    _refreshItems[i]._amount = Mathf.Min(_refreshItems[i]._amount, maxRefreshedAmount);
 
-                if(_refreshedAmount[i] >= 1)
+                if (_refreshItems[i]._amount >= 1)
                 {
-                    int addAmount = (int)_refreshedAmount[i];
+                    int addAmount = (int)_refreshItems[i]._amount;
                     _items.AddItem(currentItem, addAmount);
-                    _refreshedAmount[i] -= addAmount;
+                    _refreshItems[i]._amount -= addAmount;
                 }
             }
-            
+
 
             Debug.Log(UpdatePlayerDistance());
             Debug.Log(_items._summaryAmount);
