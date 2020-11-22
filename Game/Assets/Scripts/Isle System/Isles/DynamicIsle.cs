@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MiniIsle : MonoBehaviour
+public class DynamicIsle : MonoBehaviour
 {
-    OwnedItems _ownedItems;
-
+    // Start is called before the first frame update
     void Start()
     {
         
     }
 
+    // Update is called once per frame
     void Update()
     {
         

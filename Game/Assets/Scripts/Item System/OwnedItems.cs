@@ -6,16 +6,22 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Owned Items", menuName = "Inventory System/Other/OwnedItem", order = 51)]
 public class OwnedItems : ScriptableObject
 {
-    public List<ItemSlot> _container = new List<ItemSlot>();
-    public int _summaryWeight { private set; get; }
-    public int _summaryAmount { private set; get; }
+    [SerializeField] private List<ItemSlot> _container;
+    public List<ItemSlot> Container { get { return _container; } }
+    public int SummaryWeight { get; private set; }
+    public int SummaryAmount { get; private set; }
+
+    void Awake()
+    {
+        _container = new List<ItemSlot>();
+    }
     public void AddItem(Item item, int amount)
     {
         bool has = false;
 
         for(int i = 0; i < _container.Count; i++)
         {
-            if (_container[i]._item == item)
+            if (_container[i].Item == item)
             {
                 _container[i].AddAmount(amount);
                 has = true;
@@ -31,41 +37,50 @@ public class OwnedItems : ScriptableObject
 
     private void UpdateSummaryWeightAndAmount()
     {
-        _summaryWeight = 0;
-        _summaryAmount = 0;
-        for (int i = 0; i < _container.Count; i++)
+        SummaryWeight = 0;
+        SummaryAmount = 0;
+        for (int i = 0; i < Container.Count; i++)
         {
-            _summaryAmount += _container[i]._amount;
-            _summaryWeight += _container[i]._summaryWeight;
+            SummaryAmount += Container[i].Amount;
+            SummaryWeight += Container[i].Weight;
         }
     }
 
+    public int GetItemAmount(Item item)
+    {
+        for(int i = 0; i < Container.Count; i++)
+        {
+            if (Container[i].Item == item)
+                return Container[i].Amount;
+        }
+        return 0;
+    }
 
 }
 
 [System.Serializable]
 public class ItemSlot
 {
-    public Item _item { private set; get; }
-    public int _amount { private set; get; }
-    public int _summaryWeight { private set; get; }
+    public Item Item { get; }
+    public int Amount { get; private set; }
+    public int Weight { private set; get; }
 
     public ItemSlot(Item item, int amount)
     {
-        _item = item;
-        _amount = amount;
+        Item = item;
+        Amount = amount;
 
         UpdateSummaryWeight();
     }
 
     public void AddAmount(int value)
     {
-        _amount += value;
+        Amount += value;
         UpdateSummaryWeight();
     }
 
     public void UpdateSummaryWeight()
     {
-        _summaryWeight = _amount * _item._weight;
+        Weight = Amount * Item.Weight;
     }
 }
