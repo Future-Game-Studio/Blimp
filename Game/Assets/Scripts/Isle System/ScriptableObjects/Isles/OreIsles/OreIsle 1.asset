@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OreIsle 1
   m_EditorClassIdentifier: 
   _type: 0
-  _isleName: 
+  _isleName: "\u0411\u0430\u0433\u0440\u044F\u043D\u0430\u044F \u0442\u0443\u0447\u0430"
   _description: 
   _info:
   - _item: {fileID: 11400000, guid: 2871a9ec97772a9499ad2b3717466fa8, type: 2}

@@ -8,8 +8,7 @@ using UnityEngine;
 class ResourceIsleLogic : Isle
 {
     [SerializeField] private LevelInfo[] _info;
-
-    public LevelInfo[] info { get { return _info; } }
+    public LevelInfo[] Info { get { return _info; } }
 
     [System.Serializable]
     public class LevelInfo
@@ -18,9 +17,11 @@ class ResourceIsleLogic : Isle
         [SerializeField] private int _resourcesPerHour;
         [SerializeField] private int _maxAmount;
 
-        public Item item { get { return _item; } }
-        public int resourcesPerHour { get { return _resourcesPerHour; } }
-        public int maxAmount { get { return _maxAmount; } }
+        public Item Item { get { return _item; } }
+        public int ResourcesPerHour { get { return _resourcesPerHour; } }
+        public int MaxAmount { get { return _maxAmount; } }
+
+        public float ResourcePerSecond { get { return (float)_resourcesPerHour / 3600; } }
     }
     private void Awake()
     {

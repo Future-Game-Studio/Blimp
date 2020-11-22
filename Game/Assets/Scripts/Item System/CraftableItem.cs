@@ -7,7 +7,7 @@ using UnityEngine;
 public class CraftableItem : Item
 {
     [SerializeField] private List<ItemSlot> _recipe;
-    public List<ItemSlot> recipe { get { return _recipe; } }
+    public List<ItemSlot> Recipe { get { return _recipe; } }
     private void Awake()
     {
         _type = ItemType.Craftable;

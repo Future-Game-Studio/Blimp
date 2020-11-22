@@ -4,50 +4,31 @@ using UnityEngine;
 
 public enum PlayerDistance
 {
-    Near,
-    Average,
-    Far
+    Near = 1,
+    Average = 10,
+    Far = 30
 }
 
 public class ResourcesIsle : MonoBehaviour
 {
+    #region refresh item
     [SerializeField] private int _level;
-    public int level { get { return _level; } }
+    public int Level { get { return _level; } }
     [SerializeField] private OwnedItems _items;
-    [SerializeField] ResourceIsleLogic _logic;
-    [SerializeField] private List<RefreshResource> _refreshItems;
+    [SerializeField] private ResourceIsleLogic _logic;
+    private Dictionary<Item, float> _refreshItems;//item and float amount(adding every second(10/30) with small value)
+    #endregion
 
     #region distance check
     private PlayerDistance _distanceMode = PlayerDistance.Near;
-    private int _distanceMultyplier = 1;
     const float _avarageDis = 150;
     const float _farDis = 500;
-
     #endregion
-
-    [System.Serializable]
-    class RefreshResource
-    {
-        public Item _item { private set; get; }
-        public float _perSecond { private set; get; }
-        public float _amount;
-        public int _maxAmount { private set; get; }
-
-        public RefreshResource(Item item, float refreshPerSecond, int maxAmount, float refreshedAmount)
-        {
-            _item = item;
-            _perSecond = refreshPerSecond;
-            _maxAmount = maxAmount;
-            _amount = refreshedAmount;
-        }
-    }
-
-
 
     private void Start()
     {
-        _items = new OwnedItems();
-        _refreshItems = new List<RefreshResource>();
+        _items = ScriptableObject.CreateInstance<OwnedItems>();
+        _refreshItems = new Dictionary<Item, float>();
         //load owned item info
         //load isle mode(inside, outside)
 
@@ -66,7 +47,7 @@ public class ResourcesIsle : MonoBehaviour
 
     private void IncreaseLevel()
     {
-        if (_level == _logic.info.Length)
+        if (_level == _logic.Info.Length)
             Debug.LogError("Isle level the same as max!");
         else
         {
@@ -81,7 +62,7 @@ public class ResourcesIsle : MonoBehaviour
         {
             for (int i = _refreshItems.Count; i < _level; i++)
             {
-                _refreshItems.Add(new RefreshResource(_logic.info[i].item, (float)_logic.info[i].resourcesPerHour / 3600, _logic.info[i].maxAmount, 0));
+                _refreshItems.Add(_logic.Info[i].Item, 0);
             }
         }
     }
@@ -91,29 +72,29 @@ public class ResourcesIsle : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(1.0f * _distanceMultyplier);
+            yield return new WaitForSeconds(1.0f * (int)_distanceMode);
 
             for (int i = 0; i < _level; i++)
             {
-                _refreshItems[i]._amount += _refreshItems[i]._perSecond * _distanceMultyplier;
+                Item item = _logic.Info[i].Item;
 
-                Item currentItem = _refreshItems[i]._item;
-                int currentAmount = _items.GetItemAmount(currentItem);
-                int maxRefreshedAmount = _logic.info[i].maxAmount - currentAmount;
-                if (_refreshItems[i]._amount > maxRefreshedAmount)
-                    _refreshItems[i]._amount = Mathf.Min(_refreshItems[i]._amount, maxRefreshedAmount);
 
-                if (_refreshItems[i]._amount >= 1)
+                _refreshItems[item] += _logic.Info[i].ResourcePerSecond * (int)_distanceMode;
+                int currentAmount = _items.GetItemAmount(item);
+                int maxRefreshedAmount = _logic.Info[i].MaxAmount - currentAmount;
+                if (_refreshItems[item] > maxRefreshedAmount)
+                    _refreshItems[item] = Mathf.Min(_refreshItems[item], maxRefreshedAmount);
+
+                if (_refreshItems[item] >= 1)
                 {
-                    int addAmount = (int)_refreshItems[i]._amount;
-                    _items.AddItem(currentItem, addAmount);
-                    _refreshItems[i]._amount -= addAmount;
+                    int addAmount = (int)_refreshItems[item];
+                    _items.AddItem(item, addAmount);
+                    _refreshItems[item] -= addAmount;
                 }
             }
 
 
-            Debug.Log(UpdatePlayerDistance());
-            Debug.Log(_items._summaryAmount);
+            float distance = UpdatePlayerDistance();
 
         }
     }
@@ -133,13 +114,10 @@ public class ResourcesIsle : MonoBehaviour
         switch (_distanceMode)
         {
             case PlayerDistance.Near:
-                _distanceMultyplier = 1;
                 break;
             case PlayerDistance.Average:
-                _distanceMultyplier = 10;
                 break;
             case PlayerDistance.Far:
-                _distanceMultyplier = 30;
                 break;
         }
 
