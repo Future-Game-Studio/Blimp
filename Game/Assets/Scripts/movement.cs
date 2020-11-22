@@ -4,40 +4,101 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public CharacterController controller;
-    public Transform cam;
 
-    public float speed = 6f;
+    public enum SpeedMode { Backwards = -1, Idle = 0, Low = 1, Medium = 2, High = 3 };
+
+
+    public Transform cam;
+    public float shipRotateSpeed;
+    public float shipSpeed = 6f;
+    public SpeedMode speedMode;
+    public float lastSpeed;
 
     public float turnSmoothTime = 0.1f;
-    float turnSmoothVelocity;
+
+    void Start()
+    {
+        speedMode = SpeedMode.Idle;
+        lastSpeed = (int)speedMode;
+    }
 
     void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-        if (direction.magnitude >= 0.1f && vertical >= 0)
+        if (Input.GetKeyDown(KeyCode.W))
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            ChangeSpeedUp();
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+            ChangeSpeedDown();
+    }
 
 
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * speed * Time.deltaTime);
+    void FixedUpdate()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        Rotate(horizontal);
+
+        lastSpeed += lastSpeed == (int)speedMode ? 0 : lastSpeed < (int)speedMode ? 0.1f : -0.1f;
+        lastSpeed = (speedMode == SpeedMode.Idle && Mathf.Abs(lastSpeed) < 0.25f) ? 0 : lastSpeed;
+        transform.Translate(Vector3.forward * lastSpeed * 0.1f, Space.Self);
+
+    }
+
+
+
+    void ChangeSpeedUp()
+    {
+        switch (speedMode)
+        {
+            case SpeedMode.Backwards:
+                speedMode = SpeedMode.Idle;
+                Debug.Log("Speed mode " + speedMode);
+                return;
+            case SpeedMode.Idle:
+                speedMode = SpeedMode.Low;
+                Debug.Log("Speed mode " + speedMode);
+                return;
+            case SpeedMode.Low:
+                speedMode = SpeedMode.Medium;
+                Debug.Log("Speed mode " + speedMode);
+                return;
+            case SpeedMode.Medium:
+                speedMode = SpeedMode.High;
+                Debug.Log("Speed mode " + speedMode);
+                return;
+            default:
+                return;
         }
     }
 
-    void MoveBackwards()
+    void ChangeSpeedDown()
     {
-
+        switch (speedMode)
+        {
+            case SpeedMode.High:
+                speedMode = SpeedMode.Medium;
+                Debug.Log("Speed mode " + speedMode);
+                return;
+            case SpeedMode.Medium:
+                speedMode = SpeedMode.Low;
+                Debug.Log("Speed mode " + speedMode);
+                return;
+            case SpeedMode.Low:
+                speedMode = SpeedMode.Idle;
+                Debug.Log("Speed mode " + speedMode);
+                return;
+            case SpeedMode.Idle:
+                speedMode = SpeedMode.Backwards;
+                Debug.Log("Speed mode " + speedMode);
+                return;
+            default:
+                return;
+        }
     }
 
-    void ChangeSpeed()
+    void Rotate(float horizontal)
     {
-
+        transform.Rotate(Vector3.up * shipRotateSpeed * horizontal);
     }
-
 }
