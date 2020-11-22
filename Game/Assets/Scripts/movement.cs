@@ -8,13 +8,11 @@ public class Movement : MonoBehaviour
     public enum SpeedMode { Backwards = -1, Idle = 0, Low = 1, Medium = 2, High = 3 };
 
 
-    public Transform cam;
     public float shipRotateSpeed;
     public float shipSpeed = 6f;
     public SpeedMode speedMode;
     public float lastSpeed;
 
-    public float turnSmoothTime = 0.1f;
 
     void Start()
     {
@@ -100,5 +98,11 @@ public class Movement : MonoBehaviour
     void Rotate(float horizontal)
     {
         transform.Rotate(Vector3.up * shipRotateSpeed * horizontal);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("collision");
+        speedMode = SpeedMode.Idle;
     }
 }
