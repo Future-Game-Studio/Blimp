@@ -17,10 +17,11 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         if(_instance != null)
-            Destroy(this.gameObject);
+            Destroy(gameObject);
 
         _instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
+        Debug.Log(_instance);
 
         _player = TryToFindPlayer();
 
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
     {
         try
         {
-            return GameObject.FindObjectOfType<Movement>();
+            return FindObjectOfType<Movement>();
         }
         catch
         {
