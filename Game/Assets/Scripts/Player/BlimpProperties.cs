@@ -5,7 +5,7 @@ using UnityEngine;
 public class BlimpProperties : MonoBehaviour
 {
     OwnedItems _ownedItems;
-    
+    public 
     void Start()
     {
         
