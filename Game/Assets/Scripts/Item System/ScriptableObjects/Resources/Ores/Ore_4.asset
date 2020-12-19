@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be36b35beea6de949801f26036677c8f, type: 3}
+  m_Name: Ore_4
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: fb7830ac34cbb0b478f74cd68207cc18, type: 3}
+  _type: 0
+  _itemName: Ore 4
+  _description: 
+  _weight: 0

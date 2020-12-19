@@ -10,14 +10,15 @@ public enum PlayerDistance
     Far = 30
 }
 
-public class ResourcesIsle : MonoBehaviour
+public class ResourcesIsle : DefaultIsle
 {
     #region refresh item
     [SerializeField] private int _level;
-    public int Level { get { return _level; } }
-    [SerializeField] private OwnedItems _items;
+    public int Level { get => _level; }
+    public OwnedItems Items { get; private set; }
     [SerializeField] private ResourceIsleLogic _logic;
-    private Dictionary<Item, float> _refreshItems;//item and float amount(adding every second(10/30) with small value)
+    public ResourceIsleLogic Logic { get => _logic; }
+    public Dictionary<Item, float> RefreshedItems { private set; get; }//item and float amount(adding every second(10/30) with small value)
     #endregion
 
     #region distance check
@@ -26,10 +27,19 @@ public class ResourcesIsle : MonoBehaviour
     const float _farDis = 500;
     #endregion
 
+    private void Awake()
+    {
+        Type = IsleType.Resource;
+    }
+
     private void Start()
     {
-        _items = ScriptableObject.CreateInstance<OwnedItems>();
-        _refreshItems = new Dictionary<Item, float>();
+        Items = ScriptableObject.CreateInstance<OwnedItems>();
+        foreach(ResourceIsleLogic.LevelInfo info in _logic.Info)
+        {
+            Items.AddItem(info.Item, 0);
+        }
+        RefreshedItems = new Dictionary<Item, float>();
         //load owned item info
         //load isle mode(inside, outside)
 
@@ -59,11 +69,11 @@ public class ResourcesIsle : MonoBehaviour
 
     private void UpdateRefreshInfo()
     {
-        if (_refreshItems.Count < _level)
+        if (RefreshedItems.Count < _level)
         {
-            for (int i = _refreshItems.Count; i < _level; i++)
+            for (int i = RefreshedItems.Count; i < _level; i++)
             {
-                _refreshItems.Add(_logic.Info[i].Item, 0);
+                RefreshedItems.Add(_logic.Info[i].Item, 0);
             }
         }
     }
@@ -80,17 +90,17 @@ public class ResourcesIsle : MonoBehaviour
                 Item item = _logic.Info[i].Item;
 
 
-                _refreshItems[item] += _logic.Info[i].ResourcePerSecond * (int)_distanceMode;
-                int currentAmount = _items.GetItemAmount(item);
+                RefreshedItems[item] += _logic.Info[i].ResourcePerSecond * (int)_distanceMode;
+                int currentAmount = Items.GetItemAmount(item);
                 int maxRefreshedAmount = _logic.Info[i].MaxAmount - currentAmount;
-                if (_refreshItems[item] > maxRefreshedAmount)
-                    _refreshItems[item] = Mathf.Min(_refreshItems[item], maxRefreshedAmount);
+                if (RefreshedItems[item] > maxRefreshedAmount)
+                    RefreshedItems[item] = Mathf.Min(RefreshedItems[item], maxRefreshedAmount);
 
-                if (_refreshItems[item] >= 1)
+                if (RefreshedItems[item] >= 1)
                 {
-                    int addAmount = (int)_refreshItems[item];
-                    _items.AddItem(item, addAmount);
-                    _refreshItems[item] -= addAmount;
+                    int addAmount = (int)RefreshedItems[item];
+                    Items.AddItem(item, addAmount);
+                    RefreshedItems[item] -= addAmount;
                 }
             }
 
@@ -127,7 +137,7 @@ public class ResourcesIsle : MonoBehaviour
 
     void OnMouseDown()
     {
-
+        UIManager._instance.SwitchIsleUI(UIType.ResourceIsle, this);
         Debug.Log("Ckick");
     }
 }

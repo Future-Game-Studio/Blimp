@@ -3,6 +3,7 @@
 public class IsleManager : MonoBehaviour
 {
     public static IsleManager _instance { private set; get; }
+    //public DefaultIsle LastActiveIsle { get; private set; }
 
     #region isles logic
     [SerializeField] private AddonIsleItems _craftIsleItems;
@@ -19,7 +20,10 @@ public class IsleManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-
+    //public void SwitchIsle(DefaultIsle isle = null)
+    //{
+    //    LastActiveIsle = isle;
+    //}
 
 
 
