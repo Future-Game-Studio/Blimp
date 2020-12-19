@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class ExtraIsleSlot : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject _isle;
 
-    // Update is called once per frame
-    void Update()
+
+    public bool IsEmpty()
     {
-        
+        return _isle != null;
     }
 }

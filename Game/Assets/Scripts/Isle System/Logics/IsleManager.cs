@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
-public class AddonIsleLogic : MonoBehaviour
+public class IsleManager : MonoBehaviour
 {
-    public static AddonIsleLogic _instance { private set; get; }
+    public static IsleManager _instance { private set; get; }
+
+    #region isles logic
     [SerializeField] private AddonIsleItems _craftIsleItems;
     [SerializeField] private AddonIsleItems _fabricIsleItems;
     public AddonIsleItems CraftItems { get { return _craftIsleItems; } }
     public AddonIsleItems FabricItems { get { return _fabricIsleItems; } }
+    #endregion
 
     private void Awake()
     {
@@ -15,5 +18,22 @@ public class AddonIsleLogic : MonoBehaviour
         _instance = this;
         DontDestroyOnLoad(gameObject);
     }
+
+
+
+
+
+    #region Dock System
+    public void StartDock()
+    {
+
+    }
+
+
+    public void EndDock()
+    {
+
+    }
+    #endregion
 }
 

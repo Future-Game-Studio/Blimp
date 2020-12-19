@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
     public Movement _player { private set; get; }
     CameraManager _camera;
-    UIController _ui;
+    UIManager _ui;
     //AudioConroller
     OwnedItems ownedItems;
     IslesManager _islesManager;

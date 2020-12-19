@@ -8,6 +8,6 @@ public class EmptyIsle : DefaultIsle
 
     private void Start()
     {
-        _items = AddonIsleLogic._instance.CraftItems;
+        _items = IsleManager._instance.CraftItems;
     }
 }

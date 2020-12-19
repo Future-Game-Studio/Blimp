@@ -10,26 +10,28 @@ public class MainIsle : MonoBehaviour
     private const float _radius = 25f;
     private void Start()
     {
-        GenerateSlots();
+        GenerateSlots(15);
 
     }
 
-    private void GenerateSlots()
+    private void GenerateSlots(int circles)
     {
         int allCount = 0;
-        for (int circle = 1; circle < 15; circle++)
+        for (int circle = 1; circle < circles; circle++)
         {
-            float radius = _radius + circle * 15;
+            float radius = _radius + circle * circles;
             int count = circle + 9;
             float angleStep = 360f / count;
+            Vector3 mainIslePos = gameObject.transform.position;
+
             for (int i = 1; i < count; i++)
             {
                 allCount++;
 
-                float angle = angleStep * i * 3.14f / 180;
+                float angle = angleStep * i * Mathf.PI / 180;
 
-                Vector3 position = new Vector3(gameObject.transform.position.x + (radius * Mathf.Cos(angle)), gameObject.transform.position.y, gameObject.transform.position.z + (radius * Mathf.Sin(angle)));
-                Instantiate(_slotPrefab, position, _slotPrefab.transform.rotation);
+                Vector3 position = new Vector3(mainIslePos.x + (radius * Mathf.Cos(angle)), mainIslePos.y, mainIslePos.z + (radius * Mathf.Sin(angle)));
+                Instantiate(_slotPrefab, position, _slotPrefab.transform.rotation, gameObject.transform);
             }
 
         }
