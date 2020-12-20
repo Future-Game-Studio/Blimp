@@ -6,32 +6,46 @@ public class MainIsle : MonoBehaviour
 {
     [SerializeField] private OwnedItems _ownedItems;
     [SerializeField] private GameObject _slotPrefab;
-
+    [SerializeField] private int _circlesCount;
+    [SerializeField] private int _startCircle;
+    [SerializeField] private List<GameObject> _isles;
     private const float _radius = 25f;
     private void Start()
     {
-        GenerateSlots(15);
+        _isles = new List<GameObject>();
+        GenerateSlots(_circlesCount);
+    }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log("Update main isle");
+            _isles.ForEach(i => Destroy(i.gameObject));
+            _isles.Clear();
+            GenerateSlots(_circlesCount);
+        }
     }
 
     private void GenerateSlots(int circles)
     {
         int allCount = 0;
-        for (int circle = 1; circle < circles; circle++)
+        for (int circle = 0; circle < circles; circle++)
         {
-            float radius = _radius + circle * circles;
-            int count = circle + 9;
-            float angleStep = 360f / count;
+            float radius = _radius + (circle + 1) * 15f;
+            int count = circle + _startCircle;
+            float angleStep = 360f / (count + 1);
             Vector3 mainIslePos = gameObject.transform.position;
 
-            for (int i = 1; i < count; i++)
+            for (int i = 1; i < count + 1; i++)
             {
                 allCount++;
 
                 float angle = angleStep * i * Mathf.PI / 180;
 
                 Vector3 position = new Vector3(mainIslePos.x + (radius * Mathf.Cos(angle)), mainIslePos.y, mainIslePos.z + (radius * Mathf.Sin(angle)));
-                Instantiate(_slotPrefab, position, _slotPrefab.transform.rotation, gameObject.transform);
+                GameObject isle = Instantiate(_slotPrefab, position, _slotPrefab.transform.rotation, gameObject.transform);
+                _isles.Add(isle);
             }
 
         }

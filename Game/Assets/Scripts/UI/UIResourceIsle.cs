@@ -11,7 +11,7 @@ public class UIResourceIsle : UIController
     [SerializeField] private GameObject _contentList;
     [SerializeField] private ResourceInfo _resourceinfo;
     private List<ResourceButton> _buttons;
-    [SerializeField] private ScrollRect _scroll;
+    [SerializeField] private Scrollbar _scroll;
 
     private int _buttonNum;
     private int _level;
@@ -24,8 +24,8 @@ public class UIResourceIsle : UIController
 
     private void Update()
     {
-        if (_isle != null)
-            UpdateDynamicInfo();
+        //if (_isle != null)
+        //    UpdateDynamicInfo();
     }
 
     public override void UpdateAll()
@@ -34,15 +34,24 @@ public class UIResourceIsle : UIController
         if (_isle == null)
             Debug.LogError("Isle type error");
 
-        //rebuild scroll
+        _isle.OnRefresh += UpdateByIndex;
 
         if (_buttons == null)
             _buttons = _contentList.GetComponentsInChildren<ResourceButton>().ToList();
-
-
+        
         UpdateStaticInfo();
-        UpdateStaticInfo();
+        UpdateDynamicInfo();
         UpdateResourceInfo();
+
+        StartCoroutine(UpdateLayout());
+    }
+
+    private IEnumerator UpdateLayout()
+    {
+        yield return new WaitForFixedUpdate();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(this.transform as RectTransform);
+        _scroll.value = 1;
+
     }
 
     private void UpdateStaticInfo()
@@ -76,7 +85,15 @@ public class UIResourceIsle : UIController
 
     }
 
-    //rewrite
+    private void UpdateByIndex(int i)
+    {
+        int count = _isle.Items.Container[i].Amount;
+        int maxCount = _isle.Logic.Info[i].MaxAmount;
+        _buttons[i].ChangeCount(count, maxCount);
+        _buttons[i].ChangeProgress(_isle.RefreshedItems[_isle.Logic.Info[i].Item]);
+    }
+
+    //rewrite 
     private void UpdateDynamicInfo()
     {
         for (int i = 0; i < _level; i++)
@@ -95,6 +112,11 @@ public class UIResourceIsle : UIController
     {
         Item item = _isle.Logic.Info[_buttonNum].Item;
         _resourceinfo.ChangeInfo(item.ItemName, item.Description, item.Icon);
+        _resourceinfo.ChangeCount(_isle.Items.Container[_buttonNum].Amount, _isle.Logic.Info[_buttonNum].MaxAmount);
     }
 
+    private void OnDisable()
+    {
+        _isle.OnRefresh -= UpdateByIndex;
+    }
 }

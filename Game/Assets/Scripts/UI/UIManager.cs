@@ -10,7 +10,8 @@ public enum UIType
     MainMenu,
     HUD,
     ResourceIsle,
-    QuestIsle
+    QuestIsle,
+    MainIsle
 }
 
 public class UIManager : MonoBehaviour
@@ -54,7 +55,7 @@ public class UIManager : MonoBehaviour
             desiredUI.gameObject.SetActive(true);
             _lastActiveUI = desiredUI;
         }
-        else Debug.LogError("Can't find the hud object!");
+        else Debug.LogError("Can't find the ui object!");
 
         return desiredUI;
     }

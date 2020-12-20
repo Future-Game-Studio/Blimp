@@ -21,11 +21,17 @@ public class ResourcesIsle : DefaultIsle
     public Dictionary<Item, float> RefreshedItems { private set; get; }//item and float amount(adding every second(10/30) with small value)
     #endregion
 
+    #region delegates
+    public delegate void RefreshDelegate(int index);
+    public RefreshDelegate OnRefresh;
+    public RefreshDelegate OnIntRefresh;
+    #endregion
+
     #region distance check
     private PlayerDistance _distanceMode = PlayerDistance.Near;
     const float _avarageDis = 150;
     const float _farDis = 500;
-    #endregion
+    #endregion 
 
     private void Awake()
     {
@@ -86,28 +92,32 @@ public class ResourcesIsle : DefaultIsle
             yield return new WaitForSeconds(1.0f * (int)_distanceMode);
 
             for (int i = 0; i < _level; i++)
-            {
-                Item item = _logic.Info[i].Item;
-
-
-                RefreshedItems[item] += _logic.Info[i].ResourcePerSecond * (int)_distanceMode;
-                int currentAmount = Items.GetItemAmount(item);
-                int maxRefreshedAmount = _logic.Info[i].MaxAmount - currentAmount;
-                if (RefreshedItems[item] > maxRefreshedAmount)
-                    RefreshedItems[item] = Mathf.Min(RefreshedItems[item], maxRefreshedAmount);
-
-                if (RefreshedItems[item] >= 1)
-                {
-                    int addAmount = (int)RefreshedItems[item];
-                    Items.AddItem(item, addAmount);
-                    RefreshedItems[item] -= addAmount;
-                }
-            }
-
+                RefreshItem(_logic.Info[i], i);
 
             float distance = UpdatePlayerDistance();
-
         }
+    }
+
+    private void RefreshItem(ResourceIsleLogic.LevelInfo info, int i)
+    {
+        Item item = info.Item;
+
+        RefreshedItems[item] += info.ResourcePerSecond * (int)_distanceMode;
+        int currentAmount = Items.GetItemAmount(item);
+        int maxRefreshedAmount = info.MaxAmount - currentAmount;
+        if (RefreshedItems[item] > maxRefreshedAmount)
+            RefreshedItems[item] = Mathf.Min(RefreshedItems[item], maxRefreshedAmount);
+
+        if (RefreshedItems[item] >= 1)
+        {
+            int addAmount = (int)RefreshedItems[item];
+            Items.AddItem(item, addAmount);
+            RefreshedItems[item] -= addAmount;
+
+            OnIntRefresh?.Invoke(i);
+        }
+
+        OnRefresh?.Invoke(i);
     }
 
     private float UpdatePlayerDistance()
@@ -138,6 +148,5 @@ public class ResourcesIsle : DefaultIsle
     void OnMouseDown()
     {
         UIManager._instance.SwitchIsleUI(UIType.ResourceIsle, this);
-        Debug.Log("Ckick");
     }
 }

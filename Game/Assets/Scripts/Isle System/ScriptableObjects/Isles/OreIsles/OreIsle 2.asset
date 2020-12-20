@@ -29,20 +29,20 @@ MonoBehaviour:
     _resourcesPerHour: 550
     _maxAmount: 30
   - _item: {fileID: 11400000, guid: 3f5df4e63cff16f4a85986fdbb175adc, type: 2}
-    _resourcesPerHour: 0
-    _maxAmount: 0
+    _resourcesPerHour: 1000
+    _maxAmount: 5
   - _item: {fileID: 11400000, guid: 6b37b1f94937d1f44aaa9bdc7f5064d4, type: 2}
-    _resourcesPerHour: 0
-    _maxAmount: 0
+    _resourcesPerHour: 750
+    _maxAmount: 10
   - _item: {fileID: 11400000, guid: 72875665c294dd14fbab0cf1b3137a86, type: 2}
-    _resourcesPerHour: 0
-    _maxAmount: 0
+    _resourcesPerHour: 100
+    _maxAmount: 5
   - _item: {fileID: 11400000, guid: 88aed4b8f52a0ed418ba10f51f7f95e1, type: 2}
-    _resourcesPerHour: 0
-    _maxAmount: 0
+    _resourcesPerHour: 1500
+    _maxAmount: 20
   - _item: {fileID: 11400000, guid: 9007481dc989c444299949ba566bac4b, type: 2}
-    _resourcesPerHour: 0
-    _maxAmount: 0
+    _resourcesPerHour: 1750
+    _maxAmount: 15
   - _item: {fileID: 11400000, guid: 2c8a9dc286e10164d87ee4832357dd22, type: 2}
-    _resourcesPerHour: 0
-    _maxAmount: 0
+    _resourcesPerHour: 1000
+    _maxAmount: 5
