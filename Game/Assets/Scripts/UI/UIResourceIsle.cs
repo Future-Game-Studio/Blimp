@@ -12,20 +12,16 @@ public class UIResourceIsle : UIController
     [SerializeField] private ResourceInfo _resourceinfo;
     private List<ResourceButton> _buttons;
     [SerializeField] private Scrollbar _scroll;
+    [SerializeField] private GridLayoutGroup _grid;
 
     private int _buttonNum;
     private int _level;
     private int _maxLevel;
 
-    private void Start()
+    private void Awake()
     {
         _buttonNum = 0;
-    }
 
-    private void Update()
-    {
-        //if (_isle != null)
-        //    UpdateDynamicInfo();
     }
 
     public override void UpdateAll()
@@ -38,7 +34,7 @@ public class UIResourceIsle : UIController
 
         if (_buttons == null)
             _buttons = _contentList.GetComponentsInChildren<ResourceButton>().ToList();
-        
+
         UpdateStaticInfo();
         UpdateDynamicInfo();
         UpdateResourceInfo();
@@ -59,7 +55,7 @@ public class UIResourceIsle : UIController
         _buttons.ForEach(b =>
         {
             b.gameObject.SetActive(true);
-            b.interactable = true;
+            b.Button.interactable = true;
         });
 
         _level = _isle.Level;
@@ -67,7 +63,7 @@ public class UIResourceIsle : UIController
 
         for (int i = _level; i < _maxLevel; i++)
         {
-            _buttons[i].interactable = false;
+            _buttons[i].Button.interactable = false;
             _buttons[i].ClearCount();
             _buttons[i].ChangeProgress(0);
         }
@@ -80,7 +76,7 @@ public class UIResourceIsle : UIController
         for(int i = 0; i < _maxLevel; i++)
         {
             
-            _buttons[i].ChangeName(_isle.Logic.Info[i].Item.ItemName);
+            _buttons[i].ChangeName(_isle.Logic.Info[i].Item.Name);
         }
 
     }
@@ -111,7 +107,7 @@ public class UIResourceIsle : UIController
     private void UpdateResourceInfo()
     {
         Item item = _isle.Logic.Info[_buttonNum].Item;
-        _resourceinfo.ChangeInfo(item.ItemName, item.Description, item.Icon);
+        _resourceinfo.ChangeInfo(item.Name, item.Description, item.Icon);
         _resourceinfo.ChangeCount(_isle.Items.Container[_buttonNum].Amount, _isle.Logic.Info[_buttonNum].MaxAmount);
     }
 

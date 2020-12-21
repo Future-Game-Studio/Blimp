@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be36b35beea6de949801f26036677c8f, type: 3}
-  m_Name: Ore_4
+  m_Script: {fileID: 11500000, guid: 58f64fc6c54bd7544b55e1268d3a43ef, type: 3}
+  m_Name: Item_Consumable_ManaPotion
   m_EditorClassIdentifier: 
-  _icon: {fileID: 21300000, guid: fb7830ac34cbb0b478f74cd68207cc18, type: 3}
-  _type: 0
-  _name: Ore 4
-  _description: 
-  _weight: 0
+  name: Mana Potion
+  sellPrice: 300
+  rarity: {fileID: 11400000, guid: 35f08bce9e62807488cb1932e2a0174e, type: 2}
+  useText: Something

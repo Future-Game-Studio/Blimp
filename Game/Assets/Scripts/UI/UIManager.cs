@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using DapperDino.TooltipUI;
 
 public enum UIType
 {
@@ -17,10 +17,14 @@ public enum UIType
 public class UIManager : MonoBehaviour
 {
     public static UIManager _instance { private set; get; }
-
+    public TooltipPopup TIP { private set; get; }
     List<UIController> _uiControllers;
     UIController _lastActiveUI;
     public DefaultIsle LastActiveIsle { get; private set; }
+
+    public delegate void EscapeDelegate();
+    public EscapeDelegate OnEscape;
+
     private void Awake()
     {
         if (_instance != null)
@@ -34,12 +38,16 @@ public class UIManager : MonoBehaviour
 
         SwitchUI(UIType.HUD);
 
+        TIP = GameObject.FindObjectOfType<TooltipPopup>();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
+        {
             SwitchUI(UIType.HUD);
+            OnEscape?.Invoke();
+        }
     }
 
     public UIController SwitchUI(UIType type)
@@ -66,5 +74,14 @@ public class UIManager : MonoBehaviour
         LastActiveIsle = isle;
         desiredUI.UpdateAll();
     }
+
+
+    #region Tips
+    public void ShowNeedItemTip()
+    {
+
+    }
+
+    #endregion
 
 }
