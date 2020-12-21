@@ -5,6 +5,9 @@ public class Gun : ScriptableObject
 {
     public GameObject prefab;
     public Sprite sprite;
-    public string Name;
-    public float Damage;
+    public string name;
+    public float damage;
+    public float range;
+    public enum GunType { Cannon, MachineGun};
+    public GunType gunType;
 }

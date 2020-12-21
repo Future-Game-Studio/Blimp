@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 3876326708501565333, guid: b7f1fd17e37f99645929554cb2bc86b8, type: 3}
   sprite: {fileID: 0}
-  Name: Obsidian cannon
-  Damage: 15
+  name: 
+  damage: 10
+  range: 100
+  gunType: 0

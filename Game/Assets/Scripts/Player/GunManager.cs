@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 public class GunManager : MonoBehaviour
 {
-    public float damage = 10f;
-    public float range = 1000f;
-    public List<Gun> Weapons = new List<Gun>();
+    public List<GameObject> Weapons = new List<GameObject>();
 
-    public Transform cannon;
     public ParticleSystem muzzle;
+
+    public LayerMask mask = LayerMask.GetMask("Enemy");
+
 
     void Update()
     {
@@ -22,13 +22,17 @@ public class GunManager : MonoBehaviour
     {
         RaycastHit hit;
 #if UNITY_EDITOR
-        Debug.DrawRay(cannon.position, cannon.forward, Color.yellow);
+        Debug.DrawRay(Weapons[0].transform.position, Weapons[0].transform.forward, Color.yellow);
 #endif
-        if (Physics.Raycast(cannon.position, cannon.forward, out hit, range))
+
+
+
+        if (Physics.Raycast(Weapons[0].transform.position, Weapons[0].transform.forward, out hit, Weapons[0].GetComponent<CannonSpot>().gun.range, mask))
         {
             Debug.Log(hit.transform.name);
             Target target = hit.transform.GetComponent<Target>();
-            target.TakeDamage(damage);
+            target.TakeDamage(Weapons[0].GetComponent<CannonSpot>().gun.damage);
         }
+
     }
 }
