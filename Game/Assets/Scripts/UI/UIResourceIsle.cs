@@ -7,12 +7,11 @@ using UnityEngine.UI;
 public class UIResourceIsle : UIController
 {
     private ResourcesIsle _isle;
-
-    [SerializeField] private GameObject _contentList;
+    [SerializeField] private RectTransform _buttonPrefab;
+    [SerializeField] private RectTransform _contentList;
     [SerializeField] private ResourceInfo _resourceinfo;
-    private List<ResourceButton> _buttons;
+    private List<ResourceButton> _buttons = new List<ResourceButton>();
     [SerializeField] private Scrollbar _scroll;
-    [SerializeField] private GridLayoutGroup _grid;
 
     private int _buttonNum;
     private int _level;
@@ -32,8 +31,9 @@ public class UIResourceIsle : UIController
 
         _isle.OnRefresh += UpdateByIndex;
 
-        if (_buttons == null)
-            _buttons = _contentList.GetComponentsInChildren<ResourceButton>().ToList();
+        if (_buttons != null)
+            _buttons.ForEach(b => Destroy(b.gameObject));
+        _buttons.Clear();
 
         UpdateStaticInfo();
         UpdateDynamicInfo();
@@ -52,33 +52,22 @@ public class UIResourceIsle : UIController
 
     private void UpdateStaticInfo()
     {
-        _buttons.ForEach(b =>
-        {
-            b.gameObject.SetActive(true);
-            b.Button.interactable = true;
-        });
-
         _level = _isle.Level;
         _maxLevel = _isle.Logic.Info.Length;
 
-        for (int i = _level; i < _maxLevel; i++)
-        {
-            _buttons[i].Button.interactable = false;
-            _buttons[i].ClearCount();
-            _buttons[i].ChangeProgress(0);
-        }
-
-        for (int i = _maxLevel; i < _buttons.Count; i++)
-        {
-            _buttons[i].gameObject.SetActive(false);
-        }
-
         for(int i = 0; i < _maxLevel; i++)
         {
-            
+            var buttonObj = Instantiate(_buttonPrefab.gameObject);
+            buttonObj.transform.SetParent(_contentList, false);
+            var button = buttonObj.GetComponent<ResourceButton>();
+            _buttons.Add(button);
+            if(i >= _level)
+            {
+                button.Button.interactable = false;
+                button.ClearCount();
+            }
             _buttons[i].ChangeName(_isle.Logic.Info[i].Item.Name);
         }
-
     }
 
     private void UpdateByIndex(int i)

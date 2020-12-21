@@ -122,7 +122,7 @@ public class ResourcesIsle : DefaultIsle
 
     private float UpdatePlayerDistance()
     {
-        Vector3 _playerPos = GameManager._instance._player.gameObject.transform.position;
+        Vector3 _playerPos = GameManager._instance.Player.gameObject.transform.position;
         Vector3 _islePos = gameObject.transform.position;
         float distance = Mathf.Sqrt(Mathf.Pow((_playerPos.x - _islePos.x), 2) + Mathf.Pow((_playerPos.y - _islePos.y), 2));
 

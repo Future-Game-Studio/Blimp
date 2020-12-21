@@ -6,13 +6,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager _instance { private set; get; }
 
-    public Movement _player { private set; get; }
+    public Movement Player { private set; get; }
     CameraManager _camera;
     UIManager _ui;
     //AudioConroller
-    OwnedItems ownedItems;
     IslesManager _islesManager;
-    BlimpProperties _blimpProps;
+    public BlimpProperties BlimpProperties { private set; get; }
 
     void Awake()
     {
@@ -23,8 +22,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         Debug.Log(_instance);
 
-        _player = TryToFindPlayer();
-
+        Player = TryToFindPlayer();
+        BlimpProperties = TryToFindBlimp();
     }
 
     private void Start()
@@ -44,6 +43,18 @@ public class GameManager : MonoBehaviour
         try
         {
             return FindObjectOfType<Movement>();
+        }
+        catch
+        {
+            Debug.LogError("Player not found! Please, add Blimp(Player) to scene for correct gameplay!");
+            return null;
+        }
+    }
+    private BlimpProperties TryToFindBlimp()
+    {
+        try
+        {
+            return FindObjectOfType<BlimpProperties>();
         }
         catch
         {

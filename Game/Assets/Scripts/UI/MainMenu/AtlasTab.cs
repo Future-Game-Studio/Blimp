@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class AtlasTab : MainMenuTab
 {
-    
+    public override void UpdateAll()
+    {
+        throw new System.NotImplementedException();
+    }
 }

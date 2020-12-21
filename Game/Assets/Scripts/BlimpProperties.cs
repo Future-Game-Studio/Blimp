@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class BlimpProperties : MonoBehaviour
 {
-    OwnedItems _ownedItems;
-    
+    public OwnedItems OwnedItems { private set; get; }
+
     void Start()
     {
-        
+        OwnedItems = ScriptableObject.CreateInstance<OwnedItems>();
     }
 
     void Update()
     {
-        
+
     }
 }

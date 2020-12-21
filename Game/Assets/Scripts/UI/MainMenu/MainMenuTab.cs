@@ -16,4 +16,6 @@ public abstract class MainMenuTab : MonoBehaviour
 {
     [SerializeField] private MainTabType _tab;
     public MainTabType Tab { get => _tab; }
+
+    public abstract void UpdateAll();
 }
