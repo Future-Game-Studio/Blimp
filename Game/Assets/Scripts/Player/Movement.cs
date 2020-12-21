@@ -112,7 +112,7 @@ public class Movement : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("collision");
+
         GearText.text = "Idle";
         speedMode = SpeedMode.Idle;
     }

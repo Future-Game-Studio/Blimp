@@ -7,7 +7,6 @@ public class Gun : ScriptableObject
     public Sprite sprite;
     public string name;
     public float damage;
-    public float range;
     public enum GunType { Cannon, MachineGun};
     public GunType gunType;
 }
