@@ -6,6 +6,6 @@ public class CustumizationTab : MainMenuTab
 {
     public override void UpdateAll()
     {
-        throw new System.NotImplementedException();
+
     }
 }

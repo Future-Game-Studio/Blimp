@@ -17,3 +17,4 @@ MonoBehaviour:
   _name: Ore 2
   _description: This is ore 2
   _weight: 4
+  _level: 1

@@ -21,7 +21,7 @@ public class MainMenu : UIController
     }
     public override void UpdateAll()
     {
-        throw new System.NotImplementedException();
+        _lastActiveTab.UpdateAll();
     }
 
     public MainMenuTab SwitchTab(MainTabType type)
@@ -35,6 +35,7 @@ public class MainMenu : UIController
         if (desiredUI != null)
         {
             desiredUI.gameObject.SetActive(true);
+            desiredUI.UpdateAll();
             _lastActiveTab = desiredUI;
         }
         else Debug.LogError("Can't find the ui object!");
@@ -53,6 +54,7 @@ public class MainMenu : UIController
         if (desiredUI != null)
         {
             desiredUI.gameObject.SetActive(true);
+            desiredUI.UpdateAll();
             _lastActiveTab = desiredUI;
         }
         else Debug.LogError("Can't find the ui object!");

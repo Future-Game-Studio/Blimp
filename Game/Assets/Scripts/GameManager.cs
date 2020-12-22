@@ -11,7 +11,11 @@ public class GameManager : MonoBehaviour
     UIManager _ui;
     //AudioConroller
     IslesManager _islesManager;
-    public BlimpProperties BlimpProperties { private set; get; }
+    public Inventory Inventory { get; private set; }
+
+    [SerializeField] Item item1;
+    [SerializeField] Item item2;
+    [SerializeField] Item item3;
 
     void Awake()
     {
@@ -23,20 +27,15 @@ public class GameManager : MonoBehaviour
         Debug.Log(_instance);
 
         Player = TryToFindPlayer();
-        BlimpProperties = TryToFindBlimp();
+
+        Inventory = new Inventory();
+
+        Inventory.Items.AddItem(item3, 3);
+        Inventory.Items.AddItem(item1, 5);
+        Inventory.Items.AddItem(item1, 5);
+        Inventory.Items.AddItem(item2, 4);
+        //Inventory.Items.DebugItems();
     }
-
-    private void Start()
-    {
-
-    }
-
-
-    void Update()
-    {
-
-    }
-
 
     private Movement TryToFindPlayer()
     {
@@ -47,18 +46,6 @@ public class GameManager : MonoBehaviour
         catch
         {
             Debug.LogError("Player not found! Please, add Blimp(Player) to scene for correct gameplay!");
-            return null;
-        }
-    }
-    private BlimpProperties TryToFindBlimp()
-    {
-        try
-        {
-            return FindObjectOfType<BlimpProperties>();
-        }
-        catch
-        {
-            Debug.LogError("Player not found! Please, add Player to scene for correct gameplay!");
             return null;
         }
     }
