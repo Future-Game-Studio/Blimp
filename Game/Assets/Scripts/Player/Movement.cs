@@ -53,22 +53,22 @@ public class Movement : MonoBehaviour
         {
             case SpeedMode.Backwards:
                 speedMode = SpeedMode.Idle;
-                GearText.text = "Idle";
+                //GearText.text = "Idle";
                 Debug.Log("Speed mode " + speedMode);
                 return;
             case SpeedMode.Idle:
                 speedMode = SpeedMode.Low;
-                GearText.text = "Low";
+                //GearText.text = "Low";
                 Debug.Log("Speed mode " + speedMode);
                 return;
             case SpeedMode.Low:
                 speedMode = SpeedMode.Medium;
-                GearText.text = "Medium";
+                //GearText.text = "Medium";
                 Debug.Log("Speed mode " + speedMode);
                 return;
             case SpeedMode.Medium:
                 speedMode = SpeedMode.High;
-                GearText.text = "High";
+                //GearText.text = "High";
                 Debug.Log("Speed mode " + speedMode);
                 return;
             default:
@@ -82,22 +82,22 @@ public class Movement : MonoBehaviour
         {
             case SpeedMode.High:
                 speedMode = SpeedMode.Medium;
-                GearText.text = "Medium";
+                //GearText.text = "Medium";
                 Debug.Log("Speed mode " + speedMode);
                 return;
             case SpeedMode.Medium:
                 speedMode = SpeedMode.Low;
-                GearText.text = "Low";
+                //GearText.text = "Low";
                 Debug.Log("Speed mode " + speedMode);
                 return;
             case SpeedMode.Low:
                 speedMode = SpeedMode.Idle;
-                GearText.text = "Idle";
+                //GearText.text = "Idle";
                 Debug.Log("Speed mode " + speedMode);
                 return;
             case SpeedMode.Idle:
                 speedMode = SpeedMode.Backwards;
-                GearText.text = "Backwards";
+                //GearText.text = "Backwards";
                 Debug.Log("Speed mode " + speedMode);
                 return;
             default:
@@ -113,7 +113,7 @@ public class Movement : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
 
-        GearText.text = "Idle";
+        //GearText.text = "Idle";
         speedMode = SpeedMode.Idle;
     }
 }

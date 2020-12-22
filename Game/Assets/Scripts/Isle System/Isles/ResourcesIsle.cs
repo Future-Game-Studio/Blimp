@@ -36,7 +36,6 @@ public class ResourcesIsle : MonoBehaviour
         StartCoroutine(Refreshing());
     }
 
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.U))
