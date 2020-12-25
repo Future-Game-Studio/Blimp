@@ -8,7 +8,7 @@ public class UIResourceIsle : UIController
     private ResourcesIsle _isle;
     [SerializeField] private RectTransform _buttonPrefab;
     [SerializeField] private RectTransform _contentList;
-    [SerializeField] private ResourceInfo _resourceinfo;
+    [SerializeField] private UIResourceItemInfo _resourceinfo;
     private List<ResourceButton> _buttons = new List<ResourceButton>();
     [SerializeField] private Scrollbar _scroll;
     [SerializeField] private GameObject _collectResourceButton;
@@ -117,7 +117,7 @@ public class UIResourceIsle : UIController
         Inventory inventory = GameManager._instance.Inventory;
         int remainderWeight = inventory.RemainderWeight;
         ItemSlot slot = _isle.Items.Container.Find(s => s.Item == _currentItemInfo);
-        int value = (int)_resourceinfo.Collector.value;
+        int value = (int)_resourceinfo.Slider.value;
         int needWeight = _currentItemInfo.Weight * value;
 
         if (remainderWeight < needWeight)

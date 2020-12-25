@@ -28,6 +28,19 @@ public class OwnedItems : ScriptableObject
 
     }
 
+    public void RemoveItem(Item item, int amount)
+    {
+        ItemSlot slot = _container.Find(s => s.Item == item);
+        if (slot == null || slot.Amount < amount)
+            Debug.LogError("Slot item\value error");
+        slot.RemoveAmount(amount);
+
+        if (slot.Amount == 0)
+            Container.Remove(slot);
+
+        UpdateSummaryWeightAndAmount();
+    }
+
     private void UpdateSummaryWeightAndAmount()
     {
         SummaryWeight = 0;

@@ -4,7 +4,8 @@ public enum ItemType
 {
     Resource,
     Craftable,
-    Equipment
+    Equipment,
+    All
 }
 
 public abstract class Item : ScriptableObject, IComparable

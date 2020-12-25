@@ -10,6 +10,9 @@ public class InventoryTab : MainMenuTab
     [SerializeField] private RectTransform _contentGrid;
     [SerializeField] private RectTransform _slotPrefab;
     [SerializeField] private TextMeshProUGUI _weight;
+    [SerializeField] private UIItemInfo _itemInfo;
+    private ItemSlot _currentSlot;
+    private ItemType _currentFilter;
     public override void UpdateAll()
     {
         if (_inventory == null)
@@ -37,29 +40,59 @@ public class InventoryTab : MainMenuTab
             InventorySlot slot = slotObj.GetComponent<InventorySlot>();
             slot.SetInfo(container[i]);
             _slots.Add(slot);
+            slot.OnClick += ShowItemInfo;
         }
     }
 
     public void ShowAll()
     {
-        ClearSlots();
-
-        List<ItemSlot> container = _inventory.Items.Container;
-        container.Sort();
-        GenerateSlots(container);
-
-        _weight.text = _inventory.CurrentWeight.ToString() + " / " + _inventory.MaxWeight.ToString();
+        ShowTypeItems(ItemType.All);
     }
 
-    public void ShowTypeItems(ItemType type)
+    public void ShowTypeItems(ItemType type, bool setNewCurrentSlot = true)
     {
         ClearSlots();
 
-
+        _weight.text = _inventory.CurrentWeight.ToString() + " / " + _inventory.MaxWeight.ToString();
         List<ItemSlot> container = _inventory.Items.Container;
-        container = container.FindAll(s => s.Item.Type == type);
+        if (type != ItemType.All)
+            container = container.FindAll(s => s.Item.Type == type);
         container.Sort();
         GenerateSlots(container);
+
+        if (container.Count != 0 && setNewCurrentSlot == true)
+            _currentSlot = container[0];
+
+        ShowItemInfo(_currentSlot);
+        _currentFilter = type;
+    }
+
+    private void ShowItemInfo(ItemSlot itemSlot)
+    {
+
+        if (itemSlot != null)
+        {
+            if (_itemInfo.gameObject.activeInHierarchy == false)
+                _itemInfo.gameObject.SetActive(true);
+
+            Item item = itemSlot.Item;
+            _itemInfo.ChangeInfo(item.Name, item.Description, item.Icon);
+            _itemInfo.ChangeCount(itemSlot.Amount, itemSlot.Amount, itemSlot.Item.Weight);
+            _currentSlot = itemSlot;
+        }
+        else
+            _itemInfo.gameObject.SetActive(false);
+    }
+
+    public void RemoveItem()
+    {
+        if (_currentSlot == null)
+            Debug.LogError("Item does not exist");
+        int amount = (int)_itemInfo.Slider.value;
+        Item item = _currentSlot.Item;
+        _inventory.Remove(item, amount);
+        _currentSlot = _inventory.Items.Container.Find(s => s.Item == item);
+        ShowTypeItems(_currentFilter, false);
     }
 
 }

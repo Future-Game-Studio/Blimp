@@ -20,4 +20,9 @@ public class Inventory
         Items.AddItem(item, count);
     }
 
+    public void Remove(Item item, int count)
+    {
+        Items.RemoveItem(item, count);
+    }
+
 }

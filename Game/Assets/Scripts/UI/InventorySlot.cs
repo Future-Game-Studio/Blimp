@@ -2,11 +2,14 @@
 using UnityEngine.UI;
 using TMPro;
 using System.Text;
+using UnityEngine.EventSystems;
 
-public class InventorySlot : MonoBehaviour, ITIP
+public class InventorySlot : MonoBehaviour, ITIP, IPointerClickHandler
 {
     [SerializeField] private Image _image;
     [SerializeField] private TextMeshProUGUI _amount;
+    public delegate void ItemThrow(ItemSlot itemSlot);
+    public ItemThrow OnClick;
     ItemSlot _slot;
 
     public string GetTooltipInfoText()
@@ -19,6 +22,11 @@ public class InventorySlot : MonoBehaviour, ITIP
         builder.Append("<color=white>").Append(_slot.Weight).Append("</color>").AppendLine();
 
         return builder.ToString();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        OnClick?.Invoke(_slot);
     }
 
     public void SetInfo(ItemSlot slot)
