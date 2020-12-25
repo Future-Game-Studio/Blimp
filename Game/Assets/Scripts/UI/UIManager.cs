@@ -75,13 +75,4 @@ public class UIManager : MonoBehaviour
         desiredUI.UpdateAll();
     }
 
-
-    #region Tips
-    public void ShowNeedItemTip()
-    {
-
-    }
-
-    #endregion
-
 }

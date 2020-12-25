@@ -44,6 +44,11 @@ public class OwnedItems : ScriptableObject
         return Container.Find(s => s.Item == item)?.Amount ?? 0;
     }
 
+    public ItemSlot GetItemSlot(Item item)
+    {
+        return Container.Find(s => s.Item == item) ?? null;
+    }
+
 
     public void DebugItems()
     {
@@ -68,7 +73,17 @@ public class ItemSlot : IComparable
 
     public void AddAmount(int value)
     {
+        if (value < 0)
+            Debug.LogError("Item value < 0");
         Amount += value;
+        UpdateSummaryWeight();
+    }
+
+    public void RemoveAmount(int value)
+    {
+        if (value > Amount)
+            Debug.LogError("negative value > amount");
+        Amount -= value;
         UpdateSummaryWeight();
     }
 

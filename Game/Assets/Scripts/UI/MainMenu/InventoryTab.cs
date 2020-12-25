@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class InventoryTab : MainMenuTab
 {
@@ -8,6 +9,7 @@ public class InventoryTab : MainMenuTab
     List<InventorySlot> _slots = new List<InventorySlot>();
     [SerializeField] private RectTransform _contentGrid;
     [SerializeField] private RectTransform _slotPrefab;
+    [SerializeField] private TextMeshProUGUI _weight;
     public override void UpdateAll()
     {
         if (_inventory == null)
@@ -43,22 +45,21 @@ public class InventoryTab : MainMenuTab
         ClearSlots();
 
         List<ItemSlot> container = _inventory.Items.Container;
-        SortContainer(ref container);
+        container.Sort();
         GenerateSlots(container);
+
+        _weight.text = _inventory.CurrentWeight.ToString() + " / " + _inventory.MaxWeight.ToString();
     }
 
     public void ShowTypeItems(ItemType type)
     {
         ClearSlots();
 
+
         List<ItemSlot> container = _inventory.Items.Container;
         container = container.FindAll(s => s.Item.Type == type);
-        SortContainer(ref container);
+        container.Sort();
         GenerateSlots(container);
     }
 
-    private void SortContainer(ref List<ItemSlot> container)
-    {
-        container.Sort();
-    }
 }

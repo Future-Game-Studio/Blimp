@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class Inventory
 {
-    private OwnedItems _items;
-    public OwnedItems Items { get => _items; }
-
+    public OwnedItems Items { get; private set; }
+    public int MaxWeight { get; private set; }
+    public int CurrentWeight { get => Items.SummaryWeight; }
+    public int RemainderWeight { get => MaxWeight - Items.SummaryWeight; }
     public Inventory()
     {
-        if (_items == null)
-            _items = ScriptableObject.CreateInstance<OwnedItems>();
+        MaxWeight = 125;
+        if (Items == null)
+            Items = ScriptableObject.CreateInstance<OwnedItems>();
     }
+
+    public void Add(Item item, int count)
+    {
+        Items.AddItem(item, count);
+    }
+
 }

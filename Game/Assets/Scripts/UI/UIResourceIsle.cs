@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,16 +11,12 @@ public class UIResourceIsle : UIController
     [SerializeField] private ResourceInfo _resourceinfo;
     private List<ResourceButton> _buttons = new List<ResourceButton>();
     [SerializeField] private Scrollbar _scroll;
+    [SerializeField] private GameObject _collectResourceButton;
+    [SerializeField] private GameObject _extraButton;
 
-    private int _buttonNum;
+    private Item _currentItemInfo;
     private int _level;
     private int _maxLevel;
-
-    private void Awake()
-    {
-        _buttonNum = 0;
-
-    }
 
     public override void UpdateAll()
     {
@@ -29,7 +24,7 @@ public class UIResourceIsle : UIController
         if (_isle == null)
             Debug.LogError("Isle type error");
 
-        _isle.OnRefresh += UpdateByIndex;
+        _isle.OnRefresh += UpdateByItem;
 
         if (_buttons != null)
             _buttons.ForEach(b => Destroy(b.gameObject));
@@ -37,7 +32,8 @@ public class UIResourceIsle : UIController
 
         UpdateStaticInfo();
         UpdateDynamicInfo();
-        UpdateResourceInfo();
+        _currentItemInfo = _isle.Logic.Info[0].Item;
+        UpdateResourceInfo(_currentItemInfo);
 
         StartCoroutine(UpdateLayout());
     }
@@ -53,7 +49,7 @@ public class UIResourceIsle : UIController
     private void UpdateStaticInfo()
     {
         _level = _isle.Level;
-        _maxLevel = _isle.Logic.Info.Length;
+        _maxLevel = _isle.Logic.Info.Count;
 
         for(int i = 0; i < _maxLevel; i++)
         {
@@ -66,19 +62,38 @@ public class UIResourceIsle : UIController
                 button.Button.interactable = false;
                 button.ClearCount();
             }
-            _buttons[i].ChangeName(_isle.Logic.Info[i].Item.Name);
+            _buttons[i].ChangeItem(_isle.Logic.Info[i].Item);
+            _buttons[i].OnClick += UpdateResourceInfo;
         }
     }
 
-    private void UpdateByIndex(int i)
+
+    private void UpdateByItem(Item item)
     {
-        int count = _isle.Items.Container[i].Amount;
-        int maxCount = _isle.Logic.Info[i].MaxAmount;
-        _buttons[i].ChangeCount(count, maxCount);
-        _buttons[i].ChangeProgress(_isle.RefreshedItems[_isle.Logic.Info[i].Item]);
+        ItemSlot slot = _isle.Items.GetItemSlot(item);
+        if (slot == null)
+            Debug.LogError("Item find error!");
+
+        int count = slot.Amount;
+        int maxCount = _isle.Logic.Info.Find(i => i.Item == item).MaxAmount;
+        var button = _buttons.Find(b => b.Item == item);
+        button.ChangeCount(count, maxCount);
+        button.ChangeProgress(_isle.RefreshedItems[item]);
+
+        if(item == _currentItemInfo)
+        {
+            ItemSlot currentSlot = _isle.Items.Container.Find(s => s.Item == _currentItemInfo);
+            _resourceinfo.ChangeCount(currentSlot.Amount, _isle.Logic.Info.Find(s => s.Item == _currentItemInfo).MaxAmount, currentSlot.Item.Weight);
+        }
     }
 
-    //rewrite 
+    private void UpdateResourceInfo(Item item)
+    {
+        _currentItemInfo = item;
+        _resourceinfo.ChangeInfo(_currentItemInfo.Name, _currentItemInfo.Description, _currentItemInfo.Icon);
+        ItemSlot currentSlot = _isle.Items.Container.Find(s => s.Item == _currentItemInfo);
+        _resourceinfo.ChangeCount(currentSlot.Amount, _isle.Logic.Info.Find(s => s.Item == _currentItemInfo).MaxAmount, currentSlot.Item.Weight);
+    }
     private void UpdateDynamicInfo()
     {
         for (int i = 0; i < _level; i++)
@@ -89,19 +104,26 @@ public class UIResourceIsle : UIController
             _buttons[i].ChangeProgress(_isle.RefreshedItems[_isle.Logic.Info[i].Item]);
         }
 
-        //rewrite
-        _resourceinfo.ChangeCount(_isle.Items.Container[_buttonNum].Amount, _isle.Logic.Info[_buttonNum].MaxAmount);
-    }
 
-    private void UpdateResourceInfo()
-    {
-        Item item = _isle.Logic.Info[_buttonNum].Item;
-        _resourceinfo.ChangeInfo(item.Name, item.Description, item.Icon);
-        _resourceinfo.ChangeCount(_isle.Items.Container[_buttonNum].Amount, _isle.Logic.Info[_buttonNum].MaxAmount);
     }
 
     private void OnDisable()
     {
-        _isle.OnRefresh -= UpdateByIndex;
+        _isle.OnRefresh -= UpdateByItem;
+    }
+
+    public void CollectResource()
+    {
+        Inventory inventory = GameManager._instance.Inventory;
+        int remainderWeight = inventory.RemainderWeight;
+        ItemSlot slot = _isle.Items.Container.Find(s => s.Item == _currentItemInfo);
+        int value = (int)_resourceinfo.Collector.value;
+        int needWeight = _currentItemInfo.Weight * value;
+
+        if (remainderWeight < needWeight)
+            Debug.LogError("Remainder weight < need weight");
+
+        inventory.Add(slot.Item, value);
+        slot.RemoveAmount(value);
     }
 }

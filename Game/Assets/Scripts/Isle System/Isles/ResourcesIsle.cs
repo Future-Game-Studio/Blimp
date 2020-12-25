@@ -22,7 +22,7 @@ public class ResourcesIsle : DefaultIsle
     #endregion
 
     #region delegates
-    public delegate void RefreshDelegate(int index);
+    public delegate void RefreshDelegate(Item item);
     public RefreshDelegate OnRefresh;
     public RefreshDelegate OnIntRefresh;
     #endregion
@@ -64,7 +64,7 @@ public class ResourcesIsle : DefaultIsle
 
     private void IncreaseLevel()
     {
-        if (_level == _logic.Info.Length)
+        if (_level == _logic.Info.Count)
             Debug.LogError("Isle level the same as max!");
         else
         {
@@ -114,10 +114,10 @@ public class ResourcesIsle : DefaultIsle
             Items.AddItem(item, addAmount);
             RefreshedItems[item] -= addAmount;
 
-            OnIntRefresh?.Invoke(i);
+            OnIntRefresh?.Invoke(item);
         }
 
-        OnRefresh?.Invoke(i);
+        OnRefresh?.Invoke(item);
     }
 
     private float UpdatePlayerDistance()
