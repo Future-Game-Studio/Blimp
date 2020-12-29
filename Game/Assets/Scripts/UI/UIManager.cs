@@ -10,6 +10,7 @@ public enum UIType
     MainMenu,
     HUD,
     ResourceIsle,
+    CraftIsle,
     QuestIsle,
     MainIsle
 }

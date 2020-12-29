@@ -10,7 +10,7 @@ public class InventoryTab : MainMenuTab
     [SerializeField] private RectTransform _contentGrid;
     [SerializeField] private RectTransform _slotPrefab;
     [SerializeField] private TextMeshProUGUI _weight;
-    [SerializeField] private UIItemInfo _itemInfo;
+    [SerializeField] private UIInventoryItemInfo _itemInfo;
     private ItemSlot _currentSlot;
     private ItemType _currentFilter;
     public override void UpdateAll()
@@ -60,10 +60,12 @@ public class InventoryTab : MainMenuTab
         container.Sort();
         GenerateSlots(container);
 
-        if (container.Count != 0 && setNewCurrentSlot == true)
+        if(container.Count == 0)
+            _currentSlot = null;
+        else if(setNewCurrentSlot)
             _currentSlot = container[0];
-
         ShowItemInfo(_currentSlot);
+
         _currentFilter = type;
     }
 
@@ -88,7 +90,7 @@ public class InventoryTab : MainMenuTab
     {
         if (_currentSlot == null)
             Debug.LogError("Item does not exist");
-        int amount = (int)_itemInfo.Slider.value;
+        int amount = (int)_itemInfo.SliderController.Slider.value;
         Item item = _currentSlot.Item;
         _inventory.Remove(item, amount);
         _currentSlot = _inventory.Items.Container.Find(s => s.Item == item);

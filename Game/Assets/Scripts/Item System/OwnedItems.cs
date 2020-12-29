@@ -69,6 +69,7 @@ public class OwnedItems : ScriptableObject
     }
 }
 
+[SerializeField]
 [System.Serializable]
 public class ItemSlot : IComparable
 {

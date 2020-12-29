@@ -12,7 +12,7 @@ public class AddonIsleItems : ScriptableObject
     [System.Serializable]
     public class LevelInfo
     {
-        [SerializeField] List<Item> _craftableItems;
-        public List<Item> CraftableItems { get => _craftableItems; }
+        [SerializeField] List<CraftableItem> _craftableItems;
+        public List<CraftableItem> CraftableItems { get => _craftableItems; }
     }
 }

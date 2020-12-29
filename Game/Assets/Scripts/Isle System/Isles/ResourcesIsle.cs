@@ -9,6 +9,19 @@ public enum PlayerDistance
     Average = 10,
     Far = 30
 }
+public enum DockMode
+{
+    Inside,
+    Docking,
+    Outside
+}
+
+public interface IDockable
+{
+    DockMode Mode { get; }
+
+    void StartDock();
+}
 
 public class ResourcesIsle : DefaultIsle
 {
@@ -16,9 +29,11 @@ public class ResourcesIsle : DefaultIsle
     [SerializeField] private int _level;
     public int Level { get => _level; }
     public OwnedItems Items { get; private set; }
-    [SerializeField] private ResourceIsleLogic _logic;
-    public ResourceIsleLogic Logic { get => _logic; }
+    [SerializeField] private ResourceIsleItems _logic;
+    public ResourceIsleItems Logic { get => _logic; }
     public Dictionary<Item, float> RefreshedItems { private set; get; }//item and float amount(adding every second(10/30) with small value)
+    [SerializeField] private DockMode _mode;
+    public DockMode Mode { get => _mode; }
     #endregion
 
     #region delegates
@@ -41,11 +56,12 @@ public class ResourcesIsle : DefaultIsle
     private void Start()
     {
         Items = ScriptableObject.CreateInstance<OwnedItems>();
-        foreach(ResourceIsleLogic.LevelInfo info in _logic.Info)
+        foreach(ResourceIsleItems.LevelInfo info in _logic.Info)
         {
             Items.AddItem(info.Item, 0);
         }
         RefreshedItems = new Dictionary<Item, float>();
+        _mode = DockMode.Outside;
         //load owned item info
         //load isle mode(inside, outside)
 
@@ -98,7 +114,7 @@ public class ResourcesIsle : DefaultIsle
         }
     }
 
-    private void RefreshItem(ResourceIsleLogic.LevelInfo info, int i)
+    private void RefreshItem(ResourceIsleItems.LevelInfo info, int i)
     {
         Item item = info.Item;
 
@@ -149,4 +165,5 @@ public class ResourcesIsle : DefaultIsle
     {
         UIManager._instance.SwitchIsleUI(UIType.ResourceIsle, this);
     }
+
 }

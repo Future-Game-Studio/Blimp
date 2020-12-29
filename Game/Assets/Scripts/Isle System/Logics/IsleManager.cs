@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
+using System.Collections;
+
 
 public class IsleManager : MonoBehaviour
 {
     public static IsleManager _instance { private set; get; }
-    //public DefaultIsle LastActiveIsle { get; private set; }
+    public delegate void SecondsThrow(int value);
+    public SecondsThrow OnSeconds;
 
     #region isles logic
     [SerializeField] private AddonIsleItems _craftIsleItems;
@@ -18,26 +21,18 @@ public class IsleManager : MonoBehaviour
             Destroy(gameObject);
         _instance = this;
         DontDestroyOnLoad(gameObject);
+
+        StartCoroutine(InvokeInSecond(1));
     }
 
-    //public void SwitchIsle(DefaultIsle isle = null)
-    //{
-    //    LastActiveIsle = isle;
-    //}
-
-
-
-    #region Dock System
-    public void StartDock()
+    private IEnumerator InvokeInSecond(int second)
     {
-
+        while (true)
+        {
+            yield return new WaitForSeconds(second);
+            OnSeconds?.Invoke(second);
+        }
     }
 
-
-    public void EndDock()
-    {
-
-    }
-    #endregion
 }
 

@@ -26,28 +26,23 @@ public class UIResourceIsle : UIController
 
         _isle.OnRefresh += UpdateByItem;
 
-        if (_buttons != null)
-            _buttons.ForEach(b => Destroy(b.gameObject));
-        _buttons.Clear();
+        
 
         UpdateStaticInfo();
         UpdateDynamicInfo();
         _currentItemInfo = _isle.Logic.Info[0].Item;
         UpdateResourceInfo(_currentItemInfo);
-
-        StartCoroutine(UpdateLayout());
-    }
-
-    private IEnumerator UpdateLayout()
-    {
-        yield return new WaitForFixedUpdate();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(this.transform as RectTransform);
-        _scroll.value = 1;
+        UpdateExtraButton();
 
     }
+
 
     private void UpdateStaticInfo()
     {
+        if (_buttons != null)
+            _buttons.ForEach(b => Destroy(b.gameObject));
+        _buttons.Clear();
+
         _level = _isle.Level;
         _maxLevel = _isle.Logic.Info.Count;
 
@@ -110,6 +105,7 @@ public class UIResourceIsle : UIController
     private void OnDisable()
     {
         _isle.OnRefresh -= UpdateByItem;
+        _scroll.value = 1;
     }
 
     public void CollectResource()
@@ -117,7 +113,7 @@ public class UIResourceIsle : UIController
         Inventory inventory = GameManager._instance.Inventory;
         int remainderWeight = inventory.RemainderWeight;
         ItemSlot slot = _isle.Items.Container.Find(s => s.Item == _currentItemInfo);
-        int value = (int)_resourceinfo.Slider.value;
+        int value = (int)_resourceinfo.SliderController.Slider.value;
         int needWeight = _currentItemInfo.Weight * value;
 
         if (remainderWeight < needWeight)
@@ -125,5 +121,22 @@ public class UIResourceIsle : UIController
 
         inventory.Add(slot.Item, value);
         slot.RemoveAmount(value);
+        UpdateResourceInfo(_currentItemInfo);
+        UpdateByItem(_currentItemInfo);
+    }
+
+    private void UpdateExtraButton()
+    {
+        var button = _extraButton.GetComponent<ResourceExtraButton>();
+        switch (_isle.Mode)
+        {
+            case DockMode.Inside:
+                button.Logic = new UpgradeButton();
+                break;
+            case DockMode.Outside:
+                button.Logic = new DockButton();
+                break;
+        }
+        button.UpdateInfo();
     }
 }

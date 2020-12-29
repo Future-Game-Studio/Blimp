@@ -22,4 +22,11 @@ MonoBehaviour:
     This is iron stickThis is iron stickThis
     is iron stick'
   _weight: 5
-  _recipe: []
+  _level: 1
+  _recipe:
+  - _item: {fileID: 11400000, guid: 2871a9ec97772a9499ad2b3717466fa8, type: 2}
+    _amount: 2
+  - _item: {fileID: 11400000, guid: 76361532db3e0df49b3c771417b154df, type: 2}
+    _amount: 1
+  _craftTime: 15
+  _maxOrder: 50

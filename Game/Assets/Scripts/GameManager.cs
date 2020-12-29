@@ -10,8 +10,8 @@ public class GameManager : MonoBehaviour
     CameraManager _camera;
     UIManager _ui;
     //AudioConroller
-    IslesManager _islesManager;
     public Inventory Inventory { get; private set; }
+    public IsleManager IsleManager { get; private set; }
 
     [SerializeField] Item item1;
     [SerializeField] Item item2;
@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(_instance);
 
         Player = TryToFindPlayer();
+        IsleManager = TryToFindIsleManager();
 
         Inventory = new Inventory();
 
@@ -46,6 +47,19 @@ public class GameManager : MonoBehaviour
         catch
         {
             Debug.LogError("Player not found! Please, add Blimp(Player) to scene for correct gameplay!");
+            return null;
+        }
+    }
+
+    private IsleManager TryToFindIsleManager()
+    {
+        try
+        {
+            return FindObjectOfType<IsleManager>();
+        }
+        catch
+        {
+            Debug.LogError("IsleManager not found! Please, add IsleManager to scene for correct gameplay!");
             return null;
         }
     }

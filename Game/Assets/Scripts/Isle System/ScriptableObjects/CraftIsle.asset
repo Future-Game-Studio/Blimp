@@ -15,3 +15,8 @@ MonoBehaviour:
   _info:
   - _craftableItems:
     - {fileID: 11400000, guid: 64d81ee2213ae65498b03eebb0695734, type: 2}
+    - {fileID: 11400000, guid: 64d81ee2213ae65498b03eebb0695734, type: 2}
+    - {fileID: 11400000, guid: 64d81ee2213ae65498b03eebb0695734, type: 2}
+  - _craftableItems:
+    - {fileID: 11400000, guid: 64d81ee2213ae65498b03eebb0695734, type: 2}
+    - {fileID: 11400000, guid: 64d81ee2213ae65498b03eebb0695734, type: 2}
