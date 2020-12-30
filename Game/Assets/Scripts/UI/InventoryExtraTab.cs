@@ -5,7 +5,7 @@ using UnityEngine;
 public class InventoryExtraTab : MonoBehaviour
 {
     [SerializeField] private InventoryTab _inventoryTab;
-    [SerializeField] private ItemType _type;
+    [SerializeField] private ItemFilterType _type;
 
     public void ActivateType()
     {

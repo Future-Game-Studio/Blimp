@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class ExtraIsleSlot : MonoBehaviour
 {
-    [SerializeField] private GameObject _isle;
+    public DefaultIsle Isle { private set; get; }
 
 
-    public bool IsEmpty()
+    public bool IsEmpty => Isle == null;
+
+    public void SetIsle(DefaultIsle isle)
     {
-        return _isle != null;
+        Isle = isle;
+        isle.transform.parent = gameObject.transform;
+        isle.transform.localPosition = Vector3.zero;
     }
 }

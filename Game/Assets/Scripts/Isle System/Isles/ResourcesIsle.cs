@@ -21,9 +21,10 @@ public interface IDockable
     DockMode Mode { get; }
 
     void StartDock();
+    void EndDock();
 }
 
-public class ResourcesIsle : DefaultIsle
+public class ResourcesIsle : DefaultIsle, IDockable
 {
     #region refresh item
     [SerializeField] private int _level;
@@ -74,7 +75,7 @@ public class ResourcesIsle : DefaultIsle
     {
         if (Input.GetKeyDown(KeyCode.U))
         {
-            IncreaseLevel();
+            EndDock();
         }
     }
 
@@ -166,4 +167,14 @@ public class ResourcesIsle : DefaultIsle
         UIManager._instance.SwitchIsleUI(UIType.ResourceIsle, this);
     }
 
+    public void StartDock()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void EndDock()
+    {
+        GameManager._instance.MainIsle.DockIsle(this);
+        _mode = DockMode.Inside;
+    }
 }

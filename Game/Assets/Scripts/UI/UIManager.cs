@@ -46,9 +46,15 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SwitchUI(UIType.MainMenu);
+            SwitchUI(UIType.HUD);
             OnEscape?.Invoke();
         }
+        else if (Input.GetKeyDown(KeyCode.I))
+        {
+            SwitchUI(UIType.MainMenu);
+        }
+
+
     }
 
     public UIController SwitchUI(UIType type)

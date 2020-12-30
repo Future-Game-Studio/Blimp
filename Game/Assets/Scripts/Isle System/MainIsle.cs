@@ -8,12 +8,13 @@ public class MainIsle : MonoBehaviour
     [SerializeField] private GameObject _slotPrefab;
     [SerializeField] private int _circlesCount;
     [SerializeField] private int _startCircle;
-    [SerializeField] private List<GameObject> _isles;
+    [SerializeField] private List<ExtraIsleSlot> _slots;
     private const float _radius = 25f;
     private void Start()
     {
-        _isles = new List<GameObject>();
+        _slots = new List<ExtraIsleSlot>();
         GenerateSlots(_circlesCount);
+        StartCoroutine(Rotating());
     }
 
     private void Update()
@@ -21,8 +22,8 @@ public class MainIsle : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             Debug.Log("Update main isle");
-            _isles.ForEach(i => Destroy(i.gameObject));
-            _isles.Clear();
+            _slots.ForEach(i => Destroy(i.gameObject));
+            _slots.Clear();
             GenerateSlots(_circlesCount);
         }
     }
@@ -45,10 +46,32 @@ public class MainIsle : MonoBehaviour
 
                 Vector3 position = new Vector3(mainIslePos.x + (radius * Mathf.Cos(angle)), mainIslePos.y, mainIslePos.z + (radius * Mathf.Sin(angle)));
                 GameObject isle = Instantiate(_slotPrefab, position, _slotPrefab.transform.rotation, gameObject.transform);
-                _isles.Add(isle);
+                _slots.Add(isle.GetComponent<ExtraIsleSlot>());
             }
 
         }
         Debug.Log("Extra isles count: " + allCount);
+    }
+
+    public void DockIsle(DefaultIsle isle)
+    {
+        var slot = _slots.Find(s => s.IsEmpty);
+        if (slot == null)
+        {
+            Debug.LogError("Haven`t empty slots");
+            return;
+        }
+
+        slot.SetIsle(isle);
+        Debug.Log("Set isle");
+    }
+
+    private IEnumerator Rotating()
+    {
+        while (true)
+        {
+            yield return new WaitForFixedUpdate();
+            gameObject.transform.Rotate(new Vector3(0f, 0.01f, 0f));
+        }
     }
 }

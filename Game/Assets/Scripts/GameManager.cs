@@ -12,10 +12,7 @@ public class GameManager : MonoBehaviour
     //AudioConroller
     public Inventory Inventory { get; private set; }
     public IsleManager IsleManager { get; private set; }
-
-    [SerializeField] Item item1;
-    [SerializeField] Item item2;
-    [SerializeField] Item item3;
+    public MainIsle MainIsle { get; private set; }
 
     void Awake()
     {
@@ -24,18 +21,13 @@ public class GameManager : MonoBehaviour
 
         _instance = this;
         DontDestroyOnLoad(gameObject);
-        Debug.Log(_instance);
 
         Player = TryToFindPlayer();
         IsleManager = TryToFindIsleManager();
+        MainIsle = TryToFindMainIsle();
 
         Inventory = new Inventory();
 
-        Inventory.Items.AddItem(item3, 3);
-        Inventory.Items.AddItem(item1, 5);
-        Inventory.Items.AddItem(item1, 5);
-        Inventory.Items.AddItem(item2, 4);
-        //Inventory.Items.DebugItems();
     }
 
     private Movement TryToFindPlayer()
@@ -60,6 +52,19 @@ public class GameManager : MonoBehaviour
         catch
         {
             Debug.LogError("IsleManager not found! Please, add IsleManager to scene for correct gameplay!");
+            return null;
+        }
+    }
+
+    public MainIsle TryToFindMainIsle()
+    {
+        try
+        {
+            return FindObjectOfType<MainIsle>();
+        }
+        catch
+        {
+            Debug.LogError("MainIsle not found! Please, add MainIsle to scene for correct gameplay!");
             return null;
         }
     }

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1230401ba884f854eb0fc78ffc89f3d9, type: 3}
+  m_Name: Drill 1
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 9e36cab45dc379d42b2370c275868f21, type: 3}
+  _type: 1
+  _filterType: 0
+  _name: Drill 1
+  _description: This is drill 1
+  _weight: 50
+  _level: 1
+  _recipe:
+  - _item: {fileID: 11400000, guid: 88b988d9f33e67a44b196de8fd52b48f, type: 2}
+    _amount: 10
+  - _item: {fileID: 11400000, guid: c41d852ca7d4c4146b4eb53f60a03598, type: 2}
+    _amount: 5
+  _craftTime: 45
+  _maxOrder: 1

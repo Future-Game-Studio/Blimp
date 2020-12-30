@@ -8,7 +8,7 @@ public class ResourceItem : Item
 
     private void Awake()
     {
-        _type = ItemType.Resource;
+        _type = ItemType.Recovering;
     }
 
 }

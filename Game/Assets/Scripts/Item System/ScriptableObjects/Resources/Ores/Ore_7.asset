@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be36b35beea6de949801f26036677c8f, type: 3}
   m_Name: Ore_7
   m_EditorClassIdentifier: 
-  _icon: {fileID: 21300000, guid: fb7830ac34cbb0b478f74cd68207cc18, type: 3}
+  _icon: {fileID: 21300000, guid: ac2a43f36cb60df42a003d78a48cf7bc, type: 3}
   _type: 0
+  _filterType: 0
   _name: Ore 7
-  _description: 
-  _weight: 0
+  _description: This is ore 7
+  _weight: 20
+  _level: 7

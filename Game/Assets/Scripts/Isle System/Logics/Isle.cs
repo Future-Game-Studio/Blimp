@@ -7,7 +7,8 @@ public enum IsleType
     Resource,
     Empty,
     Default,
-    Craft
+    Craft,
+    Fabric
 }
 
 public abstract class Isle : ScriptableObject

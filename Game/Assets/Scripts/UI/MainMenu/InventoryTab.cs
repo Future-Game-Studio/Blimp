@@ -12,7 +12,7 @@ public class InventoryTab : MainMenuTab
     [SerializeField] private TextMeshProUGUI _weight;
     [SerializeField] private UIInventoryItemInfo _itemInfo;
     private ItemSlot _currentSlot;
-    private ItemType _currentFilter;
+    private ItemFilterType _currentFilter;
     public override void UpdateAll()
     {
         if (_inventory == null)
@@ -46,17 +46,17 @@ public class InventoryTab : MainMenuTab
 
     public void ShowAll()
     {
-        ShowTypeItems(ItemType.All);
+        ShowTypeItems(ItemFilterType.All);
     }
 
-    public void ShowTypeItems(ItemType type, bool setNewCurrentSlot = true)
+    public void ShowTypeItems(ItemFilterType type, bool setNewCurrentSlot = true)
     {
         ClearSlots();
 
         _weight.text = _inventory.CurrentWeight.ToString() + " / " + _inventory.MaxWeight.ToString();
         List<ItemSlot> container = _inventory.Items.Container;
-        if (type != ItemType.All)
-            container = container.FindAll(s => s.Item.Type == type);
+        if (type != ItemFilterType.All)
+            container = container.FindAll(s => s.Item.FilterType == type);
         container.Sort();
         GenerateSlots(container);
 
