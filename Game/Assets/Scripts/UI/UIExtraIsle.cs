@@ -7,8 +7,8 @@ public class UIExtraIsle : UIController
 {
     private ExtraIsle _isle;
     [SerializeField] private GameObject _mainUI;
-    [SerializeField] private RectTransform _DockPanel; 
-    [SerializeField] private RectTransform _ChooseTypePanel; 
+    [SerializeField] private RectTransform _DockPanel;
+    [SerializeField] private RectTransform _ChooseTypePanel;
     [SerializeField] private RectTransform _buttonPrefab;
     [SerializeField] private RectTransform _contentList;
     [SerializeField] private UICraftItemInfo _iteminfo;
@@ -18,7 +18,8 @@ public class UIExtraIsle : UIController
     [SerializeField] private GameObject _collectResourceButton;
 
     private CraftableItem _currentItemInfo;
-    private int _level;
+    private GameObject _addonPanel;
+    private int _level = 1;
     private int _maxLevel;
 
     public override void UpdateAll()
@@ -27,21 +28,24 @@ public class UIExtraIsle : UIController
         if (_isle == null)
             Debug.LogError("Isle type error");
 
-        if(_isle.Type == IsleType.Empty)
+        if (_isle.Type == IsleType.Empty)
         {
+            //rewrite to abstact fabric
             _mainUI.SetActive(false);
             if (_isle.Mode == DockMode.Outside)
             {
-                DockPanel panel = Instantiate(_DockPanel.gameObject, gameObject.transform as RectTransform).GetComponent<DockPanel>();
-                panel.DockButton.onClick.AddListener(StartDock);
-                panel.ExitButton.onClick.AddListener(ExitDockPanel);
+                _addonPanel = Instantiate(_DockPanel.gameObject, gameObject.transform as RectTransform);
+                DockPanel dock = _addonPanel.GetComponent<DockPanel>();
+                dock.DockButton.onClick.AddListener(StartDock);
+                dock.ExitButton.onClick.AddListener(ExitAddonPanel);
             }
-            else if(_isle.Mode == DockMode.Inside)
+            else if (_isle.Mode == DockMode.Inside)
             {
-                ChooseTypePanel panel = Instantiate(_ChooseTypePanel.gameObject, gameObject.transform as RectTransform).GetComponent<ChooseTypePanel>();
-                panel.CraftButton.onClick.AddListener(ChooseCraftIsle);
-                panel.FabricButton.onClick.AddListener(ChooseFabricIsle);
-                panel.ExitButton.onClick.AddListener(ExitChooseTypePanel);
+                _addonPanel = Instantiate(_ChooseTypePanel.gameObject, gameObject.transform as RectTransform);
+                ChooseTypePanel choose = _addonPanel.GetComponent<ChooseTypePanel>();
+                choose.CraftButton.onClick.AddListener(ChooseCraftIsle);
+                choose.FabricButton.onClick.AddListener(ChooseFabricIsle);
+                choose.ExitButton.onClick.AddListener(ExitAddonPanel);
             }
             return;
         }
@@ -54,7 +58,7 @@ public class UIExtraIsle : UIController
         _isle.OnDoTask += UpdateByItem;
 
         UpdateCrafts();
-
+        UpdateCurrentInfo(_isle.Items.Info[0].CraftableItems[0] as Item);
 
 
     }
@@ -67,9 +71,6 @@ public class UIExtraIsle : UIController
 
 
         _level = _isle.Level;
-        //
-        _level = 1;
-        //
         _maxLevel = _isle.Items.Info.Count;
 
         for (int i = 0; i < _maxLevel; i++)
@@ -103,7 +104,7 @@ public class UIExtraIsle : UIController
 
     private void UpdateByItem(CraftableItem item, float progress, bool dontUpdateProgressIfCurrent = false)
     {
-        
+
         if (item == null)
             Debug.LogError("Item type error");
 
@@ -126,6 +127,8 @@ public class UIExtraIsle : UIController
         if (item == null)
             Debug.LogError("Item type error");
 
+        _iteminfo.SpawnCraftComponents(item.Recipe);
+
         _currentItemInfo = item;
         _iteminfo.ChangeInfo(_currentItemInfo.Name, _currentItemInfo.Description, _currentItemInfo.Icon);
         ItemSlot currentSlot = _isle.DoneTasks.GetItemSlot(item);
@@ -145,6 +148,7 @@ public class UIExtraIsle : UIController
         maxOrderValue = CanCraftAmount(needItems, maxOrderValue);
 
         maxOrderValue = Mathf.Max(maxOrderValue, 0);
+
         _iteminfo.ChangeOrderValue(maxOrderValue);
     }
 
@@ -200,49 +204,47 @@ public class UIExtraIsle : UIController
     }
 
     ////////////////////FULL REWRITE//////////////////////////////
-    public void SetType(IsleType type)
-    {
-        _isle.ChangeIsleType(type);
-    }
 
     private void StartDock()
     {
         _isle.StartDock();
-        ExitDockPanel();
+        ExitAddonPanel();
     }
-
-    private void ExitDockPanel()
-    {
-        Destroy(GetComponentInChildren<DockPanel>().gameObject);
-        UIManager._instance.SwitchUI(UIType.HUD);
-    }
-
     private void ChooseCraftIsle()
     {
         _isle.ChangeIsleType(IsleType.Craft);
-        ExitChooseTypePanel();
-        _mainUI.SetActive(true);
-        UpdateCrafts();
+        UpdateUI();
     }
 
     private void ChooseFabricIsle()
     {
         _isle.ChangeIsleType(IsleType.Fabric);
-        ExitChooseTypePanel();
-        _mainUI.SetActive(true);
-        UpdateCrafts();
+        UpdateUI();
     }
 
-    private void ExitChooseTypePanel()
+    private void UpdateUI()
     {
-        Destroy(GetComponentInChildren<ChooseTypePanel>().gameObject);
+        ExitAddonPanel();
+        _mainUI.SetActive(true);
+        UpdateCrafts();
+        UpdateCurrentInfo(_isle.Items.Info[0].CraftableItems[0] as Item);
+    }
+
+    private void ExitAddonPanel()
+    {
+        if (_addonPanel == null)
+            Debug.LogError("Ui addon panel exist error");
+
+        Destroy(_addonPanel.gameObject);
+        _addonPanel = null;
     }
 
     ///////////////////////////////////////////////
 
     private void OnDisable()
     {
-        _isle.OnDoTask -= UpdateByItem;
+        if (_isle != null)
+            _isle.OnDoTask -= UpdateByItem;
         _scroll.value = 1;
     }
 }
