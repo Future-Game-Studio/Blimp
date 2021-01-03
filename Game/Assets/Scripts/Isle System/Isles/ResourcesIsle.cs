@@ -70,7 +70,6 @@ public class ResourcesIsle : DefaultIsle, IDockable
         StartCoroutine(Refreshing());
     }
 
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.U))
