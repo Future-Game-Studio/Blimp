@@ -2458,10 +2458,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GearText: {fileID: 0}
-  shipRotateSpeed: 3
-  shipSpeed: 6
+  shipRotateSpeed: 2
+  shipSpeed: 12
   speedMode: 0
   lastSpeed: 0
+  rb: {fileID: 0}
 --- !u!136 &1376747470
 CapsuleCollider:
   m_ObjectHideFlags: 0

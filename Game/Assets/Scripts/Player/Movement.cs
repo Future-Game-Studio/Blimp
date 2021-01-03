@@ -6,18 +6,20 @@ using UnityEngine.UI;
 public class Movement : MonoBehaviour
 {
 
-    public enum SpeedMode { Backwards = -1, Idle = 0, Low = 1, Medium = 2, High = 3 };
+    public enum SpeedMode { Backwards = -3, Idle = 0, Low = 3, Medium = 5, High = 8 };
 
     public Text GearText;
 
     public float shipRotateSpeed;
-    public float shipSpeed = 6f;
     public SpeedMode speedMode;
     public float lastSpeed;
-
+    public Rigidbody rb;
+    Vector3 m_EulerAngleVelocity;
 
     void Start()
     {
+        m_EulerAngleVelocity = new Vector3(0, shipRotateSpeed, 0);
+        rb = GetComponent<Rigidbody>();
         speedMode = SpeedMode.Idle;
         lastSpeed = (int)speedMode;
     }
@@ -37,15 +39,16 @@ public class Movement : MonoBehaviour
     void FixedUpdate()
     {
         float horizontal = Input.GetAxis("Horizontal");
-        Rotate(horizontal);
 
         lastSpeed += lastSpeed == (int)speedMode ? 0 : lastSpeed < (int)speedMode ? 0.1f : -0.1f;
         lastSpeed = (speedMode == SpeedMode.Idle && Mathf.Abs(lastSpeed) < 0.25f) ? 0 : lastSpeed;
-        transform.Translate(Vector3.forward * lastSpeed * 0.1f, Space.Self);
 
+        Quaternion deltaRotation = Quaternion.Euler(m_EulerAngleVelocity * horizontal);
+        rb.MoveRotation(rb.rotation * deltaRotation);
+
+        rb.velocity = transform.forward * lastSpeed;
+        
     }
-
-
 
     void ChangeSpeedUp()
     {
@@ -103,11 +106,6 @@ public class Movement : MonoBehaviour
             default:
                 return;
         }
-    }
-
-    void Rotate(float horizontal)
-    {
-        transform.Rotate(Vector3.up * shipRotateSpeed * horizontal);
     }
 
     void OnCollisionEnter(Collision collision)
