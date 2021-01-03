@@ -9,7 +9,6 @@ public class GunManager : MonoBehaviour
 
     public LayerMask mask;
 
-
     void Awake()
     {
         mask = LayerMask.GetMask("Player");
@@ -25,6 +24,4 @@ public class GunManager : MonoBehaviour
             }
         }
     }
-
-
 }

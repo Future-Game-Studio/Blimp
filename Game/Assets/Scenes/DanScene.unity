@@ -172,7 +172,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   gun: {fileID: 11400000, guid: 4f2eaccc65a08ab49a3d39b19fc2aee9, type: 2}
-  Enemy: {fileID: 0}
   power: 20
 --- !u!136 &77383217
 CapsuleCollider:
@@ -238,7 +237,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   gun: {fileID: 11400000, guid: 4f2eaccc65a08ab49a3d39b19fc2aee9, type: 2}
-  Enemy: {fileID: 0}
   power: 0
 --- !u!1001 &84652942
 PrefabInstance:
@@ -1114,7 +1112,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   gun: {fileID: 11400000, guid: 4f2eaccc65a08ab49a3d39b19fc2aee9, type: 2}
-  Enemy: {fileID: 0}
   power: 0
 --- !u!1001 &640947754
 PrefabInstance:
@@ -2600,7 +2597,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1382438335}
-  m_LocalRotation: {x: 0.1414324, y: -0.000000017033422, z: 0.0000000024335403, w: 0.9899479}
+  m_LocalRotation: {x: 0.1414324, y: 0.00000001703342, z: -0.00000000243354, w: 0.9899479}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -32894,12 +32891,12 @@ PrefabInstance:
     - target: {fileID: 4554666208364293125, guid: e8aaccb5312215343ab927bd1ed625a1,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.33
+      value: 0.58
       objectReference: {fileID: 0}
     - target: {fileID: 4554666208364293125, guid: e8aaccb5312215343ab927bd1ed625a1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.1612091
+      value: -6.18
       objectReference: {fileID: 0}
     - target: {fileID: 4554666208364293125, guid: e8aaccb5312215343ab927bd1ed625a1,
         type: 3}
