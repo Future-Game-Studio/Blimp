@@ -4,15 +4,5 @@ using UnityEngine;
 
 public class DefaultIsle : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public IsleType Type { get; protected set; } = IsleType.Default;
 }

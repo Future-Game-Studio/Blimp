@@ -7,12 +7,12 @@ using UnityEngine;
 public class AddonIsleItems : ScriptableObject
 {
     [SerializeField] List<LevelInfo> _info;
-    public List<LevelInfo> Info { get { return _info; } }
+    public List<LevelInfo> Info { get => _info; }
 
     [System.Serializable]
     public class LevelInfo
     {
-        [SerializeField] List<Item> _craftableItems;
-        public List<Item> CraftableItems { get { return _craftableItems; } }
+        [SerializeField] List<CraftableItem> _craftableItems;
+        public List<CraftableItem> CraftableItems { get => _craftableItems; }
     }
 }

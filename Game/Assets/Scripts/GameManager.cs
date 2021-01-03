@@ -6,47 +6,65 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager _instance { private set; get; }
 
-    public Movement _player { private set; get; }
+    public Movement Player { private set; get; }
     CameraManager _camera;
-    UIController _ui;
+    UIManager _ui;
     //AudioConroller
-    OwnedItems ownedItems;
-    IslesManager _islesManager;
-    BlimpProperties _blimpProps;
+    public Inventory Inventory { get; private set; }
+    public IsleManager IsleManager { get; private set; }
+    public MainIsle MainIsle { get; private set; }
 
     void Awake()
     {
         if(_instance != null)
-            Destroy(this.gameObject);
+            Destroy(gameObject);
 
         _instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
 
-        _player = TryToFindPlayer();
+        Player = TryToFindPlayer();
+        IsleManager = TryToFindIsleManager();
+        MainIsle = TryToFindMainIsle();
 
-    }
-
-    private void Start()
-    {
-
-    }
-
-
-    void Update()
-    {
+        Inventory = new Inventory();
 
     }
-
 
     private Movement TryToFindPlayer()
     {
         try
         {
-            return GameObject.FindObjectOfType<Movement>();
+            return FindObjectOfType<Movement>();
         }
         catch
         {
-            Debug.LogError("Player not found! Please, add Player to scene for correct gameplay!");
+            Debug.LogError("Player not found! Please, add Blimp(Player) to scene for correct gameplay!");
+            return null;
+        }
+    }
+
+    private IsleManager TryToFindIsleManager()
+    {
+        try
+        {
+            return FindObjectOfType<IsleManager>();
+        }
+        catch
+        {
+            Debug.LogError("IsleManager not found! Please, add IsleManager to scene for correct gameplay!");
+            return null;
+        }
+    }
+
+    public MainIsle TryToFindMainIsle()
+    {
+        try
+        {
+            return FindObjectOfType<MainIsle>();
+        }
+        catch
+        {
+            Debug.LogError("MainIsle not found! Please, add MainIsle to scene for correct gameplay!");
             return null;
         }
     }
