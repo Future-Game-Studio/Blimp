@@ -144,10 +144,11 @@ public class ExtraIsle : DefaultIsle, IDockable
 
         Rigidbody rb = GetComponent<Rigidbody>();
 
-        float expSpeed = GameManager._instance.Player.speed;
+        float expSpeed = GameManager._instance.Player.lastSpeed;
         while (true)
         {
-            float speed = GameManager._instance.Player.speed;
+            float lastSpeed = GameManager._instance.Player.lastSpeed;
+            float speed = lastSpeed > 0 ? lastSpeed : 10;
 
             transform.LookAt(start);
             if (Vector3.Distance(start.position, end.position) > maxDistance - 0.25f)
@@ -162,7 +163,7 @@ public class ExtraIsle : DefaultIsle, IDockable
                 rb.velocity = transform.forward * expSpeed;
                 expSpeed = Mathf.Lerp(expSpeed - 0.05f > 0 ? expSpeed - 0.05f : 0, expSpeed, 0.1f);
             }
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
     }
 
