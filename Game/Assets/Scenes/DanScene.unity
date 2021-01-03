@@ -388,7 +388,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 129807849}
-  m_LocalRotation: {x: 0.10537925, y: -0, z: -0, w: 0.99443215}
+  m_LocalRotation: {x: 0.10537925, y: -1e-45, z: -0, w: 0.99443215}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1559,7 +1559,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.12304229, y: 0.0000000343504, z: -0.000000004258914, w: 0.9924015}
-  m_LocalPosition: {x: 3.8280983, y: 9.164278, z: -29.034954}
+  m_LocalPosition: {x: 3.8280983, y: 9.164278, z: -40.996162}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2106747091}
@@ -2435,7 +2435,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1376747467}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.8280983, y: 4.37, z: -12.038791}
+  m_LocalPosition: {x: 3.8280983, y: 4.37, z: -24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 640947756}
@@ -2459,7 +2459,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GearText: {fileID: 0}
   shipRotateSpeed: 2
-  shipSpeed: 12
   speedMode: 0
   lastSpeed: 0
   rb: {fileID: 0}
@@ -2598,7 +2597,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1382438335}
-  m_LocalRotation: {x: 0.1414324, y: 0.00000001703342, z: -0.00000000243354, w: 0.9899479}
+  m_LocalRotation: {x: 0.14143239, y: -0.000000029502747, z: 0.0000000042150137, w: 0.9899479}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3052,7 +3051,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1991080116}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.8280983, y: 9.164278, z: -29.034954}
+  m_LocalPosition: {x: 3.8280983, y: 9.164278, z: -40.996162}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1382438337}
