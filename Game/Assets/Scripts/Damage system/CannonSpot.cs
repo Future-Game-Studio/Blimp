@@ -66,20 +66,21 @@ public class CannonSpot : GunManager
             ChildGameObject.transform.rotation = Quaternion.Slerp(ChildGameObject.transform.rotation, rotation, Time.deltaTime);
             yield return null;
         }
-        while (true && lookMode == LookMode.StartPos)
+        if (lookMode == LookMode.StartPos)
         {
-            var lookPos = tr.position - ChildGameObject.transform.position;
-            lookPos.y = 1f;
-            lookPos.x = 0f;
-            lookPos.z = 0f;
-            var rotation = Quaternion.LookRotation(lookPos);
-            ChildGameObject.transform.rotation = Quaternion.Slerp(ChildGameObject.transform.rotation, rotation, Time.deltaTime);
+            Quaternion start = ChildGameObject.transform.rotation;
+            Quaternion end = transform.rotation;
 
-            if (ChildGameObject.transform.rotation == transform.rotation)
+            float t = 0;
+            float speed = 1f;
+
+            while (t < 1)
             {
-                break;
+                t += Time.deltaTime * speed;
+                Debug.Log("Rotating " + t);
+                ChildGameObject.transform.rotation = Quaternion.Slerp(start, end, t);
+                yield return null;
             }
-            yield return null;
         }
     }
 }

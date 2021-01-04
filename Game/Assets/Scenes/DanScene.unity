@@ -197,6 +197,7 @@ GameObject:
   m_Component:
   - component: {fileID: 77734311}
   - component: {fileID: 77734312}
+  - component: {fileID: 77734313}
   m_Layer: 0
   m_Name: CannonSpot (2)
   m_TagString: Player
@@ -238,6 +239,20 @@ MonoBehaviour:
     m_Bits: 0
   gun: {fileID: 11400000, guid: 4f2eaccc65a08ab49a3d39b19fc2aee9, type: 2}
   power: 0
+--- !u!136 &77734313
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77734310}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 4.182702
+  m_Height: 8.365404
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 4.935998}
 --- !u!1001 &84652942
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1072,6 +1087,7 @@ GameObject:
   m_Component:
   - component: {fileID: 631573049}
   - component: {fileID: 631573050}
+  - component: {fileID: 631573051}
   m_Layer: 0
   m_Name: CannonSpot (1)
   m_TagString: Player
@@ -1113,6 +1129,20 @@ MonoBehaviour:
     m_Bits: 0
   gun: {fileID: 11400000, guid: 4f2eaccc65a08ab49a3d39b19fc2aee9, type: 2}
   power: 0
+--- !u!136 &631573051
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631573048}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 4.182702
+  m_Height: 8.365404
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 4.935998}
 --- !u!1001 &640947754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2597,7 +2627,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1382438335}
-  m_LocalRotation: {x: 0.14143239, y: -0.000000029502747, z: 0.0000000042150137, w: 0.9899479}
+  m_LocalRotation: {x: 0.1414324, y: 3.5170015e-15, z: -5.0246884e-16, w: 0.9899479}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

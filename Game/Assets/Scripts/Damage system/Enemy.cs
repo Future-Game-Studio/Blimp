@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Target : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public float health;
 
