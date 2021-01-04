@@ -135,6 +135,9 @@ public class UIResourceIsle : UIController
                 break;
             case DockMode.Outside:
                 button.Logic = new DockButton();
+                var ropeItem = GameManager._instance.IsleManager.RopeItem;
+                if (GameManager._instance.Inventory.ItemIsExist(ropeItem) == false)
+                    button.Button.interactable = false;
                 break;
         }
         button.UpdateInfo();

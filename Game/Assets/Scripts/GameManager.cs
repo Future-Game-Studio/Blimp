@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public IsleManager IsleManager { get; private set; }
     public MainIsle MainIsle { get; private set; }
 
+    [SerializeField] private Item _ropeItem;
     void Awake()
     {
         if(_instance != null)
@@ -27,7 +28,7 @@ public class GameManager : MonoBehaviour
         MainIsle = TryToFindMainIsle();
 
         Inventory = new Inventory();
-
+        Inventory.Add(_ropeItem, 1);
     }
 
     private Movement TryToFindPlayer()

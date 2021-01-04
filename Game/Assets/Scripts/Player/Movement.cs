@@ -15,6 +15,8 @@ public class Movement : MonoBehaviour
     public float lastSpeed;
     public Rigidbody rb;
     Vector3 m_EulerAngleVelocity;
+    [SerializeField] private Transform _connectionPoint;
+    public Transform ConnectionPoint { get => _connectionPoint; }
 
     void Start()
     {

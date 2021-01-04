@@ -19,7 +19,6 @@ public enum DockMode
 public interface IDockable
 {
     DockMode Mode { get; }
-
     void StartDock();
     void EndDock();
 }
@@ -33,8 +32,6 @@ public class ResourcesIsle : DefaultIsle, IDockable
     [SerializeField] private ResourceIsleItems _logic;
     public ResourceIsleItems Logic { get => _logic; }
     public Dictionary<Item, float> RefreshedItems { private set; get; }//item and float amount(adding every second(10/30) with small value)
-    [SerializeField] private DockMode _mode;
-    public DockMode Mode { get => _mode; }
     #endregion
 
     #region delegates
@@ -49,9 +46,13 @@ public class ResourcesIsle : DefaultIsle, IDockable
     const float _farDis = 500;
     #endregion 
 
+    [SerializeField] private Transform _ropeConnection;
+    public DockMode Mode { get; private set; } = DockMode.Outside;
+
     private void Awake()
     {
         Type = IsleType.Resource;
+        StartScale = gameObject.transform.localScale;
     }
 
     private void Start()
@@ -62,7 +63,6 @@ public class ResourcesIsle : DefaultIsle, IDockable
             Items.AddItem(info.Item, 0);
         }
         RefreshedItems = new Dictionary<Item, float>();
-        _mode = DockMode.Outside;
         //load owned item info
         //load isle mode(inside, outside)
 
@@ -168,12 +168,13 @@ public class ResourcesIsle : DefaultIsle, IDockable
 
     public void StartDock()
     {
-        throw new System.NotImplementedException();
+        Mode = DockMode.Docking;
+
+        GameManager._instance.IsleManager.StartDock(this, _ropeConnection);
     }
 
     public void EndDock()
     {
-        GameManager._instance.MainIsle.DockIsle(this);
-        _mode = DockMode.Inside;
+        Mode = DockMode.Inside;
     }
 }

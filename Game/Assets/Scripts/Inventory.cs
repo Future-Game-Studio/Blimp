@@ -25,4 +25,9 @@ public class Inventory
         Items.RemoveItem(item, count);
     }
 
+    public bool ItemIsExist(Item item)
+    {
+        return Items.GetItemAmount(item) != 0;
+    }
+
 }

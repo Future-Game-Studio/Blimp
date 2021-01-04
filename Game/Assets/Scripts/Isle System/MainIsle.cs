@@ -19,13 +19,7 @@ public class MainIsle : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log("Update main isle");
-            _slots.ForEach(i => Destroy(i.gameObject));
-            _slots.Clear();
-            GenerateSlots(_circlesCount);
-        }
+
     }
 
     private void GenerateSlots(int circles)

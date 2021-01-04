@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ResourceButton : SelectableButton
 {
@@ -8,8 +9,8 @@ public class ResourceButton : SelectableButton
     [SerializeField] private RadialBar _progressBar;
     [SerializeField] private int _buttonNum;
     public int ButtonNum { get => _buttonNum; }
-    [SerializeField] private Text _resourceName;
-    [SerializeField] private Text _resourceCount;
+    [SerializeField] private TextMeshProUGUI _resourceName;
+    [SerializeField] private TextMeshProUGUI _resourceCount;
 
     public delegate void ItemThrow(Item item);
     public ItemThrow OnClick;

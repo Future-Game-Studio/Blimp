@@ -141,8 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 090f7084dc0bee0419d239ac75f6d56e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPoint: {fileID: 0}
-  EndPoint: {fileID: 0}
-  ropeSegLen: 0.25
-  segmentLength: 35
+  _startPoint: {fileID: 0}
+  _endPoint: {fileID: 0}
+  ropeSegLen: 0.5
+  segmentLength: 20
   lineWidth: 0.1

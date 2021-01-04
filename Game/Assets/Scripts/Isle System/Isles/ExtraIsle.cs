@@ -20,6 +20,7 @@ public class ExtraIsle : DefaultIsle, IDockable
     private void Awake()
     {
         Type = IsleType.Empty;
+        StartScale = gameObject.transform.localScale;
     }
     private void Start()
     {
@@ -29,10 +30,10 @@ public class ExtraIsle : DefaultIsle, IDockable
 
     }
 
-   
-    public void ChangeMode(DockMode mode)
+    private void Update()
     {
-        Mode = mode;
+        if (Input.GetKeyDown(KeyCode.L))
+            EndDock();
     }
 
     public void IncreaseLevel()
@@ -126,51 +127,11 @@ public class ExtraIsle : DefaultIsle, IDockable
     {
         Mode = DockMode.Docking;
 
-
-        StartCoroutine(Docking());
-        //
-        //EndDock();
-        //
-
+        GameManager._instance.IsleManager.StartDock(this, _ropeConnection);
     }
-
-    private IEnumerator Docking()
-    {
-        RopeBridge rope = FindObjectOfType<RopeBridge>();
-        rope.ChangeEndPoint(_ropeConnection);
-        Transform start = rope.StartPoint;
-        Transform end = _ropeConnection;
-        float maxDistance = rope.RepoSegLen * rope.SegmentLength;
-
-        Rigidbody rb = GetComponent<Rigidbody>();
-
-        float expSpeed = GameManager._instance.Player.lastSpeed;
-        while (true)
-        {
-            float lastSpeed = GameManager._instance.Player.lastSpeed;
-            float speed = lastSpeed > 0 ? lastSpeed : 10;
-
-            transform.LookAt(start);
-            if (Vector3.Distance(start.position, end.position) > maxDistance - 0.25f)
-            {
-                Debug.Log("Move");
-                rb.velocity = transform.forward * speed;
-                expSpeed = speed;
-            }
-            else
-            {
-                Debug.Log(expSpeed);
-                rb.velocity = transform.forward * expSpeed;
-                expSpeed = Mathf.Lerp(expSpeed - 0.05f > 0 ? expSpeed - 0.05f : 0, expSpeed, 0.1f);
-            }
-            yield return new WaitForFixedUpdate();
-        }
-    }
-
 
     public void EndDock()
     {
-        GameManager._instance.MainIsle.DockIsle(this);
         Mode = DockMode.Inside;
     }
 }

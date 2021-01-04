@@ -12,7 +12,9 @@ public class ExtraIsleSlot : MonoBehaviour
     public void SetIsle(DefaultIsle isle)
     {
         Isle = isle;
-        isle.transform.parent = gameObject.transform;
-        isle.transform.localPosition = Vector3.zero;
+        Isle.transform.localScale = Isle.StartScale;
+        Isle.transform.parent = gameObject.transform;
+        Isle.transform.localPosition = Vector3.zero;
+        Isle.transform.rotation = Quaternion.identity;
     }
 }

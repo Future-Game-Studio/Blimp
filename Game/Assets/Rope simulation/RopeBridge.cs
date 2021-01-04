@@ -43,6 +43,12 @@ public class RopeBridge : MonoBehaviour
     {
         _startPoint = transform;
     }
+
+    public void SetPoints(Transform firstConnecion, Transform secondConnection)
+    {
+        _startPoint = firstConnecion;
+        _endPoint = secondConnection;
+    }
     private void Simulate()
     {
         // SIMULATION

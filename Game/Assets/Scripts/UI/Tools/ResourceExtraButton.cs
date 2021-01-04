@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Text;
-
+using TMPro;
 
 
 public class ResourceExtraButton : MonoBehaviour, ITIP
 {
     public ButtonLogic Logic;
+    [SerializeField] private Button _button;
+    public Button Button { get => _button; }
+    [SerializeField] private TextMeshProUGUI _buttonText;
+
 
     public string GetTooltipInfoText()
     {
@@ -14,12 +19,13 @@ public class ResourceExtraButton : MonoBehaviour, ITIP
 
     public void UpdateInfo()
     {
-        
+        _buttonText.text = Logic.ButtonText;
     }
 }
 
 public abstract class ButtonLogic : ITIP
 {
+    public string ButtonText { get; protected set; }
     public abstract string GetTooltipInfoText();
 }
 
@@ -33,6 +39,11 @@ public class DockButton : ButtonLogic
 
         return builder.ToString();
     }
+
+    public DockButton()
+    {
+        ButtonText = "Dock Isle";
+    }
 }
 
 public class UpgradeButton : ButtonLogic
@@ -44,5 +55,10 @@ public class UpgradeButton : ButtonLogic
         builder.Append("<color=green>You can upgrade this isle").Append("</color>");
 
         return builder.ToString();
+    }
+
+    public UpgradeButton()
+    {
+        ButtonText = "Upgrade Isle";
     }
 }
