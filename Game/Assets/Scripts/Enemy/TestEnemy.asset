@@ -15,6 +15,7 @@ MonoBehaviour:
   enemyType: 0
   Name: TestEnemy
   Health: 60
-  Speed: 20
+  Speed: 5
+  shipRotateSpeed: 2
   prefab: {fileID: 919132149155446097, guid: ca5d23e8b297ca64e81c377d9078da8b, type: 3}
   sprite: {fileID: 0}

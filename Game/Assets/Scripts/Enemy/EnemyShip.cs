@@ -11,6 +11,7 @@ public class EnemyShip : ScriptableObject
     public string Name;
     public float Health;
     public float Speed;
+    public float shipRotateSpeed;
 
     public GameObject prefab;
     public Sprite sprite;
