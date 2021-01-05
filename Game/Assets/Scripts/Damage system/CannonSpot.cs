@@ -17,7 +17,7 @@ public class CannonSpot : GunManager
     Coroutine Look;
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy")
+        if (other.tag == "EnemyController")
         {
             Transform enemy = other.GetComponent<Transform>();
             Look = StartCoroutine(LookAtEnemy(enemy, LookMode.Enemy));
@@ -26,7 +26,7 @@ public class CannonSpot : GunManager
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Enemy")
+        if (other.tag == "EnemyController")
         {
             StopCoroutine(Look);
             ChildGameObject.transform.rotation = transform.rotation;

@@ -62,6 +62,7 @@ public class Movement : MonoBehaviour
             case SpeedMode.Idle:
                 speedMode = SpeedMode.Low;
                 //GearText.text = "Low";
+                rb.velocity = Vector3.zero;
                 Debug.Log("Speed mode " + speedMode);
                 return;
             case SpeedMode.Low:
@@ -100,6 +101,7 @@ public class Movement : MonoBehaviour
                 return;
             case SpeedMode.Idle:
                 speedMode = SpeedMode.Backwards;
+                rb.velocity = Vector3.zero;
                 //GearText.text = "Backwards";
                 Debug.Log("Speed mode " + speedMode);
                 return;

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     OwnedItems ownedItems;
     IslesManager _islesManager;
     BlimpProperties _blimpProps;
+    EnemyManager _enemyManager;
 
     void Awake()
     {
