@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1230401ba884f854eb0fc78ffc89f3d9, type: 3}
   m_Name: Rope
   m_EditorClassIdentifier: 
-  _icon: {fileID: 21300000, guid: 32d5b94d56b5c774bab463a97a9efa2e, type: 3}
+  _icon: {fileID: 21300000, guid: 5fcdc8d88900447cbacc2451e4e54427, type: 3}
   _type: 1
   _filterType: 4
   _name: Rope

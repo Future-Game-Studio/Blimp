@@ -17,4 +17,5 @@ public class ExtraIsleSlot : MonoBehaviour
         Isle.transform.localPosition = Vector3.zero;
         Isle.transform.rotation = Quaternion.identity;
     }
+
 }

@@ -9,6 +9,7 @@ public class MainIsle : MonoBehaviour
     [SerializeField] private int _circlesCount;
     [SerializeField] private int _startCircle;
     [SerializeField] private List<ExtraIsleSlot> _slots;
+    [SerializeField] private Transform _slotCenter;
     private const float _radius = 25f;
     private void Start()
     {
@@ -30,7 +31,7 @@ public class MainIsle : MonoBehaviour
             float radius = _radius + (circle + 1) * 15f;
             int count = circle + _startCircle;
             float angleStep = 360f / (count + 1);
-            Vector3 mainIslePos = gameObject.transform.position;
+            Vector3 mainIslePos = _slotCenter.position;
 
             for (int i = 1; i < count + 1; i++)
             {
@@ -39,7 +40,7 @@ public class MainIsle : MonoBehaviour
                 float angle = angleStep * i * Mathf.PI / 180;
 
                 Vector3 position = new Vector3(mainIslePos.x + (radius * Mathf.Cos(angle)), mainIslePos.y, mainIslePos.z + (radius * Mathf.Sin(angle)));
-                GameObject isle = Instantiate(_slotPrefab, position, _slotPrefab.transform.rotation, gameObject.transform);
+                GameObject isle = Instantiate(_slotPrefab, position, _slotPrefab.transform.rotation, _slotCenter);
                 _slots.Add(isle.GetComponent<ExtraIsleSlot>());
             }
 

@@ -101,7 +101,7 @@ public class IsleManager : MonoBehaviour
             {
                 Debug.Log(expSpeed);
                 rb.velocity = isle.transform.forward * expSpeed;
-                expSpeed = Mathf.Lerp(expSpeed - 0.05f > 0 ? expSpeed - 0.05f : 0, expSpeed, 0.1f);
+                expSpeed = Mathf.Lerp(expSpeed - 0.15f > 0 ? expSpeed - 0.15f : 0, expSpeed, 0.1f);
             }
 
             //Check for docking

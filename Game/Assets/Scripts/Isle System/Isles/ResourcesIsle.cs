@@ -23,6 +23,7 @@ public interface IDockable
     void EndDock();
 }
 
+[RequireComponent(typeof(Rigidbody))]
 public class ResourcesIsle : DefaultIsle, IDockable
 {
     #region refresh item
@@ -46,6 +47,7 @@ public class ResourcesIsle : DefaultIsle, IDockable
     const float _farDis = 500;
     #endregion 
 
+    [SerializeField] private Rigidbody _rb;
     [SerializeField] private Transform _ropeConnection;
     public DockMode Mode { get; private set; } = DockMode.Outside;
 
@@ -53,6 +55,7 @@ public class ResourcesIsle : DefaultIsle, IDockable
     {
         Type = IsleType.Resource;
         StartScale = gameObject.transform.localScale;
+        _rb = GetComponent<Rigidbody>();
     }
 
     private void Start()
@@ -78,7 +81,12 @@ public class ResourcesIsle : DefaultIsle, IDockable
         }
     }
 
-    private void IncreaseLevel()
+    public List<ItemRecipe> GetLvlUpItems()
+    {
+        return _logic.Info[Level].Recipe;
+    }
+
+    public void IncreaseLevel()
     {
         if (_level == _logic.Info.Count)
             Debug.LogError("Isle level the same as max!");
@@ -169,6 +177,7 @@ public class ResourcesIsle : DefaultIsle, IDockable
     public void StartDock()
     {
         Mode = DockMode.Docking;
+        _rb.isKinematic = false;
 
         GameManager._instance.IsleManager.StartDock(this, _ropeConnection);
     }
@@ -176,5 +185,6 @@ public class ResourcesIsle : DefaultIsle, IDockable
     public void EndDock()
     {
         Mode = DockMode.Inside;
+        _rb.isKinematic = true;
     }
 }

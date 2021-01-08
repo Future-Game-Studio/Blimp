@@ -25,9 +25,28 @@ public class Inventory
         Items.RemoveItem(item, count);
     }
 
+    public void RemoveItems(List<ItemRecipe> list)
+    {
+        list.ForEach(r =>
+        {
+            Items.RemoveItem(r.Item, r.Amount);
+        });
+    }
+
     public bool ItemIsExist(Item item)
     {
         return Items.GetItemAmount(item) != 0;
+    }
+
+    public bool HasRecipeItems(List<ItemRecipe> list)
+    {
+        bool has = true;
+        list.ForEach(r =>
+        {
+            if (Items.GetItemAmount(r.Item) < r.Amount)
+                has = false;
+        });
+        return has;
     }
 
 }

@@ -8,7 +8,7 @@ public class UICraftComponentInfo : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _componentInfo;
 
-    public CraftableItem.ItemRecipe Recipe;
+    public ItemRecipe Recipe;
     public int HaveValue;
     public int NeedValue;
     public void UpdateInfo()

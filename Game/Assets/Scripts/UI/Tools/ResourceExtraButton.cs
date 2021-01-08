@@ -11,6 +11,13 @@ public class ResourceExtraButton : MonoBehaviour, ITIP
     public Button Button { get => _button; }
     [SerializeField] private TextMeshProUGUI _buttonText;
 
+    public delegate void ClickDelegate();
+    public ClickDelegate OnClick;
+
+    public void Activate()
+    {
+        OnClick?.Invoke();
+    }
 
     public string GetTooltipInfoText()
     {

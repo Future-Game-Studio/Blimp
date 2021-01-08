@@ -12,14 +12,7 @@ public class CraftableItem : Item
     public int CraftTime { get => _craftTime; }
     public int MaxOrder { get => _maxOrder; }
 
-    [System.Serializable]
-    public class ItemRecipe
-    {
-        [SerializeField] private Item _item;
-        [SerializeField] private int _amount;
-        public Item Item { get => _item; }
-        public int Amount { get => _amount; }
-    }
+    
 
     public override string ColouredName => throw new System.NotImplementedException();
 
@@ -28,4 +21,13 @@ public class CraftableItem : Item
         _type = ItemType.Craftable;
     }
 
+}
+
+[System.Serializable]
+public class ItemRecipe
+{
+    [SerializeField] private Item _item;
+    [SerializeField] private int _amount;
+    public Item Item { get => _item; }
+    public int Amount { get => _amount; }
 }

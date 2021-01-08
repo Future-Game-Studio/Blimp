@@ -51,7 +51,7 @@ public class UICraftItemInfo : UIItemInfo
         UpdateComponents(_orderSliderController.Slider.value);
     }
 
-    public void SpawnCraftComponents(List<CraftableItem.ItemRecipe> components)
+    public void SpawnCraftComponents(List<ItemRecipe> components)
     {
         if (_craftComponents.Count != 0)
         {

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class ExtraIsle : DefaultIsle, IDockable
 {
+    [SerializeField] private Rigidbody _rb;
     [SerializeField] private Transform _ropeConnection;
     public AddonIsleItems Items { get; private set; }
     public List<CraftTask> Tasks { private set; get; }
@@ -21,6 +23,7 @@ public class ExtraIsle : DefaultIsle, IDockable
     {
         Type = IsleType.Empty;
         StartScale = gameObject.transform.localScale;
+        _rb = GetComponent<Rigidbody>();
     }
     private void Start()
     {
@@ -34,6 +37,11 @@ public class ExtraIsle : DefaultIsle, IDockable
     {
         if (Input.GetKeyDown(KeyCode.L))
             EndDock();
+    }
+
+    public List<ItemRecipe> GetLvlUpItems()
+    {
+        return Items.Info[Level].Recipe;
     }
 
     public void IncreaseLevel()
@@ -126,6 +134,7 @@ public class ExtraIsle : DefaultIsle, IDockable
     public void StartDock()
     {
         Mode = DockMode.Docking;
+        _rb.isKinematic = false;
 
         GameManager._instance.IsleManager.StartDock(this, _ropeConnection);
     }
@@ -133,5 +142,6 @@ public class ExtraIsle : DefaultIsle, IDockable
     public void EndDock()
     {
         Mode = DockMode.Inside;
+        _rb.isKinematic = true;
     }
 }

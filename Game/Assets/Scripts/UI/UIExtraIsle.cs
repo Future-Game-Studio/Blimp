@@ -16,6 +16,8 @@ public class UIExtraIsle : UIController
     [SerializeField] private Scrollbar _scroll;
     [SerializeField] private GameObject _orderResourceButton;
     [SerializeField] private GameObject _collectResourceButton;
+    [SerializeField] private Button _upgradeButton;
+    [SerializeField] private RectTransform _buyPanel;
 
     private CraftableItem _currentItemInfo;
     private GameObject _addonPanel;
@@ -30,13 +32,17 @@ public class UIExtraIsle : UIController
 
         if (_isle.Type == IsleType.Empty)
         {
-            //rewrite to abstact fabric
+            //rewrite
             _mainUI.SetActive(false);
             if (_isle.Mode == DockMode.Outside)
             {
                 _addonPanel = Instantiate(_DockPanel.gameObject, gameObject.transform as RectTransform);
                 DockPanel dock = _addonPanel.GetComponent<DockPanel>();
-                dock.DockButton.onClick.AddListener(StartDock);
+                var ropeItem = GameManager._instance.IsleManager.RopeItem;
+                if (GameManager._instance.Inventory.ItemIsExist(ropeItem) == false)
+                    dock.DockButton.interactable = false;
+                else
+                    dock.DockButton.onClick.AddListener(DockIsle);
                 dock.ExitButton.onClick.AddListener(ExitAddonPanel);
             }
             else if (_isle.Mode == DockMode.Inside)
@@ -60,7 +66,7 @@ public class UIExtraIsle : UIController
         UpdateCrafts();
         UpdateCurrentInfo(_isle.Items.Info[0].CraftableItems[0] as Item);
 
-
+        UpdateUpgradeButton();
     }
 
     private void UpdateCrafts()
@@ -152,7 +158,7 @@ public class UIExtraIsle : UIController
         _iteminfo.ChangeOrderValue(maxOrderValue);
     }
 
-    private int CanCraftAmount(List<CraftableItem.ItemRecipe> needItems, int maxValue)
+    private int CanCraftAmount(List<ItemRecipe> needItems, int maxValue)
     {
         Inventory inventory = GameManager._instance.Inventory;
         needItems.ForEach(recipe =>
@@ -205,8 +211,9 @@ public class UIExtraIsle : UIController
 
     ////////////////////FULL REWRITE//////////////////////////////
 
-    private void StartDock()
+    private void DockIsle()
     {
+        GameManager._instance.Inventory.Remove(GameManager._instance.IsleManager.RopeItem, 1);
         _isle.StartDock();
         ExitAddonPanel();
     }
@@ -228,6 +235,7 @@ public class UIExtraIsle : UIController
         _mainUI.SetActive(true);
         UpdateCrafts();
         UpdateCurrentInfo(_isle.Items.Info[0].CraftableItems[0] as Item);
+        UpdateUpgradeButton();
     }
 
     private void ExitAddonPanel()
@@ -240,6 +248,50 @@ public class UIExtraIsle : UIController
     }
 
     ///////////////////////////////////////////////
+
+    private void UpdateUpgradeButton()
+    {
+        if (_isle.Items.Info.Count == _isle.Level)
+            _upgradeButton.interactable = false;
+        else
+        {
+            Debug.Log("True button");
+            _upgradeButton.onClick.RemoveAllListeners();
+            _upgradeButton.onClick.AddListener(InstantiateUpgradePanel);
+        }
+    }
+
+    private void InstantiateUpgradePanel()
+    {
+        Debug.Log("Instatntiate is done");
+        GameObject panelObj = Instantiate(_buyPanel.gameObject, transform as RectTransform);
+        UICraftPanel panel = panelObj.GetComponent<UICraftPanel>();
+        panel.DegreeButton.onClick.AddListener(panel.ExitPanel);
+
+        int lvl = _isle.Level;
+        List<ItemRecipe> components = _isle.Items.Info[lvl].Recipe;
+
+        panel.SetSettings("Upgrade isle", components);
+        if (GameManager._instance.Inventory.HasRecipeItems(components) == false)
+            panel.AgreeButton.interactable = false;
+        else
+        {
+            panel.AgreeButton.onClick.AddListener(IncreaseIsleLevel);
+            panel.AgreeButton.onClick.AddListener(panel.ExitPanel);
+        }
+    }
+
+    private void IncreaseIsleLevel()
+    {
+        var components = _isle.GetLvlUpItems();
+        var playerInventory = GameManager._instance.Inventory;
+        if (playerInventory.HasRecipeItems(components) == false)
+            Debug.LogError("Items exist error");
+
+        playerInventory.RemoveItems(components);
+        _isle.IncreaseLevel();
+        UpdateAll();
+    }
 
     private void OnDisable()
     {
