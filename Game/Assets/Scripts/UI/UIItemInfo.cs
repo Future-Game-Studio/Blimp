@@ -16,17 +16,9 @@ public class UIItemInfo : MonoBehaviour
         _itemImage.sprite = sprite;
     }
 
-}
-
-public class UIInventoryItemInfo : UIItemInfo
-{
-    [SerializeField] protected UISliderController _sliderController;
-    public UISliderController SliderController { get => _sliderController; }
-
-    public virtual void ChangeCount(int count, int maxCount, int itemWeight)
+    public virtual void ChangeAmount(int count, int weight)
     {
-        _itemCount.text = "Count: " + count.ToString();
-        _sliderController.ChangeMaxValue(count);
-        _itemWeight.text = "Weight: " + (itemWeight * count).ToString();
+        _itemCount.text = "Amount: " + count;
+        _itemWeight.text = "Weight: " + weight;
     }
 }

@@ -69,4 +69,9 @@ public class MainIsle : MonoBehaviour
             gameObject.transform.Rotate(new Vector3(0f, 0.01f, 0f));
         }
     }
+
+    private void OnMouseDown()
+    {
+        CameraManager._instance.ChangeCamera(CameraManager.CameraType.MainIsle);
+    }
 }

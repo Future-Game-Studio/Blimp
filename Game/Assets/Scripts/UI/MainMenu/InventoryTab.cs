@@ -10,7 +10,8 @@ public class InventoryTab : MainMenuTab
     [SerializeField] private RectTransform _contentGrid;
     [SerializeField] private RectTransform _slotPrefab;
     [SerializeField] private TextMeshProUGUI _weight;
-    [SerializeField] private UIInventoryItemInfo _itemInfo;
+    [SerializeField] private UIItemInfo _itemInfo;
+    [SerializeField] private RectTransform _removePanel;
     private ItemSlot _currentSlot;
     private ItemFilterType _currentFilter;
     public override void UpdateAll()
@@ -60,9 +61,9 @@ public class InventoryTab : MainMenuTab
         container.Sort();
         GenerateSlots(container);
 
-        if(container.Count == 0)
+        if (container.Count == 0)
             _currentSlot = null;
-        else if(setNewCurrentSlot)
+        else if (setNewCurrentSlot)
             _currentSlot = container[0];
         ShowItemInfo(_currentSlot);
 
@@ -79,7 +80,7 @@ public class InventoryTab : MainMenuTab
 
             Item item = itemSlot.Item;
             _itemInfo.ChangeInfo(item.Name, item.Description, item.Icon);
-            _itemInfo.ChangeCount(itemSlot.Amount, itemSlot.Amount, itemSlot.Item.Weight);
+            _itemInfo.ChangeAmount(itemSlot.Amount, itemSlot.Weight);
             _currentSlot = itemSlot;
         }
         else
@@ -88,13 +89,19 @@ public class InventoryTab : MainMenuTab
 
     public void RemoveItem()
     {
-        if (_currentSlot == null)
+        var panel = Instantiate(_removePanel, transform as RectTransform).GetComponent<UIRemovePanel>();
+        panel.SetItemSlot(_currentSlot);
+
+        panel.OnDeleteClick += RemoveItem;
+    }
+
+    public void RemoveItem(Item item, int amount)
+    {
+        if (_currentSlot.Item != item)
             Debug.LogError("Item does not exist");
-        int amount = (int)_itemInfo.SliderController.Slider.value;
-        Item item = _currentSlot.Item;
+
         _inventory.Remove(item, amount);
         _currentSlot = _inventory.Items.Container.Find(s => s.Item == item);
         ShowTypeItems(_currentFilter, false);
     }
-
 }

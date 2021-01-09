@@ -11,9 +11,10 @@ public class UIResourceIsle : UIController
     [SerializeField] private UIResourceItemInfo _resourceinfo;
     private List<ResourceButton> _buttons = new List<ResourceButton>();
     [SerializeField] private Scrollbar _scroll;
-    [SerializeField] private GameObject _collectResourceButton;
-    [SerializeField] private GameObject _extraButton;
-    [SerializeField] private RectTransform _buyPanel;
+    [SerializeField] private Button _collectResourceButton;
+    [SerializeField] private ResourceExtraButton _extraButton;
+    [SerializeField] private RectTransform _upgradePanel;
+    [SerializeField] private RectTransform _collectPanel;
 
     private Item _currentItemInfo;
     private int _level;
@@ -82,6 +83,14 @@ public class UIResourceIsle : UIController
         {
             ItemSlot currentSlot = _isle.Items.Container.Find(s => s.Item == _currentItemInfo);
             _resourceinfo.ChangeCount(currentSlot.Amount, _isle.Logic.Info.Find(s => s.Item == _currentItemInfo).MaxAmount, currentSlot.Item.Weight);
+
+            if (currentSlot.Amount == 0)
+            {
+                _collectResourceButton.interactable = false;
+                Debug.Log("button upd");
+            }
+            else if (_collectResourceButton.interactable == false)
+                _collectResourceButton.interactable = true;
         }
     }
 
@@ -91,6 +100,10 @@ public class UIResourceIsle : UIController
         _resourceinfo.ChangeInfo(_currentItemInfo.Name, _currentItemInfo.Description, _currentItemInfo.Icon);
         ItemSlot currentSlot = _isle.Items.Container.Find(s => s.Item == _currentItemInfo);
         _resourceinfo.ChangeCount(currentSlot.Amount, _isle.Logic.Info.Find(s => s.Item == _currentItemInfo).MaxAmount, currentSlot.Item.Weight);
+        if (currentSlot.Amount == 0)
+            _collectResourceButton.interactable = false;
+        else if(_collectResourceButton.interactable == false)
+            _collectResourceButton.interactable = true;
     }
     private void UpdateDynamicInfo()
     {
@@ -116,45 +129,31 @@ public class UIResourceIsle : UIController
 
     public void CollectResource()
     {
-        //move to inventory
-        Inventory inventory = GameManager._instance.Inventory;
-        int remainderWeight = inventory.RemainderWeight;
-        ItemSlot slot = _isle.Items.Container.Find(s => s.Item == _currentItemInfo);
-        int value = (int)_resourceinfo.SliderController.Slider.value;
-        int needWeight = _currentItemInfo.Weight * value;
-
-        if (remainderWeight < needWeight)
-            Debug.LogError("Remainder weight < need weight");
-
-        inventory.Add(slot.Item, value);
-        slot.RemoveAmount(value);
-        UpdateResourceInfo(_currentItemInfo);
-        UpdateByItem(_currentItemInfo);
+        InstantiateCollectPanel();
     }
 
     private void UpdateExtraButton()
     {
-        var button = _extraButton.GetComponent<ResourceExtraButton>();
-        button.Button.interactable = true;
+        _extraButton.Button.interactable = true;
         switch (_isle.Mode)
         {
             case DockMode.Inside:
-                button.Logic = new UpgradeButton();
+                _extraButton.Logic = new UpgradeButton();
                 if (_isle.Logic.Info.Count == _isle.Level)
-                    button.Button.interactable = false;
+                    _extraButton.Button.interactable = false;
                 else
-                    button.OnClick = InstantiateUpgradePanel;
+                    _extraButton.OnClick = InstantiateUpgradePanel;
                 break;
             case DockMode.Outside:
-                button.Logic = new DockButton();
+                _extraButton.Logic = new DockButton();
                 var ropeItem = GameManager._instance.IsleManager.RopeItem;
                 if (GameManager._instance.Inventory.ItemIsExist(ropeItem) == false)
-                    button.Button.interactable = false;
+                    _extraButton.Button.interactable = false;
                 else
-                    button.OnClick += DockIsle;
+                    _extraButton.OnClick += DockIsle;
                 break;
         }
-        button.UpdateInfo();
+        _extraButton.UpdateInfo();
     }
 
     private void DockIsle()
@@ -165,11 +164,38 @@ public class UIResourceIsle : UIController
         _isle.StartDock();
 
     }
+
+    private void InstantiateCollectPanel()
+    {
+        var panelObj = Instantiate(_collectPanel.gameObject, transform as RectTransform);
+        var panel = panelObj.GetComponent<UICollectPanel>();
+        var slot = _isle.Items.GetItemSlot(_currentItemInfo);
+
+        panel.SetItemSlot(slot);
+        panel.OnCollectClick += CollectResource;
+    }
+
+    private void CollectResource(Item item, int amount)
+    {
+        
+        Inventory inventory = GameManager._instance.Inventory;
+        int remainderWeight = inventory.RemainderWeight;
+        ItemSlot slot = _isle.Items.Container.Find(s => s.Item == item);
+        int needWeight = _currentItemInfo.Weight * amount;
+
+        if (remainderWeight < needWeight)
+            Debug.LogError("Remainder weight < need weight");
+
+        inventory.Add(item, amount);
+        slot.RemoveAmount(amount);
+        UpdateResourceInfo(_currentItemInfo);
+        UpdateByItem(_currentItemInfo);
+    }
     private void InstantiateUpgradePanel()
     {
-        GameObject panelObj = Instantiate(_buyPanel.gameObject, transform as RectTransform);
-        UICraftPanel panel = panelObj.GetComponent<UICraftPanel>();
-        panel.DegreeButton.onClick.AddListener(panel.ExitPanel);
+        var panelObj = Instantiate(_upgradePanel.gameObject, transform as RectTransform);
+        var panel = panelObj.GetComponent<UICraftPanel>();
+        panel.DisagreeButton.onClick.AddListener(panel.ExitPanel);
 
         int lvl = _isle.Level;
         List<ItemRecipe> components = _isle.Logic.Info[lvl].Recipe;

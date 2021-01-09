@@ -25,11 +25,11 @@ public class Inventory
         Items.RemoveItem(item, count);
     }
 
-    public void RemoveItems(List<ItemRecipe> list)
+    public void RemoveItems(List<ItemRecipe> list, int amount = 1)
     {
         list.ForEach(r =>
         {
-            Items.RemoveItem(r.Item, r.Amount);
+            Items.RemoveItem(r.Item, r.Amount * amount);
         });
     }
 
@@ -49,4 +49,25 @@ public class Inventory
         return has;
     }
 
+    public int CanTakeItemAmount(Item item)
+    {
+        return RemainderWeight / item.Weight;
+    }
+
+    public int CanCraftItemAmount(ItemRecipe recipe)
+    {
+        return Items.GetItemAmount(recipe.Item) / recipe.Amount;
+    }
+
+    public int CanCraftItemsAmount(List<ItemRecipe> list)
+    {
+        int amount = CanCraftItemAmount(list[0]);
+        list.ForEach(r =>
+        {
+            int currentAmount = CanCraftItemAmount(r);
+            amount = Mathf.Min(amount, currentAmount);
+        });
+
+        return amount;
+    }
 }

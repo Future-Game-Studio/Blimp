@@ -14,10 +14,12 @@ public class UIExtraIsle : UIController
     [SerializeField] private UICraftItemInfo _iteminfo;
     private List<ResourceButton> _buttons = new List<ResourceButton>();
     [SerializeField] private Scrollbar _scroll;
-    [SerializeField] private GameObject _orderResourceButton;
-    [SerializeField] private GameObject _collectResourceButton;
+    [SerializeField] private Button _orderButton;
+    [SerializeField] private Button _collectButton;
     [SerializeField] private Button _upgradeButton;
-    [SerializeField] private RectTransform _buyPanel;
+    [SerializeField] private RectTransform _upgradePanel;
+    [SerializeField] private RectTransform _orderPanel;
+    [SerializeField] private RectTransform _collectPanel;
 
     private CraftableItem _currentItemInfo;
     private GameObject _addonPanel;
@@ -34,6 +36,7 @@ public class UIExtraIsle : UIController
         {
             //rewrite
             _mainUI.SetActive(false);
+            //
             if (_isle.Mode == DockMode.Outside)
             {
                 _addonPanel = Instantiate(_DockPanel.gameObject, gameObject.transform as RectTransform);
@@ -57,14 +60,16 @@ public class UIExtraIsle : UIController
         }
         else
         {
+            //
             if (_mainUI.activeInHierarchy == false)
                 _mainUI.SetActive(true);
+            //
         }
 
         _isle.OnDoTask += UpdateByItem;
 
         UpdateCrafts();
-        UpdateCurrentInfo(_isle.Items.Info[0].CraftableItems[0] as Item);
+        UpdateCurrentInfo(_isle.Items.Info[0].CraftableItems[0]);
 
         UpdateUpgradeButton();
     }
@@ -110,7 +115,6 @@ public class UIExtraIsle : UIController
 
     private void UpdateByItem(CraftableItem item, float progress, bool dontUpdateProgressIfCurrent = false)
     {
-
         if (item == null)
             Debug.LogError("Item type error");
 
@@ -133,82 +137,81 @@ public class UIExtraIsle : UIController
         if (item == null)
             Debug.LogError("Item type error");
 
-        _iteminfo.SpawnCraftComponents(item.Recipe);
-
         _currentItemInfo = item;
         _iteminfo.ChangeInfo(_currentItemInfo.Name, _currentItemInfo.Description, _currentItemInfo.Icon);
         ItemSlot currentSlot = _isle.DoneTasks.GetItemSlot(item);
+        int amount = 0;
+        if (currentSlot != null)
+            amount = currentSlot.Amount;
+        _iteminfo.ChangeCollectValue(amount, item.MaxOrder, item.Weight);
 
-        int maxOrderValue = item.MaxOrder;
+        if (amount == 0)
+            _collectButton.interactable = false;
+        else if (_collectButton.interactable == false)
+            _collectButton.interactable = true;
 
-        if (currentSlot == null)
-        {
-            _iteminfo.ChangeCollectValue(0, item.MaxOrder, item.Weight);
-        }
-        else
-        {
-            maxOrderValue -= currentSlot.Amount;
-            _iteminfo.ChangeCollectValue(currentSlot.Amount, item.MaxOrder, item.Weight);
-        }
-        var needItems = item.Recipe;
-        maxOrderValue = CanCraftAmount(needItems, maxOrderValue);
+        if (_currentItemInfo.MaxOrder - amount == 0)
+            _orderButton.interactable = false;
+        else if (_orderButton.interactable == false)
+            _orderButton.interactable = true;
 
-        maxOrderValue = Mathf.Max(maxOrderValue, 0);
-
-        _iteminfo.ChangeOrderValue(maxOrderValue);
-    }
-
-    private int CanCraftAmount(List<ItemRecipe> needItems, int maxValue)
-    {
-        Inventory inventory = GameManager._instance.Inventory;
-        needItems.ForEach(recipe =>
-        {
-            Item item = recipe.Item;
-            int needAmount = recipe.Amount;
-
-            int haveAmount = inventory.Items.GetItemAmount(item);
-
-            int canCraftAmount = haveAmount / needAmount;
-
-            maxValue = Mathf.Min(maxValue, canCraftAmount);
-        });
-
-        return maxValue;
     }
 
     public void CollectItems()
     {
+        var panelObj = Instantiate(_collectPanel.gameObject, transform as RectTransform);
+        var panel = panelObj.GetComponent<UICollectPanel>();
+        var slot = _isle.DoneTasks.GetItemSlot(_currentItemInfo);
+
+        panel.SetItemSlot(slot);
+        panel.OnCollectClick += CollectItems;
+
+    }
+
+    public void CollectItems(Item item, int amount)
+    {
         Inventory inventory = GameManager._instance.Inventory;
         int remainderWeight = inventory.RemainderWeight;
         ItemSlot slot = _isle.DoneTasks.Container.Find(s => s.Item == _currentItemInfo);
-        int value = (int)_iteminfo.CollectSliderController.Slider.value;
-        int needWeight = _currentItemInfo.Weight * value;
+        int needWeight = item.Weight * amount;
 
         if (remainderWeight < needWeight)
             Debug.LogError("Remainder weight < need weight");
 
-        inventory.Add(slot.Item, value);
-        slot.RemoveAmount(value);
-        UpdateCurrentInfo(_currentItemInfo);
-        UpdateByItem(_currentItemInfo, 0, true);
+        inventory.Add(slot.Item, amount);
+        slot.RemoveAmount(amount);
+        UpdateCurrentInfo(item);
+        UpdateByItem(item as CraftableItem, 0, true);
     }
+
+
 
     public void OrderItems()
     {
-        int value = (int)_iteminfo.OrderSliderController.Slider.value;
-        _isle.AddTask(_currentItemInfo, value);
+        var panel = Instantiate(_orderPanel, transform as RectTransform).GetComponent<UIOrderPanel>();
+        var components = _currentItemInfo.Recipe;
 
-        //remove items from inventory
-        Inventory inventory = GameManager._instance.Inventory;
-        var needItems = _currentItemInfo.Recipe;
-        needItems.ForEach(recipe =>
-        {
-            inventory.Remove(recipe.Item, recipe.Amount * value);
-        });
-        UpdateCurrentInfo(_currentItemInfo);
-        UpdateByItem(_currentItemInfo, 0, true);
+        ItemSlot currentSlot = _isle.DoneTasks.GetItemSlot(_currentItemInfo);
+        int maxOrderValue = _currentItemInfo.MaxOrder;
+        if (currentSlot != null)
+            maxOrderValue -= currentSlot.Amount;
+
+        panel.SetSettings(_currentItemInfo, components, maxOrderValue);
+        panel.OnOrder += OrderItems;
     }
 
+    private void OrderItems(Item itemI, int amount)
+    {
+        var item = itemI as CraftableItem;
+        if (_currentItemInfo != item)
+            Debug.LogError("item order error");
+
+        _isle.AddTask(item, amount);
+
+        GameManager._instance.Inventory.RemoveItems(item.Recipe, amount);
+        UpdateCurrentInfo(item);
+        UpdateByItem(item, 0, true);
+    }
     ////////////////////FULL REWRITE//////////////////////////////
 
     private void DockIsle()
@@ -234,8 +237,9 @@ public class UIExtraIsle : UIController
         ExitAddonPanel();
         _mainUI.SetActive(true);
         UpdateCrafts();
-        UpdateCurrentInfo(_isle.Items.Info[0].CraftableItems[0] as Item);
+        UpdateCurrentInfo(_isle.Items.Info[0].CraftableItems[0]);
         UpdateUpgradeButton();
+        _isle.OnDoTask += UpdateByItem;
     }
 
     private void ExitAddonPanel()
@@ -255,7 +259,6 @@ public class UIExtraIsle : UIController
             _upgradeButton.interactable = false;
         else
         {
-            Debug.Log("True button");
             _upgradeButton.onClick.RemoveAllListeners();
             _upgradeButton.onClick.AddListener(InstantiateUpgradePanel);
         }
@@ -263,10 +266,9 @@ public class UIExtraIsle : UIController
 
     private void InstantiateUpgradePanel()
     {
-        Debug.Log("Instatntiate is done");
-        GameObject panelObj = Instantiate(_buyPanel.gameObject, transform as RectTransform);
+        GameObject panelObj = Instantiate(_upgradePanel.gameObject, transform as RectTransform);
         UICraftPanel panel = panelObj.GetComponent<UICraftPanel>();
-        panel.DegreeButton.onClick.AddListener(panel.ExitPanel);
+        panel.DisagreeButton.onClick.AddListener(panel.ExitPanel);
 
         int lvl = _isle.Level;
         List<ItemRecipe> components = _isle.Items.Info[lvl].Recipe;

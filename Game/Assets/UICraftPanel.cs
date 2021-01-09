@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -10,7 +9,7 @@ public class UICraftPanel : MonoBehaviour
     [SerializeField] private Button _agreeButton;
     public Button AgreeButton { get => _agreeButton; }
     [SerializeField] private Button _degreeButton;
-    public Button DegreeButton { get => _degreeButton; }
+    public Button DisagreeButton { get => _degreeButton; }
     [SerializeField] private RectTransform _componentContent;
     [SerializeField] private RectTransform _craftComponentPrefab;
     private List<UICraftComponentInfo> _craftComponents = new List<UICraftComponentInfo>();

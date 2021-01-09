@@ -11,7 +11,7 @@ public class ExtraIsle : DefaultIsle, IDockable
     public List<CraftTask> Tasks { private set; get; }
     public OwnedItems DoneTasks { private set; get; }
     public int Counter { private set; get; } = 0;
-    public int Level { private set; get; } = 0;
+    public int Level { private set; get; } = 1;
 
     public DockMode Mode { get; private set; } = DockMode.Outside;
 
@@ -79,7 +79,6 @@ public class ExtraIsle : DefaultIsle, IDockable
     {
         if (Tasks.Count == 0)
             return;
-
         Counter++;
 
         CraftableItem item = Tasks[0].Item;
