@@ -116,4 +116,9 @@ public class Movement : MonoBehaviour
         //GearText.text = "Idle";
         speedMode = SpeedMode.Idle;
     }
+
+    public void TakeDamage(float damage)
+    {
+        Debug.Log("DamageTaken");
+    }
 }

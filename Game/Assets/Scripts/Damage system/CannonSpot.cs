@@ -17,7 +17,9 @@ public class CannonSpot : GunManager
     Coroutine Look;
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy")
+        ShipInfo EnemyInfo;
+        Movement PlayerInfo;
+        if (other.TryGetComponent<ShipInfo>(out EnemyInfo) || other.TryGetComponent<Movement>(out PlayerInfo))
         {
             Transform enemy = other.GetComponent<Transform>();
             Look = StartCoroutine(LookAtEnemy(enemy, LookMode.Enemy));
@@ -77,7 +79,7 @@ public class CannonSpot : GunManager
             while (t < 1)
             {
                 t += Time.deltaTime * speed;
-                Debug.Log("Rotating " + t);
+                //Debug.Log("Rotating " + t);
                 ChildGameObject.transform.rotation = Quaternion.Slerp(start, end, t);
                 yield return null;
             }

@@ -1,79 +1,58 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
     [SerializeField]
-    private EnemyShip[] _enemyShips;
+    private EnemyShip[] _enemyShipsInfo;
     private EnemyShip enemy;
-    private float health;
-    private string name;
     [SerializeField]
-    private GameObject[] patroolPoints;
+    public GameObject[] patroolPoints;
+    private List<GameObject> _enemyShips = new List<GameObject>();
 
-    int num = 0;
-    Rigidbody rb;
     GameObject enemyGO;
     Vector3 m_EulerAngleVelocity;
 
     private void Awake()
     {
-        enemy = _enemyShips[0];
+        EnemySpawn();
+    }
+
+    private GameObject EnemySpawn()
+    {
+        enemy = _enemyShipsInfo[0];
         enemyGO = Instantiate(enemy.prefab, transform.position, transform.rotation, transform);
-        rb = GetComponent<Rigidbody>();
-
-        health = enemy.Health;
-        name = enemy.Name;
-        m_EulerAngleVelocity = new Vector3(0, enemy.shipRotateSpeed, 0);
-        paroll = StartCoroutine(Paroll());
+        ShipInfo info = enemyGO.GetComponent<ShipInfo>();
+        _enemyShips.Add(enemyGO.gameObject);
+        info.spawnNum = _enemyShips.Count;
+        info.Health = enemy.Health;
+        info.Name = enemy.Name;
+        info.Speed = enemy.Speed;
+        info.shipRotateSpeed = enemy.shipRotateSpeed;
+        return enemyGO;
     }
 
-    Coroutine paroll;
-    Coroutine attack;
-
-
-    public void TakeDamage(float amount)
+    private GameObject EnemySpawn(int num)
     {
-        health -= amount;
-        if (health <= 0f)
-        {
-            Dead();
-        }
+        enemy = _enemyShipsInfo[0];
+        GameObject _enemy = _enemyShips[num - 1];
+        _enemy.GetComponent<ShipInfo>().Health = enemy.Health;
+        _enemy.GetComponent<Transform>().position = transform.position;
+        return enemyGO;
     }
 
-    private void Dead()
+    public void Dead(int num, string _name, Transform gameObject)
     {
-        Debug.Log(name + " dead");
+        EnemySpawn(num);
+        Debug.Log(_name + num + "dead");
+    }
+
+    public void Dead(int num, string _name)
+    {
+        EnemySpawn();
+        Debug.Log(_name + num + "dead");
         //анімація вибуху + інектів
     }
 
-    Transform point;
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject == patroolPoints[num])
-        {
-            if (num != patroolPoints.Length - 1) num++;
-            else num = 0;
-            point = patroolPoints[num].transform;
-        }
-    }
-
-    private IEnumerator Paroll()
-    {
-        point = patroolPoints[num].transform;
-        while (true)
-        {
-            var lookPos = point.position - transform.position;
-            var rotation = Quaternion.LookRotation(lookPos);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime);
-            rb.velocity = transform.forward * enemy.Speed;
-            yield return null;
-        }
-    }
-
-    private IEnumerator Attack()
-    {
-        yield return null;
-    }
 }
