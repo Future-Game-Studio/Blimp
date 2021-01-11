@@ -8,4 +8,10 @@ public class UIMainIsle : UIController
     {
         throw new System.NotImplementedException();
     }
+
+    public void ExitFromMainIsle()
+    {
+        GameManager._instance.ChangeGameMode(GameMode.InSpace);
+    }
+
 }

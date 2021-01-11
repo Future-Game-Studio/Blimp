@@ -21,6 +21,8 @@ public class Movement : MonoBehaviour
     public delegate void SpeedDelegate(SpeedMode speedMode);
     public SpeedDelegate OnSpeedChanged;
 
+    float _horizontal;
+
     void Start()
     {
         m_EulerAngleVelocity = new Vector3(0, shipRotateSpeed, 0);
@@ -43,19 +45,19 @@ public class Movement : MonoBehaviour
 
     void FixedUpdate()
     {
-        float horizontal = Input.GetAxis("Horizontal");
+        //_horizontal = Input.GetAxis("Horizontal");
 
         lastSpeed += lastSpeed == (int)speedMode ? 0 : lastSpeed < (int)speedMode ? 0.1f : -0.1f;
         lastSpeed = (speedMode == SpeedMode.Idle && Mathf.Abs(lastSpeed) < 0.25f) ? 0 : lastSpeed;
 
-        Quaternion deltaRotation = Quaternion.Euler(m_EulerAngleVelocity * horizontal);
+        Quaternion deltaRotation = Quaternion.Euler(m_EulerAngleVelocity * _horizontal);
         rb.MoveRotation(rb.rotation * deltaRotation);
 
         rb.velocity = transform.forward * lastSpeed;
-        
+
     }
 
-    void ChangeSpeedUp()
+    public void ChangeSpeedUp()
     {
         switch (speedMode)
         {
@@ -85,7 +87,7 @@ public class Movement : MonoBehaviour
         OnSpeedChanged?.Invoke(speedMode);
     }
 
-    void ChangeSpeedDown()
+    public void ChangeSpeedDown()
     {
         switch (speedMode)
         {
@@ -123,5 +125,18 @@ public class Movement : MonoBehaviour
         OnSpeedChanged?.Invoke(speedMode);
     }
 
-    
+    public void A()
+    {
+        _horizontal = -0.5f;
+    }
+
+    public void D()
+    {
+        _horizontal = 0.5f;
+    }
+
+    public void S()
+    {
+        _horizontal = 0;
+    }
 }

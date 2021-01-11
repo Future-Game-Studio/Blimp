@@ -223,6 +223,8 @@ public class UIResourceIsle : UIController
 
     public void ExitUI()
     {
-        UIManager._instance.SwitchUI(UIType.HUD);
+        if (GameManager._instance.Mode == GameMode.InMainIsle)
+            UIManager._instance.SwitchUI(UIType.MainIsle);
+        else UIManager._instance.SwitchUI(UIType.HUD);
     }
 }

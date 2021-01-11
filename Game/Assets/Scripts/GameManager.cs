@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+public enum GameMode
+{
+    NonGame,
+    InSpace,
+    InMainIsle
+}
 public class GameManager : MonoBehaviour
 {
     public static GameManager _instance { private set; get; }
-
     public Movement Player { private set; get; }
     public CameraManager Camera { private set; get; }
     UIManager _ui;
@@ -16,7 +18,7 @@ public class GameManager : MonoBehaviour
     public ItemManager ItemManager { get; private set; }
     public MainIsle MainIsle { get; private set; }
 
-
+    public GameMode Mode { private set; get; }
 
     [SerializeField] private Item _ropeItem;
     [SerializeField] private Item _uksusItem;
@@ -34,6 +36,9 @@ public class GameManager : MonoBehaviour
         MainIsle = TryToFindMainIsle();
         Camera = TryToFindCameraManager();
         ItemManager = TryToFindItemManager();
+
+        //
+        Mode = GameMode.InSpace;
 
         Inventory = new Inventory();
         Inventory.Add(_ropeItem, 4);
@@ -104,6 +109,32 @@ public class GameManager : MonoBehaviour
             Debug.LogError("MainIsle not found! Please, add MainIsle to scene for correct gameplay!");
             return null;
         }
+    }
+
+    public void ChangeGameMode(GameMode mode)
+    {
+        Mode = mode;
+        switch (mode)
+        {
+            case GameMode.InSpace:
+                SwitchToSpacingMode();
+                break;
+            case GameMode.InMainIsle:
+                SwitchToMainIsleMode();
+                break;
+        }
+    }
+
+    private void SwitchToMainIsleMode()
+    {
+        CameraManager._instance.ChangeCamera(CameraManager.CameraType.MainIsle);
+        UIManager._instance.SwitchUI(UIType.MainIsle);
+    }
+
+    private void SwitchToSpacingMode()
+    {
+        UIManager._instance.SwitchUI(UIType.HUD);
+        CameraManager._instance.ChangeCamera(CameraManager.CameraType.Player);
     }
 
     public void StartGame()

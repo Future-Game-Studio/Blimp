@@ -171,7 +171,7 @@ public class ResourcesIsle : DynamicIsle, IDockable
 
     void OnMouseDown()
     {
-        if (UIManager._instance.IsMainIsle)
+        if (GameManager._instance.Mode == GameMode.InMainIsle && Mode == DockMode.Inside)
             UIManager._instance.SwitchIsleUI(UIType.ResourceIsle, this);
     }
 

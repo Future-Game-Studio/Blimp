@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -15,7 +14,7 @@ public class InventoryTab : MainMenuTab
     private ItemSlot _currentSlot;
     private ItemFilterType _currentFilter;
 
-    private void OnEnable()
+    private void Start()
     {
         if (_inventory == null)
             _inventory = GameManager._instance.Inventory;

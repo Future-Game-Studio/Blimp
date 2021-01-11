@@ -254,9 +254,9 @@ public class UIExtraIsle : UIController
         Destroy(_addonPanel.gameObject);
         _addonPanel = null;
 
-        //in mainisle ui bug
-        UIManager._instance.SwitchUI(UIType.HUD);
-        //
+        if (GameManager._instance.Mode == GameMode.InMainIsle)
+            UIManager._instance.SwitchUI(UIType.MainIsle);
+        else UIManager._instance.SwitchUI(UIType.HUD);
     }
 
     ///////////////////////////////////////////////
@@ -312,6 +312,8 @@ public class UIExtraIsle : UIController
 
     public void ExitUI()
     {
-        UIManager._instance.SwitchUI(UIType.HUD);
+        if (GameManager._instance.Mode == GameMode.InMainIsle)
+            UIManager._instance.SwitchUI(UIType.MainIsle);
+        else UIManager._instance.SwitchUI(UIType.HUD);
     }
 }
