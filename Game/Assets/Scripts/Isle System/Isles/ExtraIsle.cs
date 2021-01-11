@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class ExtraIsle : DefaultIsle, IDockable
+public class ExtraIsle : DynamicIsle, IDockable
 {
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private Transform _ropeConnection;
@@ -46,7 +46,7 @@ public class ExtraIsle : DefaultIsle, IDockable
 
     public void IncreaseLevel()
     {
-        if(Level == Items.Info.Count)
+        if (Level == Items.Info.Count)
             Debug.LogError("Isle level the same as max!");
         else
         {
@@ -122,7 +122,8 @@ public class ExtraIsle : DefaultIsle, IDockable
     }
     void OnMouseDown()
     {
-        UIManager._instance.SwitchIsleUI(UIType.CraftIsle, this);
+        if (UIManager._instance.IsMainIsle)
+            UIManager._instance.SwitchIsleUI(UIType.CraftIsle, this);
     }
 
     private void OnDisable()

@@ -146,7 +146,7 @@ public class UIResourceIsle : UIController
                 break;
             case DockMode.Outside:
                 _extraButton.Logic = new DockButton();
-                var ropeItem = GameManager._instance.IsleManager.RopeItem;
+                var ropeItem = GameManager._instance.ItemManager.Rope;
                 if (GameManager._instance.Inventory.ItemIsExist(ropeItem) == false)
                     _extraButton.Button.interactable = false;
                 else
@@ -160,9 +160,8 @@ public class UIResourceIsle : UIController
     {
         UIManager._instance.SwitchUI(UIType.HUD);
         UIManager._instance.TIP.HideInfo();
-        GameManager._instance.Inventory.Remove(GameManager._instance.IsleManager.RopeItem, 1);
+        GameManager._instance.Inventory.Remove(GameManager._instance.ItemManager.Rope, 1);
         _isle.StartDock();
-
     }
 
     private void InstantiateCollectPanel()
@@ -220,5 +219,10 @@ public class UIResourceIsle : UIController
         playerInventory.RemoveItems(components);
         _isle.IncreaseLevel();
         UpdateAll();
+    }
+
+    public void ExitUI()
+    {
+        UIManager._instance.SwitchUI(UIType.HUD);
     }
 }

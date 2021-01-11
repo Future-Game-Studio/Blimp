@@ -14,12 +14,17 @@ public class InventoryTab : MainMenuTab
     [SerializeField] private RectTransform _removePanel;
     private ItemSlot _currentSlot;
     private ItemFilterType _currentFilter;
-    public override void UpdateAll()
+
+    private void OnEnable()
     {
         if (_inventory == null)
             _inventory = GameManager._instance.Inventory;
 
         ShowAll();
+    }
+    public override void UpdateAll()
+    {
+
     }
 
     private void ClearSlots()

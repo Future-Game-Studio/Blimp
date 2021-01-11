@@ -18,6 +18,9 @@ public class Movement : MonoBehaviour
     [SerializeField] private Transform _connectionPoint;
     public Transform ConnectionPoint { get => _connectionPoint; }
 
+    public delegate void SpeedDelegate(SpeedMode speedMode);
+    public SpeedDelegate OnSpeedChanged;
+
     void Start()
     {
         m_EulerAngleVelocity = new Vector3(0, shipRotateSpeed, 0);
@@ -60,25 +63,26 @@ public class Movement : MonoBehaviour
                 speedMode = SpeedMode.Idle;
                 //GearText.text = "Idle";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             case SpeedMode.Idle:
                 speedMode = SpeedMode.Low;
                 //GearText.text = "Low";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             case SpeedMode.Low:
                 speedMode = SpeedMode.Medium;
                 //GearText.text = "Medium";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             case SpeedMode.Medium:
                 speedMode = SpeedMode.High;
                 //GearText.text = "High";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             default:
-                return;
+                break;
         }
+        OnSpeedChanged?.Invoke(speedMode);
     }
 
     void ChangeSpeedDown()
@@ -89,25 +93,26 @@ public class Movement : MonoBehaviour
                 speedMode = SpeedMode.Medium;
                 //GearText.text = "Medium";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             case SpeedMode.Medium:
                 speedMode = SpeedMode.Low;
                 //GearText.text = "Low";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             case SpeedMode.Low:
                 speedMode = SpeedMode.Idle;
                 //GearText.text = "Idle";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             case SpeedMode.Idle:
                 speedMode = SpeedMode.Backwards;
                 //GearText.text = "Backwards";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             default:
-                return;
+                break;
         }
+        OnSpeedChanged?.Invoke(speedMode);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -115,5 +120,8 @@ public class Movement : MonoBehaviour
 
         //GearText.text = "Idle";
         speedMode = SpeedMode.Idle;
+        OnSpeedChanged?.Invoke(speedMode);
     }
+
+    
 }

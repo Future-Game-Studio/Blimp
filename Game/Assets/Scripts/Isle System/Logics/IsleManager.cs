@@ -6,8 +6,6 @@ public class IsleManager : MonoBehaviour
 {
     public static IsleManager _instance { private set; get; }
     [SerializeField] private GameObject _ropePrefab;
-    [SerializeField] private Item _ropeItem;
-    public Item RopeItem { get => _ropeItem; }
 
     public delegate void SecondsThrow(int value);
     public SecondsThrow OnSeconds;
@@ -93,7 +91,6 @@ public class IsleManager : MonoBehaviour
             //Check for moving
             if (Vector3.Distance(start.position, end.position) > maxDistance - 0.25f)
             {
-                Debug.Log("Move");
                 rb.velocity = isle.transform.forward * speed;
                 expSpeed = speed;
             }

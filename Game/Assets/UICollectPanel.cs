@@ -66,8 +66,9 @@ public class UICollectPanel : MonoBehaviour
             _slider.gameObject.SetActive(false);
             _minSliderValue.text = "";
             _maxSliderValue.text = "";
-            _currentSliderValue.text = "1";
         }
+        _currentSliderValue.text = ((int)_slider.minValue).ToString();
+
     }
 
     private void UpdateOnSlider(float value)

@@ -41,7 +41,7 @@ public class UIExtraIsle : UIController
             {
                 _addonPanel = Instantiate(_DockPanel.gameObject, gameObject.transform as RectTransform);
                 DockPanel dock = _addonPanel.GetComponent<DockPanel>();
-                var ropeItem = GameManager._instance.IsleManager.RopeItem;
+                var ropeItem = GameManager._instance.ItemManager.Rope;
                 if (GameManager._instance.Inventory.ItemIsExist(ropeItem) == false)
                     dock.DockButton.interactable = false;
                 else
@@ -55,6 +55,10 @@ public class UIExtraIsle : UIController
                 choose.CraftButton.onClick.AddListener(ChooseCraftIsle);
                 choose.FabricButton.onClick.AddListener(ChooseFabricIsle);
                 choose.ExitButton.onClick.AddListener(ExitAddonPanel);
+            }
+            else if(_isle.Mode == DockMode.Docking)
+            {
+                UIManager._instance.SwitchUI(UIType.HUD);
             }
             return;
         }
@@ -216,7 +220,7 @@ public class UIExtraIsle : UIController
 
     private void DockIsle()
     {
-        GameManager._instance.Inventory.Remove(GameManager._instance.IsleManager.RopeItem, 1);
+        GameManager._instance.Inventory.Remove(GameManager._instance.ItemManager.Rope, 1);
         _isle.StartDock();
         ExitAddonPanel();
     }
@@ -249,6 +253,10 @@ public class UIExtraIsle : UIController
 
         Destroy(_addonPanel.gameObject);
         _addonPanel = null;
+
+        //in mainisle ui bug
+        UIManager._instance.SwitchUI(UIType.HUD);
+        //
     }
 
     ///////////////////////////////////////////////
@@ -300,5 +308,10 @@ public class UIExtraIsle : UIController
         if (_isle != null)
             _isle.OnDoTask -= UpdateByItem;
         _scroll.value = 1;
+    }
+
+    public void ExitUI()
+    {
+        UIManager._instance.SwitchUI(UIType.HUD);
     }
 }

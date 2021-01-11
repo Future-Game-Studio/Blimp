@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class UIController : MonoBehaviour
 {
-    public UIType _uiType;
+    [SerializeField] private UIType _uiType;
+    public UIType UIType { get => _uiType; }
 
     abstract public void UpdateAll();
 }

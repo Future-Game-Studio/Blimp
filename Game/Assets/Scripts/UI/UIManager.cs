@@ -19,12 +19,19 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager _instance { private set; get; }
     public TooltipPopup TIP { private set; get; }
-    List<UIController> _uiControllers;
-    UIController _lastActiveUI;
+    private List<UIController> _uiControllers;
+    private UIController _lastActiveUI;
+
     public DefaultIsle LastActiveIsle { get; private set; }
 
     public delegate void EscapeDelegate();
     public EscapeDelegate OnEscape;
+
+    public delegate void UITypeDelegate(UIType newType);
+    public UITypeDelegate OnUIChanged;
+
+    public bool IsHUD { get => _lastActiveUI.UIType == UIType.HUD; }
+    public bool IsMainIsle { get => _lastActiveUI.UIType == UIType.MainIsle; }
 
     private void Awake()
     {
@@ -39,14 +46,13 @@ public class UIManager : MonoBehaviour
 
         SwitchUI(UIType.HUD);
 
-        TIP = GameObject.FindObjectOfType<TooltipPopup>();
+        TIP = FindObjectOfType<TooltipPopup>();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SwitchUI(UIType.HUD);
             OnEscape?.Invoke();
         }
         else if (Input.GetKeyDown(KeyCode.I))
@@ -64,13 +70,15 @@ public class UIManager : MonoBehaviour
             _lastActiveUI.gameObject.SetActive(false);
         }
 
-        UIController desiredUI = _uiControllers.Find(c => c._uiType == type);
+        UIController desiredUI = _uiControllers.Find(c => c.UIType == type);
         if (desiredUI != null)
         {
             desiredUI.gameObject.SetActive(true);
             _lastActiveUI = desiredUI;
         }
         else Debug.LogError("Can't find the ui object!");
+
+        OnUIChanged?.Invoke(_lastActiveUI.UIType);
 
         return desiredUI;
     }

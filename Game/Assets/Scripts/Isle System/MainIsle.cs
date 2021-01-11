@@ -73,5 +73,6 @@ public class MainIsle : MonoBehaviour
     private void OnMouseDown()
     {
         CameraManager._instance.ChangeCamera(CameraManager.CameraType.MainIsle);
+        UIManager._instance.SwitchUI(UIType.MainIsle);
     }
 }

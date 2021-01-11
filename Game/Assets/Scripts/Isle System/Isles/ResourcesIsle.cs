@@ -24,7 +24,7 @@ public interface IDockable
 }
 
 [RequireComponent(typeof(Rigidbody))]
-public class ResourcesIsle : DefaultIsle, IDockable
+public class ResourcesIsle : DynamicIsle, IDockable
 {
     #region refresh item
     [SerializeField] private int _level;
@@ -61,7 +61,7 @@ public class ResourcesIsle : DefaultIsle, IDockable
     private void Start()
     {
         Items = ScriptableObject.CreateInstance<OwnedItems>();
-        foreach(ResourceIsleItems.LevelInfo info in _logic.Info)
+        foreach (ResourceIsleItems.LevelInfo info in _logic.Info)
         {
             Items.AddItem(info.Item, 0);
         }
@@ -171,7 +171,8 @@ public class ResourcesIsle : DefaultIsle, IDockable
 
     void OnMouseDown()
     {
-        UIManager._instance.SwitchIsleUI(UIType.ResourceIsle, this);
+        if (UIManager._instance.IsMainIsle)
+            UIManager._instance.SwitchIsleUI(UIType.ResourceIsle, this);
     }
 
     public void StartDock()

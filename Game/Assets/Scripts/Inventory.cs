@@ -70,4 +70,16 @@ public class Inventory
 
         return amount;
     }
+
+    public int GetUksusAmount()
+    {
+        Item uksus = GameManager._instance.ItemManager.Uksus;
+        return Items.GetItemAmount(uksus);
+    }
+
+    public int GetRopeAmount()
+    {
+        Item rope = GameManager._instance.ItemManager.Rope;
+        return Items.GetItemAmount(rope);
+    }
 }

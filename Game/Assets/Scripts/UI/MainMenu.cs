@@ -61,4 +61,9 @@ public class MainMenu : UIController
 
     }
 
+    public void CloseMenu()
+    {
+        UIManager._instance.SwitchUI(UIType.HUD);
+    }
+
 }
