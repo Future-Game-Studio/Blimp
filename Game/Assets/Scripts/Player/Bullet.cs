@@ -8,10 +8,17 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         GameObject Enemy;
-        if (other.tag == "Enemy")
+        ShipInfo EnemyInfo;
+        Movement PlayerInfo;
+        if (other.TryGetComponent<ShipInfo>(out EnemyInfo))
         {
             Enemy = other.gameObject;
-            Enemy.GetComponent<Target>().TakeDamage(damage);
+            Enemy.GetComponent<ShipInfo>().TakeDamage(damage);
+        }
+        else if(other.TryGetComponent<Movement>(out PlayerInfo))
+        {
+            Enemy = other.gameObject;
+            Enemy.GetComponent<Movement>().TakeDamage(damage);
         }
     }
 }

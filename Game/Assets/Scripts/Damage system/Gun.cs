@@ -3,6 +3,7 @@
 [CreateAssetMenu(fileName = "New Gun Item", menuName = "Gun System/Gun", order = 53)]
 public class Gun : ScriptableObject
 {
+
     public GameObject CannonPrefab;
 
     public GameObject BulletPrefab;

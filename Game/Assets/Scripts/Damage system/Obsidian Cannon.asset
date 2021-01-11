@@ -17,7 +17,7 @@ MonoBehaviour:
   BulletPrefab: {fileID: 9109080942485068671, guid: ce63e5b47848112409fdb192017607e4,
     type: 3}
   sprite: {fileID: 0}
-  power: 15
+  power: 40
   name: 
   damage: 10
   ReadyToFight: 1
