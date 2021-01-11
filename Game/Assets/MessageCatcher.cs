@@ -8,13 +8,14 @@ public class MessageCatcher : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<WindowIsleMessage>() != null)
-            if (UIManager._instance.IsHUD)
-            {
-                var thrower = other.gameObject.GetComponent<WindowIsleMessage>();
-                _message = thrower.InstantiateMessage();
-                UIManager._instance.OnUIChanged += TryToCloseMessage;
-            }
+        if (_message == null)
+            if (other.gameObject.GetComponent<WindowIsleMessage>() != null)
+                if (UIManager._instance.IsHUD)
+                {
+                    var thrower = other.gameObject.GetComponent<WindowIsleMessage>();
+                    _message = thrower.InstantiateMessage();
+                    UIManager._instance.OnUIChanged += TryToCloseMessage;
+                }
     }
 
     private void OnTriggerExit(Collider other)

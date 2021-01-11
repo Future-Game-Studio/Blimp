@@ -62,6 +62,14 @@ public class UIOrderPanel : MonoBehaviour
 
         _maxPlayerOrder = GameManager._instance.Inventory.CanCraftItemsAmount(components);
 
+        if(_slider.maxValue == 1)
+        {
+            _maxSliderValue.text = "";
+            _minSliderValue.text = "";
+            _slider.gameObject.SetActive(false);
+        }
+
+        Debug.Log(_maxPlayerOrder);
         if (_maxPlayerOrder == 0)
             _agreeButton.interactable = false;
 

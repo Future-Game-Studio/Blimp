@@ -5,13 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(DefaultIsle))]
 public class WindowIsleMessage : MonoBehaviour
 {
-    DefaultIsle _isle;
+    DynamicIsle _isle;
     [SerializeField] RectTransform _messagePrefab;
     [SerializeField] private UIType _uiType;
 
     private void Awake()
     {
-        _isle = GetComponent<DefaultIsle>();
+        _isle = GetComponent<DynamicIsle>();
     }
 
     public GameObject InstantiateMessage()
@@ -20,7 +20,11 @@ public class WindowIsleMessage : MonoBehaviour
 
         var message = messageObj.GetComponent<UIIsleMessage>();
 
-        message.SetSettings(_uiType, _isle);
+        string name = _isle.Info?.name ?? "No name isle";
+        string type = _isle.Info?._type.ToString() ?? "Empty";
+        string description = _isle.Info?._description ?? "Dock this isle to use it!";
+
+        message.SetSettings(_uiType, _isle, name, description, type);
 
         return messageObj;
     }

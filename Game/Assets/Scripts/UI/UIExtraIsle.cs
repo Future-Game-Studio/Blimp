@@ -31,7 +31,7 @@ public class UIExtraIsle : UIController
         _isle = UIManager._instance.LastActiveIsle as ExtraIsle;
         if (_isle == null)
             Debug.LogError("Isle type error");
-
+        Debug.Log(_isle);
         if (_isle.Type == IsleType.Empty)
         {
             //rewrite
@@ -56,7 +56,7 @@ public class UIExtraIsle : UIController
                 choose.FabricButton.onClick.AddListener(ChooseFabricIsle);
                 choose.ExitButton.onClick.AddListener(ExitAddonPanel);
             }
-            else if(_isle.Mode == DockMode.Docking)
+            else if (_isle.Mode == DockMode.Docking)
             {
                 UIManager._instance.SwitchUI(UIType.HUD);
             }
@@ -119,6 +119,7 @@ public class UIExtraIsle : UIController
 
     private void UpdateByItem(CraftableItem item, float progress, bool dontUpdateProgressIfCurrent = false)
     {
+        Debug.Log(item);
         if (item == null)
             Debug.LogError("Item type error");
 
@@ -306,7 +307,7 @@ public class UIExtraIsle : UIController
     private void OnDisable()
     {
         if (_isle != null)
-            _isle.OnDoTask -= UpdateByItem;
+            _isle.OnDoTask = null;
         _scroll.value = 1;
     }
 

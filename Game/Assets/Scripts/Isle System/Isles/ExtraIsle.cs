@@ -8,6 +8,8 @@ public class ExtraIsle : DynamicIsle, IDockable
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private Transform _ropeConnection;
     public AddonIsleItems Items { get; private set; }
+    public override Isle Info { get => Items; }
+
     public List<CraftTask> Tasks { private set; get; }
     public OwnedItems DoneTasks { private set; get; }
     public int Counter { private set; get; } = 0;

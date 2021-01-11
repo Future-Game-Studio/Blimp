@@ -29,9 +29,10 @@ public class ResourcesIsle : DynamicIsle, IDockable
     #region refresh item
     [SerializeField] private int _level;
     public int Level { get => _level; }
-    public OwnedItems Items { get; private set; }
-    [SerializeField] private ResourceIsleItems _logic;
-    public ResourceIsleItems Logic { get => _logic; }
+    public OwnedItems DoneTask { get; private set; }
+    [SerializeField] private ResourceIsleItems _items;
+    public override Isle Info { get => _items; }
+    public ResourceIsleItems Items { get => _items; }
     public Dictionary<Item, float> RefreshedItems { private set; get; }//item and float amount(adding every second(10/30) with small value)
     #endregion
 
@@ -60,10 +61,10 @@ public class ResourcesIsle : DynamicIsle, IDockable
 
     private void Start()
     {
-        Items = ScriptableObject.CreateInstance<OwnedItems>();
-        foreach (ResourceIsleItems.LevelInfo info in _logic.Info)
+        DoneTask = ScriptableObject.CreateInstance<OwnedItems>();
+        foreach (ResourceIsleItems.LevelInfo info in _items.Info)
         {
-            Items.AddItem(info.Item, 0);
+            DoneTask.AddItem(info.Item, 0);
         }
         RefreshedItems = new Dictionary<Item, float>();
         //load owned item info
@@ -83,12 +84,12 @@ public class ResourcesIsle : DynamicIsle, IDockable
 
     public List<ItemRecipe> GetLvlUpItems()
     {
-        return _logic.Info[Level].Recipe;
+        return _items.Info[Level].Recipe;
     }
 
     public void IncreaseLevel()
     {
-        if (_level == _logic.Info.Count)
+        if (_level == _items.Info.Count)
             Debug.LogError("Isle level the same as max!");
         else
         {
@@ -103,7 +104,7 @@ public class ResourcesIsle : DynamicIsle, IDockable
         {
             for (int i = RefreshedItems.Count; i < _level; i++)
             {
-                RefreshedItems.Add(_logic.Info[i].Item, 0);
+                RefreshedItems.Add(_items.Info[i].Item, 0);
             }
         }
     }
@@ -116,7 +117,7 @@ public class ResourcesIsle : DynamicIsle, IDockable
             yield return new WaitForSeconds(1.0f * (int)_distanceMode);
 
             for (int i = 0; i < _level; i++)
-                RefreshItem(_logic.Info[i], i);
+                RefreshItem(_items.Info[i], i);
 
             float distance = UpdatePlayerDistance();
         }
@@ -127,7 +128,7 @@ public class ResourcesIsle : DynamicIsle, IDockable
         Item item = info.Item;
 
         RefreshedItems[item] += info.ResourcePerSecond * (int)_distanceMode;
-        int currentAmount = Items.GetItemAmount(item);
+        int currentAmount = DoneTask.GetItemAmount(item);
         int maxRefreshedAmount = info.MaxAmount - currentAmount;
         if (RefreshedItems[item] > maxRefreshedAmount)
             RefreshedItems[item] = Mathf.Min(RefreshedItems[item], maxRefreshedAmount);
@@ -135,7 +136,7 @@ public class ResourcesIsle : DynamicIsle, IDockable
         if (RefreshedItems[item] >= 1)
         {
             int addAmount = (int)RefreshedItems[item];
-            Items.AddItem(item, addAmount);
+            DoneTask.AddItem(item, addAmount);
             RefreshedItems[item] -= addAmount;
 
             OnIntRefresh?.Invoke(item);

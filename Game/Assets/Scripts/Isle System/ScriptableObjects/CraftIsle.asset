@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 907c8415529795643abf661245369c15, type: 3}
   m_Name: CraftIsle
   m_EditorClassIdentifier: 
+  _type: 0
+  _isleName: Craft isle
+  _description: This is craft isle
   _info:
   - _craftableItems:
     - {fileID: 11400000, guid: ae01f0a788624834492a403a6fda0208, type: 2}
+    _recipe: []

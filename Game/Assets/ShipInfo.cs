@@ -81,7 +81,7 @@ public class ShipInfo : MonoBehaviour
             rb.velocity = transform.forward * Speed;
             for (int i = 0; i < Weapons.Count; i++)
             {
-                Weapons[i].GetComponent<CannonSpot>().Shoot();
+                //Weapons[i].GetComponent<CannonSpot>().Shoot();
             }
             yield return null;
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 [SerializeField]
 [System.Serializable]
 [CreateAssetMenu(fileName = "New AddonIsle Items", menuName = "Inventory System/Other/AddonIsleItems", order = 51)]
-public class AddonIsleItems : ScriptableObject
+public class AddonIsleItems : Isle
 {
     [SerializeField] List<LevelInfo> _info;
     public List<LevelInfo> Info { get => _info; }

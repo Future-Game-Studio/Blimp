@@ -34,7 +34,7 @@ public class UIResourceIsle : UIController
 
         UpdateStaticInfo();
         UpdateDynamicInfo();
-        _currentItemInfo = _isle.Logic.Info[0].Item;
+        _currentItemInfo = _isle.Items.Info[0].Item;
         UpdateResourceInfo(_currentItemInfo);
         UpdateExtraButton();
 
@@ -48,7 +48,7 @@ public class UIResourceIsle : UIController
         _buttons.Clear();
 
         _level = _isle.Level;
-        _maxLevel = _isle.Logic.Info.Count;
+        _maxLevel = _isle.Items.Info.Count;
 
         for (int i = 0; i < _maxLevel; i++)
         {
@@ -61,7 +61,7 @@ public class UIResourceIsle : UIController
                 button.Button.interactable = false;
                 button.ClearCount();
             }
-            _buttons[i].ChangeItem(_isle.Logic.Info[i].Item);
+            _buttons[i].ChangeItem(_isle.Items.Info[i].Item);
             _buttons[i].OnClick += UpdateResourceInfo;
         }
     }
@@ -69,20 +69,20 @@ public class UIResourceIsle : UIController
 
     private void UpdateByItem(Item item)
     {
-        ItemSlot slot = _isle.Items.GetItemSlot(item);
+        ItemSlot slot = _isle.DoneTask.GetItemSlot(item);
         if (slot == null)
             Debug.LogError("Item find error!");
 
         int count = slot.Amount;
-        int maxCount = _isle.Logic.Info.Find(i => i.Item == item).MaxAmount;
+        int maxCount = _isle.Items.Info.Find(i => i.Item == item).MaxAmount;
         var button = _buttons.Find(b => b.Item == item);
         button.ChangeCount(count, maxCount);
         button.ChangeProgress(_isle.RefreshedItems[item]);
 
         if (item == _currentItemInfo)
         {
-            ItemSlot currentSlot = _isle.Items.Container.Find(s => s.Item == _currentItemInfo);
-            _resourceinfo.ChangeCount(currentSlot.Amount, _isle.Logic.Info.Find(s => s.Item == _currentItemInfo).MaxAmount, currentSlot.Item.Weight);
+            ItemSlot currentSlot = _isle.DoneTask.Container.Find(s => s.Item == _currentItemInfo);
+            _resourceinfo.ChangeCount(currentSlot.Amount, _isle.Items.Info.Find(s => s.Item == _currentItemInfo).MaxAmount, currentSlot.Item.Weight);
 
             if (currentSlot.Amount == 0)
             {
@@ -98,8 +98,8 @@ public class UIResourceIsle : UIController
     {
         _currentItemInfo = item;
         _resourceinfo.ChangeInfo(_currentItemInfo.Name, _currentItemInfo.Description, _currentItemInfo.Icon);
-        ItemSlot currentSlot = _isle.Items.Container.Find(s => s.Item == _currentItemInfo);
-        _resourceinfo.ChangeCount(currentSlot.Amount, _isle.Logic.Info.Find(s => s.Item == _currentItemInfo).MaxAmount, currentSlot.Item.Weight);
+        ItemSlot currentSlot = _isle.DoneTask.Container.Find(s => s.Item == _currentItemInfo);
+        _resourceinfo.ChangeCount(currentSlot.Amount, _isle.Items.Info.Find(s => s.Item == _currentItemInfo).MaxAmount, currentSlot.Item.Weight);
         if (currentSlot.Amount == 0)
             _collectResourceButton.interactable = false;
         else if(_collectResourceButton.interactable == false)
@@ -109,10 +109,10 @@ public class UIResourceIsle : UIController
     {
         for (int i = 0; i < _level; i++)
         {
-            int count = _isle.Items.Container[i].Amount;
-            int maxCount = _isle.Logic.Info[i].MaxAmount;
+            int count = _isle.DoneTask.Container[i].Amount;
+            int maxCount = _isle.Items.Info[i].MaxAmount;
             _buttons[i].ChangeCount(count, maxCount);
-            _buttons[i].ChangeProgress(_isle.RefreshedItems[_isle.Logic.Info[i].Item]);
+            _buttons[i].ChangeProgress(_isle.RefreshedItems[_isle.Items.Info[i].Item]);
         }
 
 
@@ -139,7 +139,7 @@ public class UIResourceIsle : UIController
         {
             case DockMode.Inside:
                 _extraButton.Logic = new UpgradeButton();
-                if (_isle.Logic.Info.Count == _isle.Level)
+                if (_isle.Items.Info.Count == _isle.Level)
                     _extraButton.Button.interactable = false;
                 else
                     _extraButton.OnClick = InstantiateUpgradePanel;
@@ -168,7 +168,7 @@ public class UIResourceIsle : UIController
     {
         var panelObj = Instantiate(_collectPanel.gameObject, transform as RectTransform);
         var panel = panelObj.GetComponent<UICollectPanel>();
-        var slot = _isle.Items.GetItemSlot(_currentItemInfo);
+        var slot = _isle.DoneTask.GetItemSlot(_currentItemInfo);
 
         panel.SetItemSlot(slot);
         panel.OnCollectClick += CollectResource;
@@ -179,7 +179,7 @@ public class UIResourceIsle : UIController
         
         Inventory inventory = GameManager._instance.Inventory;
         int remainderWeight = inventory.RemainderWeight;
-        ItemSlot slot = _isle.Items.Container.Find(s => s.Item == item);
+        ItemSlot slot = _isle.DoneTask.Container.Find(s => s.Item == item);
         int needWeight = _currentItemInfo.Weight * amount;
 
         if (remainderWeight < needWeight)
@@ -197,7 +197,7 @@ public class UIResourceIsle : UIController
         panel.DisagreeButton.onClick.AddListener(panel.ExitPanel);
 
         int lvl = _isle.Level;
-        List<ItemRecipe> components = _isle.Logic.Info[lvl].Recipe;
+        List<ItemRecipe> components = _isle.Items.Info[lvl].Recipe;
 
         panel.SetSettings("Upgrade isle", components);
         if (GameManager._instance.Inventory.HasRecipeItems(components) == false)

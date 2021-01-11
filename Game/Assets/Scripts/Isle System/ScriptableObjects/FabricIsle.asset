@@ -12,24 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 907c8415529795643abf661245369c15, type: 3}
   m_Name: FabricIsle
   m_EditorClassIdentifier: 
+  _type: 0
+  _isleName: Fabric isle
+  _description: This is fabric isle
   _info:
   - _craftableItems:
     - {fileID: 11400000, guid: c41d852ca7d4c4146b4eb53f60a03598, type: 2}
+    _recipe: []
   - _craftableItems:
     - {fileID: 11400000, guid: 96d4bb57320fa2345b456c55f9f9007c, type: 2}
+    _recipe: []
   - _craftableItems:
     - {fileID: 11400000, guid: 99e99be8c88e58a41ab07dc945655e04, type: 2}
+    _recipe: []
   - _craftableItems:
     - {fileID: 11400000, guid: 645fdacd1ceba374bae9c4b97c5f0087, type: 2}
+    _recipe: []
   - _craftableItems:
     - {fileID: 11400000, guid: a2f0182bbe314884aa19270664a96cd5, type: 2}
+    _recipe: []
   - _craftableItems:
     - {fileID: 11400000, guid: 49c36cea744b79e4289f239e2acc1dd0, type: 2}
+    _recipe: []
   - _craftableItems:
     - {fileID: 11400000, guid: 2f2fa211759cd244d9429660fc3ab7a9, type: 2}
+    _recipe: []
   - _craftableItems:
     - {fileID: 11400000, guid: a98e2dfbd244b8b46bde3dc718b9dfe5, type: 2}
+    _recipe: []
   - _craftableItems:
     - {fileID: 11400000, guid: 16eaf706ea36ab643a0f8e2f6471e32f, type: 2}
+    _recipe: []
   - _craftableItems:
     - {fileID: 11400000, guid: 586aa8e798ecd4d43bab8c8a30afb270, type: 2}
+    _recipe: []

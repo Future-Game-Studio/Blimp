@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: OreIsle 2
   m_EditorClassIdentifier: 
   _type: 0
-  _isleName: 
-  _description: 
+  _isleName: Ore isle
+  _description: This is ore isle
   _info:
   - _item: {fileID: 11400000, guid: 2871a9ec97772a9499ad2b3717466fa8, type: 2}
     _resourcesPerHour: 250

@@ -24911,7 +24911,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &1376747472
 MonoBehaviour:
@@ -31492,7 +31492,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 94
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!1 &1669611059
 GameObject:
@@ -37813,7 +37813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _level: 4
-  _logic: {fileID: 11400000, guid: a25c83e7a88583040bbef8750436a96e, type: 2}
+  _items: {fileID: 11400000, guid: a25c83e7a88583040bbef8750436a96e, type: 2}
   _rb: {fileID: 0}
   _ropeConnection: {fileID: 2133583006}
 --- !u!136 &1955122792
@@ -45600,7 +45600,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _level: 3
-  _logic: {fileID: 11400000, guid: 8e71b1740e608504989dfabc5b496d03, type: 2}
+  _items: {fileID: 11400000, guid: 8e71b1740e608504989dfabc5b496d03, type: 2}
   _rb: {fileID: 0}
   _ropeConnection: {fileID: 2085195576}
 --- !u!54 &4780023083213041917
