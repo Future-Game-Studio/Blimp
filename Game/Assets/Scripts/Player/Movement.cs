@@ -15,6 +15,13 @@ public class Movement : MonoBehaviour
     public float lastSpeed;
     public Rigidbody rb;
     Vector3 m_EulerAngleVelocity;
+    [SerializeField] private Transform _connectionPoint;
+    public Transform ConnectionPoint { get => _connectionPoint; }
+
+    public delegate void SpeedDelegate(SpeedMode speedMode);
+    public SpeedDelegate OnSpeedChanged;
+
+    float _horizontal;
 
     void Start()
     {
@@ -38,19 +45,19 @@ public class Movement : MonoBehaviour
 
     void FixedUpdate()
     {
-        float horizontal = Input.GetAxis("Horizontal");
+        //_horizontal = Input.GetAxis("Horizontal");
 
         lastSpeed += lastSpeed == (int)speedMode ? 0 : lastSpeed < (int)speedMode ? 0.1f : -0.1f;
         lastSpeed = (speedMode == SpeedMode.Idle && Mathf.Abs(lastSpeed) < 0.25f) ? 0 : lastSpeed;
 
-        Quaternion deltaRotation = Quaternion.Euler(m_EulerAngleVelocity * horizontal);
+        Quaternion deltaRotation = Quaternion.Euler(m_EulerAngleVelocity * _horizontal);
         rb.MoveRotation(rb.rotation * deltaRotation);
 
         rb.velocity = transform.forward * lastSpeed;
-        
+
     }
 
-    void ChangeSpeedUp()
+    public void ChangeSpeedUp()
     {
         switch (speedMode)
         {
@@ -58,29 +65,30 @@ public class Movement : MonoBehaviour
                 speedMode = SpeedMode.Idle;
                 //GearText.text = "Idle";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             case SpeedMode.Idle:
                 speedMode = SpeedMode.Low;
                 //GearText.text = "Low";
                 rb.velocity = Vector3.zero;
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             case SpeedMode.Low:
                 speedMode = SpeedMode.Medium;
                 //GearText.text = "Medium";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             case SpeedMode.Medium:
                 speedMode = SpeedMode.High;
                 //GearText.text = "High";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             default:
-                return;
+                break;
         }
+        OnSpeedChanged?.Invoke(speedMode);
     }
 
-    void ChangeSpeedDown()
+    public void ChangeSpeedDown()
     {
         switch (speedMode)
         {
@@ -88,26 +96,27 @@ public class Movement : MonoBehaviour
                 speedMode = SpeedMode.Medium;
                 //GearText.text = "Medium";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             case SpeedMode.Medium:
                 speedMode = SpeedMode.Low;
                 //GearText.text = "Low";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             case SpeedMode.Low:
                 speedMode = SpeedMode.Idle;
                 //GearText.text = "Idle";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             case SpeedMode.Idle:
                 speedMode = SpeedMode.Backwards;
                 rb.velocity = Vector3.zero;
                 //GearText.text = "Backwards";
                 Debug.Log("Speed mode " + speedMode);
-                return;
+                break;
             default:
-                return;
+                break;
         }
+        OnSpeedChanged?.Invoke(speedMode);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -115,6 +124,22 @@ public class Movement : MonoBehaviour
 
         //GearText.text = "Idle";
         speedMode = SpeedMode.Idle;
+        OnSpeedChanged?.Invoke(speedMode);
+    }
+
+    public void A()
+    {
+        _horizontal = -0.5f;
+    }
+
+    public void D()
+    {
+        _horizontal = 0.5f;
+    }
+
+    public void S()
+    {
+        _horizontal = 0;
     }
 
     public void TakeDamage(float damage)

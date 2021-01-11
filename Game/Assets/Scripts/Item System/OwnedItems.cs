@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,20 +18,25 @@ public class OwnedItems : ScriptableObject
     }
     public void AddItem(Item item, int amount)
     {
-        bool has = false;
-
-        for(int i = 0; i < _container.Count; i++)
-        {
-            if (_container[i].Item == item)
-            {
-                _container[i].AddAmount(amount);
-                has = true;
-                break;
-            }
-        }
-
-        if (!has)
+        ItemSlot slot = _container.Find(s => s.Item == item);
+        if (slot != null)
+            slot.AddAmount(amount);
+        else
             _container.Add(new ItemSlot(item, amount));
+
+        UpdateSummaryWeightAndAmount();
+
+    }
+
+    public void RemoveItem(Item item, int amount)
+    {
+        ItemSlot slot = _container.Find(s => s.Item == item);
+        if (slot == null || slot.Amount < amount)
+            Debug.LogError("Slot item\value error");
+        slot.RemoveAmount(amount);
+
+        if (slot.Amount == 0)
+            Container.Remove(slot);
 
         UpdateSummaryWeightAndAmount();
     }
@@ -48,18 +54,24 @@ public class OwnedItems : ScriptableObject
 
     public int GetItemAmount(Item item)
     {
-        for(int i = 0; i < Container.Count; i++)
-        {
-            if (Container[i].Item == item)
-                return Container[i].Amount;
-        }
-        return 0;
+        return Container.Find(s => s.Item == item)?.Amount ?? 0;
     }
 
+    public ItemSlot GetItemSlot(Item item)
+    {
+        return Container.Find(s => s.Item == item) ?? null;
+    }
+
+
+    public void DebugItems()
+    {
+        Container.ForEach(s => Debug.Log("Item: " + s.Item + ", count: " + s.Amount));
+    }
 }
 
+[SerializeField]
 [System.Serializable]
-public class ItemSlot
+public class ItemSlot : IComparable
 {
     public Item Item { get; }
     public int Amount { get; private set; }
@@ -75,12 +87,30 @@ public class ItemSlot
 
     public void AddAmount(int value)
     {
+        if (value < 0)
+            Debug.LogError("Item value < 0");
         Amount += value;
+        UpdateSummaryWeight();
+    }
+
+    public void RemoveAmount(int value)
+    {
+        if (value > Amount)
+            Debug.LogError("negative value > amount");
+        Amount -= value;
         UpdateSummaryWeight();
     }
 
     public void UpdateSummaryWeight()
     {
         Weight = Amount * Item.Weight;
+    }
+
+    public int CompareTo(object obj)
+    {
+        ItemSlot other = obj as ItemSlot;
+        if (other == null)
+            Debug.LogError("Compare error.");
+        return this.Item.CompareTo(other.Item);
     }
 }

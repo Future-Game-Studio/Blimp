@@ -19,6 +19,12 @@ MonoBehaviour:
   - _item: {fileID: 11400000, guid: 2871a9ec97772a9499ad2b3717466fa8, type: 2}
     _resourcesPerHour: 300
     _maxAmount: 50
+    _recipe:
+    - _item: {fileID: 0}
+      _amount: 0
+    - _item: {fileID: 0}
+      _amount: 0
   - _item: {fileID: 11400000, guid: 76361532db3e0df49b3c771417b154df, type: 2}
     _resourcesPerHour: 250
     _maxAmount: 15
+    _recipe: []

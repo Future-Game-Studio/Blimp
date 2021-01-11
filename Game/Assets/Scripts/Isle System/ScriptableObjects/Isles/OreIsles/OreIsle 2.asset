@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eac2806b834d404da969be4130926bf, type: 3}
+  m_Name: OreIsle 2
+  m_EditorClassIdentifier: 
+  _type: 0
+  _isleName: 
+  _description: 
+  _info:
+  - _item: {fileID: 11400000, guid: 2871a9ec97772a9499ad2b3717466fa8, type: 2}
+    _resourcesPerHour: 250
+    _maxAmount: 50
+    _recipe:
+    - _item: {fileID: 11400000, guid: b63528e8d9ecac54ca54155e0483d487, type: 2}
+      _amount: 50
+  - _item: {fileID: 11400000, guid: 76361532db3e0df49b3c771417b154df, type: 2}
+    _resourcesPerHour: 300
+    _maxAmount: 40
+    _recipe:
+    - _item: {fileID: 11400000, guid: b63528e8d9ecac54ca54155e0483d487, type: 2}
+      _amount: 100
+  - _item: {fileID: 11400000, guid: c96858eabf076864782837489767d216, type: 2}
+    _resourcesPerHour: 200
+    _maxAmount: 20
+    _recipe:
+    - _item: {fileID: 11400000, guid: b63528e8d9ecac54ca54155e0483d487, type: 2}
+      _amount: 150
+  - _item: {fileID: 11400000, guid: 05ff2cc1f0bce484e8973849331f537b, type: 2}
+    _resourcesPerHour: 550
+    _maxAmount: 30
+    _recipe:
+    - _item: {fileID: 11400000, guid: b63528e8d9ecac54ca54155e0483d487, type: 2}
+      _amount: 200
+  - _item: {fileID: 11400000, guid: 3f5df4e63cff16f4a85986fdbb175adc, type: 2}
+    _resourcesPerHour: 1000
+    _maxAmount: 5
+    _recipe:
+    - _item: {fileID: 11400000, guid: b63528e8d9ecac54ca54155e0483d487, type: 2}
+      _amount: 250
+  - _item: {fileID: 11400000, guid: 6b37b1f94937d1f44aaa9bdc7f5064d4, type: 2}
+    _resourcesPerHour: 750
+    _maxAmount: 10
+    _recipe:
+    - _item: {fileID: 11400000, guid: b63528e8d9ecac54ca54155e0483d487, type: 2}
+      _amount: 300
+  - _item: {fileID: 11400000, guid: 72875665c294dd14fbab0cf1b3137a86, type: 2}
+    _resourcesPerHour: 100
+    _maxAmount: 5
+    _recipe:
+    - _item: {fileID: 11400000, guid: b63528e8d9ecac54ca54155e0483d487, type: 2}
+      _amount: 500
+  - _item: {fileID: 11400000, guid: 88aed4b8f52a0ed418ba10f51f7f95e1, type: 2}
+    _resourcesPerHour: 1500
+    _maxAmount: 20
+    _recipe: []
+  - _item: {fileID: 11400000, guid: 9007481dc989c444299949ba566bac4b, type: 2}
+    _resourcesPerHour: 1750
+    _maxAmount: 15
+    _recipe: []
+  - _item: {fileID: 11400000, guid: 2c8a9dc286e10164d87ee4832357dd22, type: 2}
+    _resourcesPerHour: 1000
+    _maxAmount: 5
+    _recipe: []

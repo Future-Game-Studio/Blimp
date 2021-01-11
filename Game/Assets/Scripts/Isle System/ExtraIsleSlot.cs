@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class ExtraIsleSlot : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public DefaultIsle Isle { private set; get; }
+
+
+    public bool IsEmpty => Isle == null;
+
+    public void SetIsle(DefaultIsle isle)
     {
-        
+        Isle = isle;
+        Isle.transform.localScale = Isle.StartScale;
+        Isle.transform.parent = gameObject.transform;
+        Isle.transform.localPosition = Vector3.zero;
+        Isle.transform.rotation = Quaternion.identity;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1230401ba884f854eb0fc78ffc89f3d9, type: 3}
+  m_Name: Ingot_5
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 88a393d8077305140a98ec7753dde2f7, type: 3}
+  _type: 1
+  _filterType: 0
+  _name: Ingot 5
+  _description: This is ingot 5
+  _weight: 25
+  _level: 5
+  _recipe:
+  - _item: {fileID: 11400000, guid: 3f5df4e63cff16f4a85986fdbb175adc, type: 2}
+    _amount: 2
+  _craftTime: 60
+  _maxOrder: 30
