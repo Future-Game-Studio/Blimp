@@ -5,20 +5,21 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float damage;
-    private void OnTriggerEnter(Collider other)
+    public CannonSpot.ShootMode mode;
+
+    public void OnTriggerEnter(Collider other)
     {
-        GameObject Enemy;
-        ShipInfo EnemyInfo;
-        Movement PlayerInfo;
-        if (other.TryGetComponent<ShipInfo>(out EnemyInfo))
+        Debug.Log("played " + mode);
+        if (other.tag == "Enemy" && mode == CannonSpot.ShootMode.Enemy)
         {
-            Enemy = other.gameObject;
-            Enemy.GetComponent<ShipInfo>().TakeDamage(damage);
+            other.GetComponent<ShipInfo>().TakeDamage(damage);
+            Debug.Log("Enemy damaged");
         }
-        else if(other.TryGetComponent<Movement>(out PlayerInfo))
+        if (other.tag == "Player" && mode == CannonSpot.ShootMode.Player)
         {
-            Enemy = other.gameObject;
-            Enemy.GetComponent<Movement>().TakeDamage(damage);
+            other.GetComponent<PlayerStats>().TakeDamage(damage);
+            Debug.Log("Player damaged");
         }
+        Destroy(this);
     }
 }

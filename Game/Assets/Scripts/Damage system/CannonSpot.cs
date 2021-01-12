@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class CannonSpot : GunManager
+public class CannonSpot : MonoBehaviour
 {
+    public enum ShootMode { Enemy, Player};
     private enum LookMode { Enemy, StartPos };
     public Gun gun;
     protected GameObject ChildGameObject;
@@ -36,7 +37,7 @@ public class CannonSpot : GunManager
         }
     }
 
-    public void Shoot()
+    public void Shoot(ShootMode mode)
     {
         ChildGameObject = this.transform.GetChild(0).gameObject;
 
@@ -46,6 +47,7 @@ public class CannonSpot : GunManager
         GameObject bullet;
         bullet = Instantiate(gun.BulletPrefab, ChildGameObject.transform.position, Quaternion.identity);
         bullet.GetComponent<Bullet>().damage = gun.damage;
+        bullet.GetComponent<Bullet>().mode = mode;
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = ChildGameObject.transform.forward * gun.power;
         StartCoroutine(DestroyAfter(bullet, 4.0f));

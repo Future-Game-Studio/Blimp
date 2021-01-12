@@ -19,7 +19,7 @@ public class ShipInfo : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         m_EulerAngleVelocity = new Vector3(0, shipRotateSpeed, 0);
-        paroll = StartCoroutine(Paroll());
+        patroll = StartCoroutine(Patroll());
     }
 
     public void TakeDamage(float amount)
@@ -42,19 +42,14 @@ public class ShipInfo : MonoBehaviour
             else num = 0;
             point = controller.patroolPoints[num].transform;
         }
-        else if (other.tag == "Player")
-        {
-            StopCoroutine(paroll);
-            attack = StartCoroutine(Attack(other.gameObject));
-        }
     }
 
     Transform point;
 
-    Coroutine paroll;
-    Coroutine attack;
-
-    private IEnumerator Paroll()
+    public Coroutine patroll;
+    public Coroutine attack;
+    public Coroutine shoot;
+    public IEnumerator Patroll()
     {
         EnemyController controller = GetComponentInParent<EnemyController>();
 
@@ -63,28 +58,39 @@ public class ShipInfo : MonoBehaviour
         {
             var lookPos = point.position - transform.position;
             var rotation = Quaternion.LookRotation(lookPos);
+            rotation.x = 0;
+            rotation.z = 0;
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime);
             rb.velocity = transform.forward * Speed;
             yield return null;
         }
     }
 
-    private IEnumerator Attack(GameObject player)
+    public IEnumerator Attack(Transform playerPoint)
     {
         //float health = player.GetComponent<> health!!!!!
-        point = player.transform;
+        shoot = StartCoroutine(Shoot());
         while (true)
         {
-            var lookPos = point.position - transform.position;
+            //Debug.Log("player pos " + playerPoint.position);
+            var lookPos = playerPoint.position - transform.position;
             var rotation = Quaternion.LookRotation(lookPos);
+            rotation.x = 0;
+            rotation.z = 0;
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime);
             rb.velocity = transform.forward * Speed;
+            yield return null;
+
+        }
+    }
+
+    public IEnumerator Shoot()
+    {
+        while (true)
             for (int i = 0; i < Weapons.Count; i++)
             {
-                Weapons[i].GetComponent<CannonSpot>().Shoot();
+                Weapons[i].GetComponent<CannonSpot>().Shoot(CannonSpot.ShootMode.Player);
+                yield return new WaitForSeconds(1);
             }
-            yield return null;
-        }
-        paroll = StartCoroutine(Paroll());
     }
 }

@@ -54,5 +54,4 @@ public class EnemyController : MonoBehaviour
         Debug.Log(_name + num + "dead");
         //анімація вибуху + інектів
     }
-
 }

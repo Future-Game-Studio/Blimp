@@ -24,26 +24,12 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5943249195807073829}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 3.1737103
+  m_Radius: 3.66219
   m_Height: 11.119124
   m_Direction: 2
-  m_Center: {x: 0, y: 2.3, z: -0.7}
---- !u!136 &7337303641238403593
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5943249195807073829}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 27.944511
-  m_Height: 55.889023
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1.8115201, z: -0.6999998}
 --- !u!114 &820249415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,6 +49,32 @@ MonoBehaviour:
   shipRotateSpeed: 0
   Weapons:
   - {fileID: 9202254909159328212}
+--- !u!136 &8732656609583230891
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456339300111064828}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 27.944511
+  m_Height: 55.889023
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3805012589907965629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456339300111064828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4d21ffc25188f459cfc192826f75c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9202254909159328212
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,7 +88,7 @@ GameObject:
   - component: {fileID: 5446368793496863740}
   m_Layer: 0
   m_Name: CannonSpot
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98d1d23640727e64186e1c5a9e76088e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weapons: []
+  Weapons:
+  - {fileID: 2065005367615158849}
   muzzle: {fileID: 0}
   mask:
     serializedVersion: 2
@@ -218,6 +231,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7f1fd17e37f99645929554cb2bc86b8, type: 3}
+--- !u!1 &2065005367615158849 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3876326708501565333, guid: b7f1fd17e37f99645929554cb2bc86b8,
+    type: 3}
+  m_PrefabInstance: {fileID: 2982269067053872596}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2065005367615158851 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3876326708501565335, guid: b7f1fd17e37f99645929554cb2bc86b8,
@@ -357,6 +376,12 @@ GameObject:
 --- !u!4 &6427051232409730207 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ca5d23e8b297ca64e81c377d9078da8b,
+    type: 3}
+  m_PrefabInstance: {fileID: 6826261274385046388}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3456339300111064828 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8164078558771037576, guid: ca5d23e8b297ca64e81c377d9078da8b,
     type: 3}
   m_PrefabInstance: {fileID: 6826261274385046388}
   m_PrefabAsset: {fileID: 0}

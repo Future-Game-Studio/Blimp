@@ -20,7 +20,7 @@ public class GunManager : MonoBehaviour
         {
             for (int i = 0; i < Weapons.Count; i++)
             {
-                Weapons[i].GetComponent<CannonSpot>().Shoot();
+                Weapons[i].GetComponent<CannonSpot>().Shoot(CannonSpot.ShootMode.Enemy);
             }
         }
     }

@@ -45,7 +45,7 @@ public class Movement : MonoBehaviour
 
     void FixedUpdate()
     {
-        //_horizontal = Input.GetAxis("Horizontal");
+        _horizontal = Input.GetAxis("Horizontal");
 
         lastSpeed += lastSpeed == (int)speedMode ? 0 : lastSpeed < (int)speedMode ? 0.1f : -0.1f;
         lastSpeed = (speedMode == SpeedMode.Idle && Mathf.Abs(lastSpeed) < 0.25f) ? 0 : lastSpeed;
@@ -140,10 +140,5 @@ public class Movement : MonoBehaviour
     public void S()
     {
         _horizontal = 0;
-    }
-
-    public void TakeDamage(float damage)
-    {
-        Debug.Log("DamageTaken");
     }
 }
